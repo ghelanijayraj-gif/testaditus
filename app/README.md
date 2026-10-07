@@ -21,7 +21,7 @@ Auth.js v5 · CSS Modules on the ADITUS design system tokens.
 ```bash
 cp .env.example .env            # adjust DATABASE_URL if needed
 npm install
-npx prisma migrate deploy       # create the schema (prisma/migrations, from prisma/schema/*.prisma)
+npx prisma migrate deploy       # create the schema (prisma/schema/migrations)
 npx prisma db seed              # fictional sample data (wipes the database)
 npm run dev                     # http://localhost:3000 (client) and http://localhost:3000/staff (staff)
 ```
