@@ -1293,3 +1293,15 @@ model SetupToken {
   usedAt    DateTime?
   createdAt DateTime  @default(now())
 }
+
+/// Live online assessment: instructions and timers the practitioner pushes to the client's screen
+/// ("Stand on your right leg, eyes open"). Written by the practitioner console, read by the client live page.
+model LiveCue {
+  id           String   @id @default(cuid())
+  assessmentId String
+  text         String
+  timerSeconds Int?
+  createdAt    DateTime @default(now())
+
+  @@index([assessmentId, createdAt])
+}

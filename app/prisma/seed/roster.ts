@@ -16,6 +16,7 @@ export const ROSTER = [
   { email: "tara@example.com", first: "Tara", last: "Fernandes", city: "Goregaon, Mumbai", pin: "400063", mumbai: true, devLabel: "In person added · waiting for payment", stage: "ASSESSMENT_DAY", status: "SESSION_BOOKED" },
   { email: "vikram@example.com", first: "Vikram", last: "Joshi", city: "Malad, Mumbai", pin: "400064", mumbai: true, devLabel: "Recommendation dismissed · online only", stage: "ASSESSMENT_DAY", status: "PRACTITIONER_REVIEW" },
   // Assessment day (04, 02 live)
+  { email: "dhruv@example.com", first: "Dhruv", last: "Malhotra", city: "Kandivali, Mumbai", pin: "400101", mumbai: true, devLabel: "In person today 8:30 PM · I am here", stage: "ASSESSMENT_DAY", status: "SESSION_BOOKED" },
   { email: "nikhil@example.com", first: "Nikhil", last: "Bose", city: "Delhi", pin: "110017", mumbai: false, devLabel: "Live video session today 8:30 PM", stage: "ASSESSMENT_DAY", status: "SESSION_BOOKED" },
   // Report (04 released + reveal, 05 report ready)
   { email: "sana@example.com", first: "Sana", last: "Patel", city: "Thane", pin: "400607", mumbai: true, devLabel: "Report released · walkthrough · choose your path", stage: "REPORT", status: "REPORT_READY" },
