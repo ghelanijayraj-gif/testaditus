@@ -1,0 +1,22 @@
+/* Today dashboard: summary strip, then two independent stacks so blocks never leave gaps. */
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));border:2px solid var(--ink)}
+.stat{display:flex;flex-direction:column;gap:6px;padding:10px 12px;color:var(--ink);box-shadow:inset -1px -1px 0 var(--grey-200);background:#fff}
+.stat:hover{background:var(--mist);color:var(--ink)}
+.statN{font-family:var(--font-display);font-size:28px;line-height:1}
+.statL{font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--grey-600);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.statZero .statN{color:var(--grey-300)}
+.board{display:grid;grid-template-columns:minmax(0,1fr);gap:14px;align-items:start}
+.col{display:flex;flex-direction:column;gap:14px;min-width:0}
+.anchor{scroll-margin-top:66px}
+@media (min-width:1100px){
+  .board{grid-template-columns:minmax(0,1.35fr) minmax(0,1fr)}
+}
+/* Rows are grids with an inline template: keep times on one line, pin the status column right. */
+.anchor [style*="grid-template-columns"] > :first-child{white-space:nowrap}
+.anchor [style*="grid-template-columns"] > :last-child:not(:nth-child(1)){justify-content:flex-end;text-align:right}
+@media (max-width:599px){
+  .stats{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .stat{padding:8px;gap:4px}
+  .statN{font-size:20px}
+  .statL{white-space:normal;font-size:8px;line-height:1.3}
+}

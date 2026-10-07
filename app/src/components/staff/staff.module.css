@@ -65,6 +65,10 @@ a.row:hover,button.row:hover,.rowLink:hover{background:var(--mist);color:var(--i
 .cellB{font-weight:600}
 .cellLink{font-weight:700;color:var(--blue)}
 .empty{padding:16px 12px;font-size:11px;color:var(--grey-600)}
-.chip{padding:2px 6px;text-transform:uppercase;box-shadow:inset 0 0 0 1px var(--grey-300);font-size:10px}
+.chip{white-space:nowrap;padding:2px 6px;text-transform:uppercase;box-shadow:inset 0 0 0 1px var(--grey-300);font-size:10px}
 .chipFlag{box-shadow:inset 0 0 0 1.5px var(--blue)}
 .chipFill{background:var(--ice)}
+@media (max-width:599px){
+  .header{gap:8px;padding:0 12px}
+  .search{display:none}
+}
