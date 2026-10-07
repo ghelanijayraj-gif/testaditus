@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/colors.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/typography.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/effects.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/base.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/styles.css">
+<script src="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/_ds_bundle.js"></script>
+<style>body{margin:0;background:#fff}a{color:var(--ink)}a:hover{color:var(--blue)}button,input,textarea{font:inherit;color:inherit}*{box-sizing:border-box}</style>
+</helmet>
+<div style="min-height:100vh;font-family:var(--font-mono);color:var(--ink);display:flex;flex-direction:column;background:#fff">
+  <header style="position:sticky;top:0;z-index:5;background:rgba(255,255,255,.97);border-bottom:1px solid var(--grey-200)">
+    <div style="height:56px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 clamp(16px,3vw,32px)">
+      <button onClick="{{ goHome }}" style="border:0;background:none;padding:0;cursor:pointer;display:flex;align-items:center;gap:8px"><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.AditusMark" size="{{ 26 }}" hint-size="26px,26px"></x-import><span style="font-family:var(--font-display);font-size:18px">ADITUS</span></button>
+      <span style="font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--grey-600);display:flex;align-items:center;gap:6px">{{ saved }}</span>
+    </div>
+    <sc-if value="{{ bar.show }}" hint-placeholder-val="{{ false }}"><div style="height:4px;background:var(--grey-200)"><div style="height:4px;background:var(--blue);width:{{ bar.pct }};transition:width .3s"></div></div></sc-if>
+  </header>
+
+  <div style="flex:1;display:grid;grid-template-columns:{{ L.cols }};gap:clamp(20px,4vw,56px);padding:clamp(20px,4vw,40px) clamp(16px,3vw,32px) 120px;max-width:1080px;width:100%;margin:0 auto;align-items:start">
+    <main style="display:flex;flex-direction:column;gap:20px;min-width:0">
+
+      <sc-if value="{{ is.home }}" hint-placeholder-val="{{ true }}">
+        <span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--grey-600)">Hi Aarav · {{ H.status }}</span>
+        <div style="background:var(--blue);color:#fff;padding:22px;display:flex;flex-direction:column;gap:12px">
+          <span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--ice)">Your next step</span>
+          <span style="font-family:var(--font-display);font-size:clamp(26px,5vw,36px);line-height:.92;text-transform:uppercase;text-wrap:balance">{{ H.title }}</span>
+          <span style="font:400 16px/1.45 var(--font-sans)">{{ H.line }}</span>
+          <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="white" size="lg" full="{{ true }}" onClick="{{ H.go }}" hint-size="100%,58px">{{ H.cta }}</x-import>
+        </div>
+        <sc-if value="{{ H.countdown }}" hint-placeholder-val="{{ false }}">
+          <div style="border:2px solid var(--ink);display:flex;flex-direction:column">
+            <div style="padding:16px 18px;border-bottom:2px solid var(--ink);display:flex;justify-content:space-between;align-items:baseline;gap:10px"><span style="font-family:var(--font-display);font-size:44px;line-height:.9">{{ H.days }}</span><span style="font-size:11px;text-transform:uppercase;text-align:right">days until your<br>Movement Assessment</span></div>
+            <sc-for list="{{ H.sessions }}" as="s" hint-placeholder-count="3"><div style="padding:12px 18px;border-bottom:1px solid var(--grey-200);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:3px 12px"><span style="font:600 15px var(--font-sans)">{{ s.name }}</span><span style="font-size:10px;text-transform:uppercase;padding:3px 7px;align-self:start;background:{{ s.bg }};color:{{ s.fg }};box-shadow:inset 0 0 0 1.5px var(--ink)">{{ s.st }}</span><span style="font-size:11px;color:var(--grey-700)">{{ s.when }}</span></div></sc-for>
+          </div>
+        </sc-if>
+        <sc-if value="{{ H.hasTodo }}" hint-placeholder-val="{{ false }}">
+          <div style="border:2px solid var(--ink);display:flex;flex-direction:column">
+            <div style="padding:12px 18px;border-bottom:1px solid var(--grey-200);font-size:11px;text-transform:uppercase;letter-spacing:.08em">Still to do · optional</div>
+            <sc-for list="{{ H.todo }}" as="t" hint-placeholder-count="2"><button onClick="{{ t.go }}" style="text-align:left;border:0;border-bottom:1px solid var(--grey-200);background:#fff;cursor:pointer;min-height:56px;padding:12px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px" style-hover="background:var(--mist)"><span style="display:flex;flex-direction:column;gap:3px"><span style="font:600 15px var(--font-sans)">{{ t.t }}</span><span style="font-size:11px;color:var(--grey-700)">{{ t.d }}</span></span><span style="font-size:12px">→</span></button></sc-for>
+          </div>
+        </sc-if>
+        <sc-if value="{{ H.countdown }}" hint-placeholder-val="{{ false }}">
+          <div style="background:var(--grey-50);padding:18px;display:flex;flex-direction:column;gap:10px">
+            <span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em">What to expect on the day</span>
+            <sc-for list="{{ expect }}" as="x" hint-placeholder-count="5"><span style="font:400 15px/1.45 var(--font-sans);display:grid;grid-template-columns:28px 1fr"><span style="font:400 11px var(--font-mono);color:var(--blue)">{{ x.n }}</span>{{ x.t }}</span></sc-for>
+          </div>
+        </sc-if>
+        <a href="#" onClick="{{ goReminders }}" style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--grey-600);text-decoration:underline;text-underline-offset:4px">See the reminders we send</a>
+      </sc-if>
+
+      <sc-if value="{{ is.welcome }}" hint-placeholder-val="{{ false }}">
+        <span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--blue)">Welcome, Aarav</span>
+        <h1 style="margin:0;font-family:var(--font-display);font-weight:400;font-size:clamp(34px,7vw,56px);line-height:.88;text-transform:uppercase">Your assessment starts here.</h1>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <sc-for list="{{ why }}" as="x" hint-placeholder-count="3"><span style="font:400 17px/1.45 var(--font-sans);letter-spacing:-.01em">{{ x }}</span></sc-for>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:2px solid var(--ink)">
+          <sc-for list="{{ stages }}" as="s" hint-placeholder-count="4"><div style="padding:12px 10px;display:flex;flex-direction:column;gap:6px;box-shadow:inset -1px 0 0 var(--grey-200);background:{{ s.bg }}"><span style="font-size:10px;color:var(--blue)">{{ s.n }}</span><span style="font-family:var(--font-display);font-size:13px;line-height:1;text-transform:uppercase">{{ s.t }}</span><span style="font-size:10px;color:var(--grey-600)">{{ s.d }}</span></div></sc-for>
+        </div>
+        <div style="border:2px solid var(--ink);padding:18px;display:flex;flex-direction:column;gap:8px">
+          <span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em">What you get at the end</span>
+          <span style="font:600 16px/1.45 var(--font-sans)">A report of where you are today</span>
+          <span style="font:600 16px/1.45 var(--font-sans)">3 to 5 priorities, in plain words</span>
+          <span style="font:600 16px/1.45 var(--font-sans)">A recommended path: Personal Training, Group Training or either</span>
+        </div>
+        <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="ink" size="lg" full="{{ true }}" onClick="{{ startIntake }}" hint-size="100%,58px">START INTAKE →</x-import>
+      </sc-if>
+
+      <sc-if value="{{ is.intake }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--grey-600)">Intake · {{ I.n }}</span><span style="display:flex;align-items:center;gap:6px;font-size:10px;color:var(--grey-600)"><span style="position:relative;width:10px;height:12px;flex:none"><span style="position:absolute;left:2px;top:0;width:6px;height:6px;border:1.5px solid currentColor;border-bottom:0;border-radius:3px 3px 0 0"></span><span style="position:absolute;left:0;bottom:0;width:10px;height:7px;background:currentColor"></span></span>You, your practitioner, head coach</span></div>
+        <h1 style="margin:0;font-family:var(--font-display);font-weight:400;font-size:clamp(30px,6vw,48px);line-height:.88;text-transform:uppercase">{{ I.title }}</h1>
+        <span style="font:400 16px/1.45 var(--font-sans);color:var(--grey-700)">{{ I.sub }}</span>
+
+        <sc-if value="{{ I.chipsQ }}" hint-placeholder-val="{{ false }}">
+          <sc-for list="{{ I.groups }}" as="g" hint-placeholder-count="2">
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <span style="font:600 16px/1.35 var(--font-sans)">{{ g.q }}</span>
+              <div style="display:flex;flex-wrap:wrap;gap:8px"><sc-for list="{{ g.opts }}" as="o" hint-placeholder-count="4"><button onClick="{{ o.pick }}" style="min-height:44px;padding:0 14px;border:1.5px solid var(--ink);cursor:pointer;font:500 14px var(--font-sans);background:{{ o.bg }};color:{{ o.fg }}">{{ o.label }}</button></sc-for></div>
+            </div>
+          </sc-for>
+        </sc-if>
+        <sc-if value="{{ I.hasText }}" hint-placeholder-val="{{ false }}"><label style="display:flex;flex-direction:column;gap:8px"><span style="font:600 16px var(--font-sans)">{{ I.textQ }}</span><input placeholder="{{ I.textPh }}" style="height:52px;border:2px solid var(--ink);padding:0 14px;font:400 15px var(--font-sans);border-radius:0"></label></sc-if>
+
+        <sc-if value="{{ I.isBody }}" hint-placeholder-val="{{ false }}">
+          <div style="display:grid;grid-template-columns:{{ L.bodyCols }};gap:16px;align-items:start">
+            <div style="background:var(--grey-50);padding:16px;display:flex;flex-direction:column;align-items:center;gap:10px">
+              <span style="font-size:10px;text-transform:uppercase;color:var(--grey-600)">Tap where it bothers you · {{ I.viewName }}</span>
+              <div style="position:relative;width:100%;max-width:220px;aspect-ratio:400/720">{{ I.body }}</div>
+              <button onClick="{{ I.flip }}" style="height:44px;padding:0 16px;border:2px solid var(--ink);background:#fff;cursor:pointer;font-family:var(--font-display);font-size:12px;text-transform:uppercase">Flip to {{ I.flipTo }}</button>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <sc-for list="{{ I.marks }}" as="m" hint-placeholder-count="1">
+                <div style="border:2px solid var(--ink);padding:14px;display:flex;flex-direction:column;gap:10px">
+                  <span style="display:flex;justify-content:space-between;gap:10px"><b style="font:600 16px var(--font-sans)">{{ m.name }}</b><button onClick="{{ m.remove }}" style="border:0;background:none;cursor:pointer;font-size:11px;text-transform:uppercase;color:var(--grey-600)">Remove</button></span>
+                  <span style="display:flex;justify-content:space-between;font-size:11px;text-transform:uppercase"><span>How much, 0 to 10</span><b>{{ m.v }}</b></span>
+                  <div style="display:grid;grid-template-columns:repeat(11,1fr);gap:2px"><sc-for list="{{ m.scale }}" as="sc" hint-placeholder-count="11"><button onClick="{{ sc.pick }}" style="height:36px;border:0;cursor:pointer;font-size:11px;background:{{ sc.bg }};color:{{ sc.fg }}">{{ sc.n }}</button></sc-for></div>
+                  <span style="font-size:11px;text-transform:uppercase">When does it show up</span>
+                  <div style="display:flex;flex-wrap:wrap;gap:6px"><sc-for list="{{ m.when }}" as="o" hint-placeholder-count="5"><button onClick="{{ o.pick }}" style="min-height:36px;padding:0 10px;border:1.5px solid var(--ink);cursor:pointer;font:500 13px var(--font-sans);background:{{ o.bg }};color:{{ o.fg }}">{{ o.label }}</button></sc-for></div>
+                </div>
+              </sc-for>
+              <sc-if value="{{ I.noMarks }}" hint-placeholder-val="{{ false }}"><span style="font:400 15px/1.45 var(--font-sans);color:var(--grey-700)">Nothing marked. That is a fine answer too.</span></sc-if>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ I.isInjury }}" hint-placeholder-val="{{ false }}">
+          <div style="border:2px solid var(--ink);display:flex;flex-direction:column">
+            <div style="padding:14px 16px;border-bottom:1px solid var(--grey-200);display:flex;justify-content:space-between;gap:10px"><span style="display:flex;flex-direction:column;gap:3px"><b style="font:600 16px var(--font-sans)">Right knee, meniscus tear</b><span style="font-size:11px;text-transform:uppercase;color:var(--grey-600)">Mar 2023 · Right · Physio, 8 weeks</span></span><span style="font-size:11px;text-transform:uppercase;color:var(--blue)">Edit</span></div>
+            <div style="padding:14px 16px;display:flex;flex-direction:column;gap:12px">
+              <span style="font-size:11px;text-transform:uppercase;letter-spacing:.06em">Add another</span>
+              <input placeholder="What happened, in a few words" style="height:48px;border:2px solid var(--ink);padding:0 12px;font:400 15px var(--font-sans);border-radius:0">
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:8px"><input type="month" value="2025-06" style="height:48px;border:2px solid var(--ink);padding:0 12px;border-radius:0"><div style="display:grid;grid-template-columns:repeat(3,1fr);border:2px solid var(--ink)"><sc-for list="{{ I.sides }}" as="o" hint-placeholder-count="3"><button onClick="{{ o.pick }}" style="height:44px;border:0;box-shadow:inset -1px 0 0 var(--ink);cursor:pointer;font-size:11px;text-transform:uppercase;background:{{ o.bg }};color:{{ o.fg }}">{{ o.label }}</button></sc-for></div></div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px"><sc-for list="{{ I.treat }}" as="o" hint-placeholder-count="5"><button onClick="{{ o.pick }}" style="min-height:40px;padding:0 12px;border:1.5px solid var(--ink);cursor:pointer;font:500 13px var(--font-sans);background:{{ o.bg }};color:{{ o.fg }}">{{ o.label }}</button></sc-for></div>
+              <button onClick="{{ I.upload }}" style="border:2px dashed var(--ink);background:var(--grey-50);cursor:pointer;min-height:56px;padding:12px;text-align:left;display:flex;justify-content:space-between;align-items:center;gap:10px"><span style="display:flex;flex-direction:column;gap:2px"><span style="font:600 14px var(--font-sans)">{{ I.upTitle }}</span><span style="font-size:11px;color:{{ I.upFg }}">{{ I.upLine }}</span></span><span style="font-size:11px;text-transform:uppercase;font-weight:700">{{ I.upCta }}</span></button>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ I.isSafety }}" hint-placeholder-val="{{ false }}">
+          <div style="border:2px solid var(--ink);display:flex;flex-direction:column">
+            <sc-for list="{{ I.safety }}" as="q" hint-placeholder-count="6">
+              <div style="padding:14px 16px;border-bottom:1px solid var(--grey-200);display:flex;flex-direction:column;gap:10px">
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:12px"><span style="font:500 15px/1.4 var(--font-sans)">{{ q.q }}</span><div style="flex:none;display:grid;grid-template-columns:1fr 1fr;border:2px solid var(--ink)"><button onClick="{{ q.no }}" style="width:56px;height:40px;border:0;cursor:pointer;font-size:11px;text-transform:uppercase;background:{{ q.noBg }};color:{{ q.noFg }}">No</button><button onClick="{{ q.yes }}" style="width:56px;height:40px;border:0;box-shadow:inset 1px 0 0 var(--ink);cursor:pointer;font-size:11px;text-transform:uppercase;background:{{ q.yesBg }};color:{{ q.yesFg }}">Yes</button></div></div>
+                <sc-if value="{{ q.isYes }}" hint-placeholder-val="{{ false }}"><span style="font:400 14px/1.45 var(--font-sans);padding:10px 12px;box-shadow:inset 0 0 0 1.5px var(--blue)">Your practitioner will talk this through with you before testing. <input placeholder="Add a line if you like" style="margin-top:8px;width:100%;height:40px;border:1.5px solid var(--grey-300);padding:0 10px;border-radius:0;font:400 14px var(--font-sans)"></span></sc-if>
+              </div>
+            </sc-for>
+          </div>
+          <span style="font-size:11px;color:var(--grey-600)">This one cannot be skipped. A yes never stops you booking.</span>
+        </sc-if>
+
+        <sc-if value="{{ I.isAgree }}" hint-placeholder-val="{{ false }}">
+          <div style="border:2px solid var(--ink);padding:18px;display:flex;flex-direction:column;gap:10px">
+            <span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em">The assessment agreement, in plain words</span>
+            <sc-for list="{{ I.agreeLines }}" as="x" hint-placeholder-count="5"><span style="font:400 15px/1.45 var(--font-sans);display:grid;grid-template-columns:20px 1fr"><span style="color:var(--blue)">·</span>{{ x }}</span></sc-for>
+            <a href="#" style="font-size:11px;text-transform:uppercase;font-weight:700;text-decoration:none">Read the full agreement →</a>
+          </div>
+          <div style="border:2px solid var(--ink)">
+            <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.OptionRow" multi="{{ true }}" label="I agree to the assessment agreement" desc="Required to book." checked="{{ I.agreed }}" onClick="{{ I.toggleAgree }}" hint-size="100%,64px"></x-import>
+            <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.OptionRow" multi="{{ true }}" label="Photos and videos during the assessment" desc="Front, side and back photos and short videos of tests. Seen only by you, your practitioner and the head coach, to compare at reassessment. Optional." checked="{{ I.photos }}" onClick="{{ I.togglePhotos }}" hint-size="100%,88px"></x-import>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ I.isDone }}" hint-placeholder-val="{{ false }}">
+          <div style="background:var(--ice);padding:18px;display:flex;flex-direction:column;gap:6px"><span style="font:600 17px var(--font-sans)">✓ Jayraj will read this before you meet.</span><span style="font-size:12px;color:var(--grey-700)">You can change any answer until your assessment.</span></div>
+          <span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em">Optional, before you book</span>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:10px">
+            <sc-for list="{{ extras }}" as="x" hint-placeholder-count="2"><div style="border:1px solid var(--grey-300);padding:16px;display:flex;flex-direction:column;gap:8px"><b style="font:600 16px var(--font-sans)">{{ x.t }}</b><span style="font:400 14px/1.45 var(--font-sans);color:var(--grey-700)">{{ x.d }}</span><a href="{{ x.href }}" style="font-size:11px;text-transform:uppercase;font-weight:700;text-decoration:none">{{ x.cta }} →</a></div></sc-for>
+          </div>
+        </sc-if>
+
+        <div style="position:sticky;bottom:0;z-index:3;background:rgba(255,255,255,.97);border-top:1px solid var(--grey-200);margin:0 -4px;padding:12px 4px;display:flex;flex-direction:column;gap:10px">
+          <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="{{ I.nextVariant }}" size="lg" full="{{ true }}" disabled="{{ I.nextLocked }}" onClick="{{ I.next }}" hint-size="100%,58px">{{ I.nextLabel }}</x-import>
+          <div style="display:flex;justify-content:space-between;gap:10px">
+            <sc-if value="{{ I.hasBack }}" hint-placeholder-val="{{ false }}"><button onClick="{{ I.back }}" style="border:0;background:none;padding:0;height:44px;cursor:pointer;font-size:12px;text-transform:uppercase">← Back</button></sc-if>
+            <sc-if value="{{ I.canSkip }}" hint-placeholder-val="{{ true }}"><button onClick="{{ I.skip }}" style="margin-left:auto;border:0;background:none;padding:0;height:44px;cursor:pointer;font-size:12px;text-transform:uppercase;color:var(--grey-600)">Skip for now</button></sc-if>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ is.book }}" hint-placeholder-val="{{ false }}">
+        <span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--grey-600)">Book · {{ B.n }}</span>
+        <h1 style="margin:0;font-family:var(--font-display);font-weight:400;font-size:clamp(30px,6vw,48px);line-height:.88;text-transform:uppercase">{{ B.title }}</h1>
+        <sc-if value="{{ B.isFormat }}" hint-placeholder-val="{{ true }}">
+          <div style="border:2px solid var(--ink)"><sc-for list="{{ B.formats }}" as="f" hint-placeholder-count="3"><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.OptionRow" label="{{ f.label }}" desc="{{ f.desc }}" checked="{{ f.on }}" onClick="{{ f.pick }}" hint-size="100%,72px"></x-import></sc-for></div>
+        </sc-if>
+        <sc-if value="{{ B.isSessions }}" hint-placeholder-val="{{ false }}">
+          <span style="font:400 16px/1.45 var(--font-sans);color:var(--grey-700)">Your assessment is a short series of sessions. Your practitioner may mark one as not needed.</span>
+          <div style="border:2px solid var(--ink);display:flex;flex-direction:column">
+            <sc-for list="{{ B.sessions }}" as="s" hint-placeholder-count="4">
+              <button onClick="{{ s.toggle }}" style="text-align:left;border:0;border-bottom:1px solid var(--grey-200);cursor:pointer;padding:14px 16px;display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:4px 12px;align-items:start;background:{{ s.bg }}">
+                <span style="grid-row:span 2;width:24px;height:24px;border:2px solid var(--ink);display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;background:{{ s.box }}">{{ s.mark }}</span>
+                <span style="font:600 16px var(--font-sans)">{{ s.name }}</span>
+                <span style="grid-row:span 2;font-size:10px;text-transform:uppercase;white-space:nowrap">{{ s.tag }}</span>
+                <span style="font-size:12px;line-height:1.45;color:var(--grey-700)">{{ s.desc }} · {{ s.dur }} · {{ s.who }}</span>
+              </button>
+            </sc-for>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;border:2px solid var(--ink)"><sc-for list="{{ B.modes }}" as="m" hint-placeholder-count="2"><button onClick="{{ m.pick }}" style="min-height:52px;border:0;box-shadow:inset -1px 0 0 var(--ink);cursor:pointer;font-family:var(--font-display);font-size:12px;text-transform:uppercase;background:{{ m.bg }};color:{{ m.fg }}">{{ m.label }}</button></sc-for></div>
+        </sc-if>
+        <sc-if value="{{ B.isSlots }}" hint-placeholder-val="{{ false }}">
+          <sc-for list="{{ B.pickers }}" as="p" hint-placeholder-count="2">
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <span style="display:flex;justify-content:space-between;gap:10px"><b style="font:600 16px var(--font-sans)">{{ p.name }}</b><span style="font-size:10px;text-transform:uppercase;color:var(--grey-600)">{{ p.meta }}</span></span>
+              <div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:4px"><sc-for list="{{ p.slots }}" as="sl" hint-placeholder-count="4"><button onClick="{{ sl.pick }}" style="flex:none;min-width:120px;min-height:64px;padding:8px 12px;border:2px solid var(--ink);cursor:pointer;text-align:left;display:flex;flex-direction:column;gap:3px;background:{{ sl.bg }};color:{{ sl.fg }}"><b style="font-size:11px;text-transform:uppercase">{{ sl.d }}</b><span style="font:600 15px var(--font-sans)">{{ sl.t }}</span></button></sc-for></div>
+            </div>
+          </sc-for>
+          <sc-if value="{{ B.oneAtATime }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:var(--grey-700)">You can book the other sessions later from Home.</span></sc-if>
+        </sc-if>
+        <sc-if value="{{ B.isConfirm }}" hint-placeholder-val="{{ false }}">
+          <div style="border:2px solid var(--ink);display:flex;flex-direction:column">
+            <sc-for list="{{ B.booked }}" as="s" hint-placeholder-count="3"><div style="padding:14px 16px;border-bottom:1px solid var(--grey-200);display:flex;flex-direction:column;gap:3px"><b style="font:600 16px var(--font-sans)">{{ s.name }}</b><span style="font-size:12px;text-transform:uppercase">{{ s.when }}</span><span style="font-size:11px;color:var(--grey-700)">{{ s.where }}</span></div></sc-for>
+            <a href="#" style="padding:12px 16px;font-size:12px;text-transform:uppercase;font-weight:700;text-decoration:none">{{ B.whereLink }} →</a>
+          </div>
+          <div style="background:var(--grey-50);padding:16px;display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em">Before you come</span>
+            <span style="font:400 15px/1.45 var(--font-sans)">Wear shorts and a fitted T shirt. You will be barefoot. Bring water and glasses if you wear them. Arrive 10 minutes early.</span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="outline" size="md" full="{{ true }}" hint-size="100%,50px">GOOGLE CALENDAR</x-import>
+            <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="outline" size="md" full="{{ true }}" hint-size="100%,50px">APPLE CALENDAR</x-import>
+          </div>
+          <span style="font-size:12px;color:var(--grey-700)">Need to change it? At least 24 hours notice, from Home or WhatsApp.</span>
+        </sc-if>
+        <div style="position:sticky;bottom:0;z-index:3;background:rgba(255,255,255,.97);border-top:1px solid var(--grey-200);margin:0 -4px;padding:12px 4px;display:flex;flex-direction:column;gap:10px">
+          <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="{{ B.nextVariant }}" size="lg" full="{{ true }}" disabled="{{ B.nextLocked }}" onClick="{{ B.next }}" hint-size="100%,58px">{{ B.nextLabel }}</x-import>
+          <sc-if value="{{ B.hasBack }}" hint-placeholder-val="{{ false }}"><button onClick="{{ B.back }}" style="align-self:flex-start;border:0;background:none;padding:0;height:44px;cursor:pointer;font-size:12px;text-transform:uppercase">← Back</button></sc-if>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ is.reminders }}" hint-placeholder-val="{{ false }}">
+        <span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--grey-600)">Messages we send</span>
+        <h1 style="margin:0;font-family:var(--font-display);font-weight:400;font-size:clamp(30px,6vw,48px);line-height:.88;text-transform:uppercase">Reminders.</h1>
+        <sc-for list="{{ reminders }}" as="r" hint-placeholder-count="6">
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <span style="display:flex;justify-content:space-between;gap:10px;font-size:10px;text-transform:uppercase;letter-spacing:.06em"><b>{{ r.when }}</b><span style="color:var(--grey-600)">{{ r.ch }}</span></span>
+            <div style="max-width:440px;align-self:{{ r.align }};border:{{ r.bd }};background:{{ r.bg }};padding:12px 14px;display:flex;flex-direction:column;gap:6px">
+              <sc-if value="{{ r.isEmail }}" hint-placeholder-val="{{ false }}"><b style="font:600 14px var(--font-sans)">{{ r.subject }}</b></sc-if>
+              <span style="font:400 15px/1.45 var(--font-sans)">{{ r.text }}</span>
+              <span style="font-size:10px;color:var(--grey-600);text-align:right">{{ r.time }}</span>
+            </div>
+          </div>
+        </sc-for>
+      </sc-if>
+    </main>
+
+    <sc-if value="{{ L.side }}" hint-placeholder-val="{{ true }}">
+      <aside style="position:sticky;top:96px;display:flex;flex-direction:column;gap:14px">
+        <span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em">What comes next</span>
+        <div style="border:2px solid var(--ink);display:flex;flex-direction:column">
+          <sc-for list="{{ stages }}" as="s" hint-placeholder-count="4"><div style="padding:14px 16px;border-bottom:1px solid var(--grey-200);display:grid;grid-template-columns:28px minmax(0,1fr);gap:3px 10px;background:{{ s.bg }}"><span style="grid-row:span 2;width:22px;height:22px;border:2px solid var(--ink);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;background:{{ s.box }}">{{ s.mark }}</span><span style="font-family:var(--font-display);font-size:14px;text-transform:uppercase">{{ s.t }}</span><span style="font-size:11px;color:var(--grey-600)">{{ s.d }}</span></div></sc-for>
+        </div>
+        <span style="font:400 13px/1.5 var(--font-sans);color:var(--grey-700)">Everything saves as you go. Leave any time and pick up from Home.</span>
+      </aside>
+    </sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;status&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;intake_required&quot;,&quot;options&quot;:[&quot;purchased&quot;,&quot;profile_required&quot;,&quot;intake_required&quot;,&quot;intake_half&quot;,&quot;intake_complete&quot;,&quot;booking_required&quot;,&quot;session_booked&quot;,&quot;rescheduled&quot;,&quot;missed&quot;,&quot;upload_failed&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Status&quot;},&quot;start&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;home&quot;,&quot;options&quot;:[&quot;home&quot;,&quot;welcome&quot;,&quot;intake&quot;,&quot;book&quot;,&quot;reminders&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Status&quot;},&quot;coldPackage&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Intake&quot;}}">
+class Component extends DCLogic {
+  state = { screen: null, step: null, bstep: 0, w: typeof window !== 'undefined' ? window.innerWidth : 1440, ans: { 0: ['Run without knee pain'] }, marks: { 'R:knee': { v: 5, when: ['Squatting', 'Stairs'] } }, view: 'front', safety: { knee: 'yes' }, agreed: false, photos: false, side: 'Right', treat: ['Physio'], upload: null, savedAt: null, format: null, sess: { mov: true, breath: true, trial: true, event: false }, bookMode: 'all', slots: {} };
+  componentDidMount() { this._r = () => this.setState({ w: window.innerWidth }); window.addEventListener('resize', this._r); this._r(); }
+  componentWillUnmount() { window.removeEventListener('resize', this._r); }
+  componentDidUpdate(pp) { if (pp.status !== this.props.status || pp.start !== this.props.start) this.setState({ screen: null, step: null, bstep: 0 }); }
+  save(patch) { this.setState({ ...patch, savedAt: Date.now() }); }
+
+  GN = { head: 'Head', neck: 'Neck', trap: 'Trapezius', trapback: 'Trapezius', delt: 'Shoulder', chest: 'Chest', bicep: 'Biceps', tricep: 'Triceps', forearm: 'Forearm', hand: 'Hand', abs: 'Abdominals', oblique: 'Obliques', hipflex: 'Hip flexors', quad: 'Quadriceps', knee: 'Knee', shin: 'Shin', calf: 'Calf', foot: 'Foot', scap: 'Shoulder blade', lat: 'Lats', lowback: 'Lower back', glute: 'Glutes', ham: 'Hamstrings', achilles: 'Achilles', uppback: 'Upper back' };
+  FG = { hip: ['R:hipflex', 'R:glute'], knee: ['R:knee'], foot: ['R:foot'], tspine: ['C:trapback', 'L:scap', 'R:scap', 'R:uppback', 'L:uppback'], ribs: ['L:oblique', 'R:oblique', 'L:lat', 'R:lat'], neck: ['C:neck', 'L:trap', 'R:trap'], nasal: ['C:head'], calf: ['R:calf', 'R:achilles'], lowback: ['C:lowback', 'R:lowback', 'L:lowback'], sleep: ['C:head'], balance: ['R:foot', 'R:shin', 'R:calf'], jump: ['L:glute', 'R:glute', 'L:ham', 'R:ham'], hang: ['R:hand', 'R:forearm'] };
+  POS = { hip: { front: [176, 366], back: [228, 388], right: [222, 362] }, knee: { front: [172, 543], right: [210, 543] }, foot: { front: [170, 692], back: [228, 692], right: [222, 690] }, tspine: { back: [200, 186], right: [176, 190], left: [176, 190] }, ribs: { front: [200, 236], back: [200, 258], right: [216, 268], left: [216, 268] }, neck: { front: [200, 118], right: [206, 116], left: [206, 116] }, nasal: { front: [200, 64], right: [222, 66], left: [222, 66] }, calf: { back: [226, 590], right: [190, 606] }, lowback: { back: [200, 312], right: [176, 284], left: [176, 284] }, sleep: { front: [200, 64], back: [200, 64], right: [205, 62], left: [205, 62] }, balance: { front: [170, 692], back: [228, 692], right: [222, 690] }, jump: { back: [200, 388], right: [182, 370], left: [182, 370] }, hang: { front: [91, 420], back: [309, 420], right: [206, 405] } };
+  HEAD = 'M200 24 C220 24 232 42 232 64 C232 88 218 104 200 104 C182 104 168 88 168 64 C168 42 180 24 200 24 Z';
+  M = {
+    front: [['C', 'head', this.HEAD], ['C', 'neck', 'M186 100 L214 100 L218 130 Q200 136 182 130 Z'], ['S', 'trap', 'M182 118 Q162 132 140 140 Q160 144 178 142 Q186 132 186 120 Z'], ['S', 'chest', 'M154 146 Q178 142 198 148 L198 214 Q176 222 154 214 Q138 206 134 188 Q140 162 154 146 Z'], ['S', 'delt', 'M140 142 Q114 144 106 168 Q102 192 110 212 Q124 198 132 180 Q140 160 152 148 Z'], ['S', 'bicep', 'M110 216 Q122 204 132 194 Q138 222 134 252 Q128 274 116 282 Q104 272 102 248 Q102 228 110 216 Z'], ['S', 'forearm', 'M102 288 Q114 282 126 288 Q124 322 114 360 Q106 380 98 392 Q86 386 86 372 Q88 330 102 288 Z'], ['S', 'hand', 'M84 398 Q98 392 102 400 Q104 420 98 440 Q88 446 80 438 Q76 418 84 398 Z'], ['M', 'abs', 'M178 222 L197 220 L197 252 L178 254 Z'], ['M', 'abs', 'M178 258 L197 256 L197 288 L178 290 Z'], ['M', 'abs', 'M178 294 L197 292 L197 324 L178 326 Z'], ['M', 'abs', 'M178 330 L197 328 L197 372 Q186 366 180 352 Z'], ['S', 'oblique', 'M154 218 Q164 224 174 226 L174 330 Q164 340 156 350 Q150 320 148 290 Q146 250 154 218 Z'], ['S', 'hipflex', 'M158 354 Q168 342 176 334 Q182 358 197 378 L197 400 Q178 394 162 378 Z'], ['S', 'quad', 'M154 380 Q164 388 172 400 Q170 452 168 500 Q162 520 154 524 Q144 480 144 432 Q146 400 154 380 Z'], ['S', 'quad', 'M176 402 Q186 408 195 410 Q196 462 188 506 Q180 520 172 512 Q174 452 176 402 Z'], ['S', 'quad', 'M191 474 Q199 494 195 520 Q186 532 176 526 Q182 502 191 474 Z'], ['S', 'knee', 'M158 532 Q172 524 186 532 Q188 546 184 554 Q172 560 160 554 Q154 544 158 532 Z'], ['S', 'shin', 'M156 562 Q164 558 172 562 Q170 612 166 662 Q162 670 158 668 Q150 620 156 562 Z'], ['S', 'calf', 'M176 562 Q190 570 192 604 Q190 642 178 664 Q172 666 170 660 Q176 612 176 562 Z'], ['S', 'foot', 'M156 676 Q170 670 182 676 Q190 694 188 708 Q170 714 150 708 Q148 692 156 676 Z']],
+    back: [['C', 'head', this.HEAD], ['C', 'neck', 'M186 100 L214 100 L216 124 L184 124 Z'], ['C', 'trapback', 'M186 112 L214 112 Q232 128 262 140 Q238 150 224 176 L210 248 L200 260 L190 248 L176 176 Q162 150 138 140 Q168 128 186 112 Z'], ['S', 'delt', 'M140 142 Q114 144 106 168 Q102 192 110 212 Q124 198 132 180 Q140 160 152 148 Z'], ['S', 'scap', 'M150 152 Q166 160 174 182 L170 222 Q154 222 140 210 Q134 186 150 152 Z'], ['S', 'lat', 'M140 214 Q158 226 172 228 L194 264 Q188 300 180 326 Q164 320 154 310 Q144 270 140 214 Z'], ['M', 'lowback', 'M184 270 L197 266 L197 350 L180 350 Q181 310 184 270 Z'], ['S', 'oblique', 'M150 306 Q166 326 178 334 L178 352 Q162 352 152 348 Q146 328 150 306 Z'], ['S', 'tricep', 'M110 216 Q122 204 132 194 Q138 222 134 252 Q128 274 116 282 Q104 272 102 248 Q102 228 110 216 Z'], ['S', 'forearm', 'M102 288 Q114 282 126 288 Q124 322 114 360 Q106 380 98 392 Q86 386 86 372 Q88 330 102 288 Z'], ['S', 'hand', 'M84 398 Q98 392 102 400 Q104 420 98 440 Q88 446 80 438 Q76 418 84 398 Z'], ['S', 'glute', 'M152 356 Q176 354 197 358 L197 416 Q180 426 162 420 Q146 406 146 382 Q146 364 152 356 Z'], ['S', 'ham', 'M148 424 Q160 430 172 430 Q172 472 168 512 Q160 526 152 522 Q144 472 148 424 Z'], ['S', 'ham', 'M176 430 Q188 430 196 426 Q196 472 190 512 Q182 524 172 518 Q176 472 176 430 Z'], ['S', 'knee', 'M156 530 Q172 526 190 530 Q190 542 186 548 Q172 552 158 548 Q154 540 156 530 Z'], ['S', 'calf', 'M154 554 Q166 550 172 554 Q172 592 166 618 Q156 614 150 598 Q148 572 154 554 Z'], ['S', 'calf', 'M174 554 Q186 550 194 558 Q196 592 186 620 Q178 620 174 612 Q174 582 174 554 Z'], ['S', 'achilles', 'M160 624 Q172 628 184 626 Q180 652 176 670 L168 670 Q164 648 160 624 Z'], ['S', 'foot', 'M158 678 Q172 672 186 678 Q188 696 182 708 Q168 712 156 706 Q152 692 158 678 Z']],
+    side: [['C', 'head', 'M205 24 C228 24 240 44 238 62 L245 76 L238 82 C236 96 224 104 205 104 C186 104 172 88 172 64 C172 42 184 24 205 24 Z'], ['C', 'neck', 'M192 100 L218 100 L222 132 L186 130 Z'], ['S', 'trap', 'M186 116 Q174 126 166 142 L194 140 Q190 128 192 116 Z'], ['S', 'uppback', 'M164 144 Q182 136 190 142 L188 236 Q170 232 160 214 Q154 178 164 144 Z'], ['S', 'chest', 'M206 142 Q236 148 244 178 Q246 202 238 218 L206 222 Z'], ['S', 'oblique', 'M192 224 L238 222 Q242 262 236 302 Q214 316 196 318 Q188 272 192 224 Z'], ['S', 'lowback', 'M160 218 Q174 236 190 240 L192 318 Q176 326 164 332 Q152 282 160 218 Z'], ['S', 'glute', 'M164 336 Q190 324 202 332 Q206 370 198 406 Q176 416 160 402 Q150 368 164 336 Z'], ['S', 'hipflex', 'M206 332 Q226 322 238 332 Q240 362 228 390 Q214 394 204 394 Q210 362 206 332 Z'], ['S', 'ham', 'M164 408 Q184 418 200 412 Q204 472 198 526 Q186 532 176 522 Q166 462 164 408 Z'], ['S', 'quad', 'M204 398 Q228 394 236 406 Q240 462 228 522 Q216 532 204 526 Q208 462 204 398 Z'], ['S', 'knee', 'M194 530 Q210 524 226 530 Q228 546 222 556 Q208 560 196 554 Q190 542 194 530 Z'], ['S', 'calf', 'M180 560 Q198 556 202 564 Q200 612 194 652 Q188 666 182 662 Q172 612 180 560 Z'], ['S', 'shin', 'M206 562 Q220 558 222 568 Q218 622 212 664 L204 664 Q208 612 206 562 Z'], ['S', 'foot', 'M184 670 L214 668 Q240 676 256 694 Q256 706 244 708 L186 708 Q178 690 184 670 Z'], ['S', 'delt', 'M178 140 Q204 132 220 150 Q226 176 212 198 Q198 202 186 194 Q172 168 178 140 Z'], ['S', 'bicep', 'M188 198 Q200 194 212 200 Q214 240 208 280 Q198 288 190 282 Q184 240 188 198 Z'], ['S', 'forearm', 'M190 288 Q202 284 212 290 Q216 330 214 370 Q206 380 200 378 Q192 332 190 288 Z'], ['S', 'hand', 'M198 382 Q212 380 216 388 Q218 410 212 428 Q202 432 196 424 Q192 404 198 382 Z']]
+  };
+
+  gLabel(k) { const [s, g] = k.split(':'); return (s === 'R' ? 'Right ' : s === 'L' ? 'Left ' : '') + (s === 'C' ? this.GN[g] : this.GN[g].toLowerCase()); }
+
+  body(view, spots, guides, hi) {
+    const h = React.createElement, side = view === 'left' || view === 'right';
+    const g = [];
+    if (guides) {
+      [[140, 'Shoulder'], [366, 'Hip'], [543, 'Knee'], [710, 'Floor']].forEach(([y, t], i) => {
+        g.push(h('line', { key: 'l' + i, x1: 0, x2: 400, y1: y, y2: y, style: { stroke: '#D0D5DD', strokeWidth: 1, strokeDasharray: '3 5' } }));
+        g.push(h('text', { key: 't' + i, x: 2, y: y - 6, style: { fontFamily: 'Space Mono, monospace', fontSize: 10, fill: '#98A2B3', letterSpacing: '.06em' } }, t.toUpperCase()));
+      });
+      g.push(h('line', { key: 'plumb', x1: 200, x2: 200, y1: 14, y2: 712, style: { stroke: '#BDEBFF', strokeWidth: 1.5 } }));
+    }
+    const near = view === 'front' ? 'R' : view === 'back' ? 'L' : view === 'right' ? 'R' : 'L';
+    const far = near === 'R' ? 'L' : 'R';
+    const paths = [];
+    const fillOf = k => hi.sel.includes(k) ? '#006DE0' : hi.group === k ? '#101828' : hi.hover === k ? '#98A2B3' : '#E6E8EC';
+    const mk = (k, d, i, tf) => paths.push(h('path', { key: k + i + (tf ? 'm' : ''), d, transform: tf, onClick: () => hi.onPick(k), onMouseEnter: () => hi.onHover(k), onMouseLeave: () => hi.onHover(null), style: { fill: fillOf(k), stroke: '#FFFFFF', strokeWidth: 2, strokeLinejoin: 'round', cursor: 'pointer', transition: 'fill .25s' } }));
+    const set = side ? this.M.side : this.M[view];
+    set.forEach(([t, id, d], i) => {
+      if (t === 'C') mk('C:' + id, d, i);
+      else if (side) mk(near + ':' + id, d, i);
+      else { mk((t === 'M' ? 'C' : near) + ':' + id, d, i); mk((t === 'M' ? 'C' : far) + ':' + id, d, i, 'translate(400,0) scale(-1,1)'); }
+    });
+    const sil = h('g', { key: 'sil', transform: view === 'left' ? 'translate(400,0) scale(-1,1)' : undefined }, paths);
+    const ground = h('ellipse', { key: 'gr', cx: 200, cy: 712, rx: 120, ry: 8, style: { fill: '#E6E8EC' } });
+    const sp = spots.map(s => h('g', { key: s.id, onClick: s.pick, style: { cursor: 'pointer' } },
+      s.on ? h('circle', { cx: s.x, cy: s.y, r: 12, style: { fill: 'none', stroke: '#101828', strokeWidth: 1.5, pointerEvents: 'none' } },
+        h('animate', { attributeName: 'r', values: '10;28', dur: '1.8s', repeatCount: 'indefinite' }),
+        h('animate', { attributeName: 'opacity', values: '.8;0', dur: '1.8s', repeatCount: 'indefinite' })) : null,
+      h('circle', { cx: s.x, cy: s.y, r: s.on ? 8 : 6, style: { fill: s.on ? '#101828' : '#FFFFFF', stroke: s.on ? '#FFFFFF' : '#006DE0', strokeWidth: 2.5 } }),
+      h('text', { x: s.x + (s.x > 300 ? -14 : 14), y: s.y + 4, textAnchor: s.x > 300 ? 'end' : 'start', style: { fontFamily: 'Space Mono, monospace', fontSize: 12, fontWeight: 700, fill: '#101828', paintOrder: 'stroke', stroke: '#F7F8FA', strokeWidth: 4, pointerEvents: 'none' } }, s.n)));
+    return h('svg', { viewBox: '0 0 400 720', style: { position: 'absolute', inset: 0, width: '100%', height: '100%', overflow: 'visible' } }, g, ground, sil, sp);
+  }
+
+
+  renderVals() {
+    const s = this.state, w = s.w, status = this.props.status || 'intake_required';
+    const screen = s.screen || this.props.start || 'home';
+    const wide = w >= 1000;
+    const go = (sc, extra) => () => { this.setState({ screen: sc, ...(extra || {}) }); window.scrollTo && window.scrollTo(0, 0); };
+    const pad2 = i => String(i + 1).padStart(2, '0');
+    const sel = (on) => ({ bg: on ? 'var(--ink)' : '#fff', fg: on ? '#fff' : 'var(--ink)' });
+    const SECTIONS = [
+      ['Goals', 'What do you want training to help with? Tap any that fit.', [['Pick any', ['Run without knee pain', 'Lift overhead', 'Play football without niggles', 'Carry my kids without a sore back', 'Trek in the hills', 'Get stronger', 'Sleep better']]], ['In your own words, one line', 'Like: play a full 5 a side game again']],
+      ['Current activity', 'Roughly, in a normal week.', [['Days you move on purpose', ['0', '1', '2', '3', '4', '5', '6', '7']], ['What you do', ['Walking', 'Gym', 'Running', 'Yoga', 'Football', 'Cycling', 'Nothing yet']]]],
+      ['Training history', 'Helps us pitch the first sessions right.', [['Have you trained with a coach?', ['Never', 'A little', 'Yes, for years', 'Yes, recently']], ['Longest you have trained without a break', ['Under 3 months', '3 to 12 months', 'Over a year']]]],
+      ['Movement concerns', 'Mark where it bothers you. Skip if nothing does.'],
+      ['Injuries or restrictions', 'Anything past or present we should know about.'],
+      ['Sleep', 'A rough picture is enough.', [['Hours on a normal night', ['Under 5', '5 to 6', '6 to 7', '7 to 8', 'Over 8']], ['How do you wake up?', ['Tired', 'Okay', 'Rested']]]],
+      ['Recovery', 'How your body handles hard days.', [['The morning after hard exercise', ['Fine', 'A bit sore', 'Very sore']], ['Soreness usually lasts', ['A day', '2 days', '3 days or more']]]],
+      ['Stress and workload', 'Training works around your life, not against it.', [['A typical work week feels', ['Light', 'Steady', 'Heavy', 'Very heavy']], ['Hours sitting on a work day', ['Under 4', '4 to 8', 'Over 8']]]],
+      ['Sport and activities', 'Anything you play or want to play.', [['Pick any', ['Football', 'Badminton', 'Cricket', 'Running events', 'Swimming', 'Trekking', 'None']], ['How often', ['Weekly', 'Monthly', 'Now and then']]]],
+      ['What you want to do better', 'The one thing that would make this worth it.', [['Pick one', ['Move without pain', 'Feel stronger', 'Have more energy', 'Play my sport better']]], ['Anything else for Jayraj', 'Optional']]
+    ];
+    const TOTAL = SECTIONS.length + 3;
+    const step = s.step != null ? s.step : (status === 'intake_half' ? 3 : 0);
+    const isSec = step < SECTIONS.length, sec = SECTIONS[step];
+    const nextStep = () => { this.save({ step: step + 1 }); window.scrollTo && window.scrollTo(0, 0); };
+    const groups = isSec && sec[2] ? sec[2].map((g, gi) => { const key = step + '_' + gi, cur = s.ans[key] || [], multi = g[0] === 'Pick any' || g[0] === 'What you do'; return { q: g[0], opts: g[1].map(o => { const on = cur.includes(o); return { label: o, ...sel(on), pick: () => this.save({ ans: { ...s.ans, [key]: multi ? (on ? cur.filter(x => x !== o) : cur.concat(o)) : [o] } }) }; }) }; }) : [];
+    const SAFE = [['surgery', 'Surgery in the last 12 months'], ['chest', 'Chest pain or dizziness when you exert yourself'], ['heart', 'A heart or blood pressure condition'], ['preg', 'Pregnant, or had a baby in the last 6 months'], ['meds', 'Medication that affects how you handle exertion'], ['knee', 'Anything else your practitioner should know, like a past injury']].concat(this.props.coldPackage ? [['veins', 'Varicose veins'], ['ill', 'A cold, fever or infection in the last 2 weeks']] : []);
+    const safeDone = SAFE.every(([k]) => s.safety[k]);
+    const UP = s.upload;
+    const I = {
+      n: step < SECTIONS.length ? (step + 1) + ' of ' + SECTIONS.length : step === SECTIONS.length ? 'Safety check' : step === SECTIONS.length + 1 ? 'Agreement' : 'Done',
+      title: isSec ? sec[0] + '.' : step === SECTIONS.length ? 'A quick safety check.' : step === SECTIONS.length + 1 ? 'Agreement and consent.' : 'Intake complete.',
+      sub: isSec ? sec[1] : step === SECTIONS.length ? 'Yes or no. A yes just means your practitioner talks it through with you first.' : step === SECTIONS.length + 1 ? 'Short and plain. Photos are a separate choice.' : 'Next, book your assessment.',
+      chipsQ: isSec && !!sec[2], groups, hasText: isSec && !!sec[3], textQ: isSec && sec[3] ? sec[3][0] : '', textPh: isSec && sec[3] ? sec[3][1] : '',
+      isBody: step === 3, isInjury: step === 4, isSafety: step === SECTIONS.length, isAgree: step === SECTIONS.length + 1, isDone: step === SECTIONS.length + 2,
+      viewName: s.view === 'front' ? 'Front' : 'Back', flipTo: s.view === 'front' ? 'back' : 'front', flip: () => this.setState({ view: s.view === 'front' ? 'back' : 'front' }),
+      body: step === 3 ? this.body(s.view, [], false, { sel: Object.keys(s.marks), prio: [], group: null, hover: s.hover, onHover: k => this.setState({ hover: k }), onPick: k => { const m = { ...s.marks }; if (m[k]) delete m[k]; else m[k] = { v: 3, when: [] }; this.save({ marks: m }); } }) : null,
+      marks: Object.entries(s.marks).map(([k, m]) => ({ name: this.gLabel(k), v: m.v, remove: () => { const mm = { ...s.marks }; delete mm[k]; this.save({ marks: mm }); }, scale: Array.from({ length: 11 }, (_, n) => ({ n, bg: n <= m.v && m.v > 0 && n > 0 ? 'var(--blue)' : n === 0 && m.v === 0 ? 'var(--ink)' : 'var(--grey-200)', fg: n <= m.v && n > 0 ? '#fff' : 'var(--ink)', pick: () => this.save({ marks: { ...s.marks, [k]: { ...m, v: n } } }) })), when: ['Stairs', 'Squatting', 'Running', 'Sitting long', 'Mornings', 'After training'].map(o => { const on = m.when.includes(o); return { label: o, ...sel(on), pick: () => this.save({ marks: { ...s.marks, [k]: { ...m, when: on ? m.when.filter(x => x !== o) : m.when.concat(o) } } }) }; }) })),
+      noMarks: Object.keys(s.marks).length === 0,
+      sides: ['Left', 'Right', 'Both'].map(o => ({ label: o, ...sel(s.side === o), pick: () => this.save({ side: o }) })),
+      treat: ['Rest', 'Physio', 'Surgery', 'Injection', 'Nothing'].map(o => { const on = s.treat.includes(o); return { label: o, ...sel(on), pick: () => this.save({ treat: on ? s.treat.filter(x => x !== o) : s.treat.concat(o) }) }; }),
+      upTitle: UP === 'done' ? '✓ Knee MRI report.pdf added' : UP === 'fail' || status === 'upload_failed' ? 'Knee MRI report.pdf did not upload' : 'Add a scan or report, optional', upLine: UP === 'fail' || (status === 'upload_failed' && UP !== 'done') ? 'The connection dropped at 64%. Your answers are saved. Try again.' : UP === 'done' ? 'Jayraj will see it in your brief.' : 'PDF, JPG or PNG up to 25 MB', upFg: UP === 'fail' || status === 'upload_failed' ? 'var(--blue)' : 'var(--grey-600)', upCta: UP === 'done' ? 'Replace' : UP === 'fail' || status === 'upload_failed' ? 'Try again' : 'Browse',
+      upload: () => this.save({ upload: UP === 'fail' || UP === 'done' || status === 'upload_failed' ? 'done' : 'fail' }),
+      safety: SAFE.map(([k, q]) => { const v = s.safety[k]; return { q, isYes: v === 'yes', noBg: v === 'no' ? 'var(--ink)' : '#fff', noFg: v === 'no' ? '#fff' : 'var(--ink)', yesBg: v === 'yes' ? 'var(--ink)' : '#fff', yesFg: v === 'yes' ? '#fff' : 'var(--ink)', no: () => this.save({ safety: { ...s.safety, [k]: 'no' } }), yes: () => this.save({ safety: { ...s.safety, [k]: 'yes' } }) }; }),
+      agreeLines: ['Your practitioner leads every test and stops if anything hurts.', 'You can skip any test, any time, without a reason.', 'This is an assessment of how you move, breathe and recover. It is not a medical check.', 'Your results are seen by you, your practitioner and the head coach only.', 'You can ask us to delete your data from Account.'],
+      agreed: s.agreed, photos: s.photos, toggleAgree: () => this.save({ agreed: !s.agreed }), togglePhotos: () => this.save({ photos: !s.photos }),
+      nextLabel: step === SECTIONS.length + 2 ? 'BOOK YOUR ASSESSMENT →' : step === SECTIONS.length + 1 ? 'FINISH INTAKE →' : 'CONTINUE →',
+      nextLocked: (step === SECTIONS.length && !safeDone) || (step === SECTIONS.length + 1 && !s.agreed), nextVariant: (step === SECTIONS.length && !safeDone) || (step === SECTIONS.length + 1 && !s.agreed) ? 'outline' : step === SECTIONS.length + 2 ? 'blue' : 'ink',
+      next: step === SECTIONS.length + 2 ? go('book', { bstep: 0 }) : nextStep, hasBack: step > 0, back: () => this.setState({ step: Math.max(0, step - 1) }), canSkip: step < SECTIONS.length, skip: nextStep
+    };
+    // booking
+    const SES = [['mov', 'Movement Assessment', 'Movement and Performance. How you move, left and right, and what you can do.', 'XX min', 'Jayraj', 'Required'], ['breath', 'Breath Session', 'How you breathe at rest and under effort, plus resting heart rate.', 'XX min', 'Jayraj', 'Required'], ['trial', 'Trial Training', 'A real session, to feel how we train. Nothing is measured.', 'XX min', 'Shimyu', 'Optional'], ['event', 'Community event', 'Run and Plunge, Sunday 6:00 AM. Come and meet people.', 'XX min', 'ADITUS team', 'Optional']];
+    const online = s.format === 'online';
+    const SLOTS = { mov: [['Wed 2 Sep', '5:30 PM'], ['Thu 3 Sep', '7:00 AM'], ['Sat 5 Sep', '9:00 AM']], breath: [['Fri 4 Sep', '7:00 AM'], ['Sat 5 Sep', '11:00 AM'], ['Mon 7 Sep', '6:30 PM']], trial: [['Mon 7 Sep', '7:30 AM'], ['Tue 8 Sep', '6:30 PM'], ['Thu 10 Sep', '7:30 AM']], event: [['Sun 6 Sep', '6:00 AM']] };
+    const chosen = SES.filter(x => s.sess[x[0]] && !(online && x[0] === 'event'));
+    const toPick = s.bookMode === 'one' ? chosen.slice(0, 1) : chosen;
+    const allPicked = toPick.every(x => s.slots[x[0]] != null);
+    const B_STEPS = ['Format', 'Sessions', 'Times', 'Booked'];
+    const bs = s.bstep;
+    const where = s.format === 'sam' ? 'Samyah Borivali · Address placeholder, Borivali West' : online ? 'Live online · join link in your email and on Home' : 'TIC Kandivali · Address placeholder, Kandivali East';
+    const B = { n: (bs + 1) + ' of 4 · ' + B_STEPS[bs], title: ['Where would you like it?', 'Your assessment sessions.', 'Pick your times.', 'You are booked.'][bs],
+      isFormat: bs === 0, isSessions: bs === 1, isSlots: bs === 2, isConfirm: bs === 3, oneAtATime: s.bookMode === 'one',
+      formats: [['tic', 'In person · TIC Kandivali', 'Address placeholder, Kandivali East · parking on site'], ['sam', 'In person · Samyah Borivali', 'Address placeholder, Borivali West'], ['online', 'Live online', 'Video call from home. You need a camera and 2 m of clear floor.']].map(([k, label, desc]) => ({ label, desc, on: s.format === k, pick: () => this.save({ format: k }) })),
+      sessions: SES.filter(x => !(online && x[0] === 'event')).map(([k, name, desc, dur, who, tag]) => { const on = !!s.sess[k], req = tag === 'Required'; return { name, desc, dur, who, tag, mark: on ? '✓' : '', box: on ? 'var(--blue)' : '#fff', bg: on ? 'var(--ice)' : '#fff', toggle: () => !req && this.save({ sess: { ...s.sess, [k]: !on } }) }; }),
+      modes: [['all', 'Book all in one go'], ['one', 'One at a time']].map(([k, label]) => ({ label, ...sel(s.bookMode === k), pick: () => this.save({ bookMode: k }) })),
+      pickers: toPick.map(([k, name, , dur, who]) => ({ name, meta: dur + ' · ' + who, slots: SLOTS[k].map(([d, t], i) => { const on = s.slots[k] === i; return { d, t, ...sel(on), pick: () => this.save({ slots: { ...s.slots, [k]: i } }) }; }) })),
+      booked: toPick.map(([k, name, , dur, who]) => { const sl = SLOTS[k][s.slots[k] || 0]; return { name, when: sl[0] + ' · ' + sl[1] + ' · ' + dur, where: (online ? 'Live online' : where.split(' · ')[0]) + ' · with ' + who }; }),
+      whereLink: online ? 'Test your join link' : 'Directions in Google Maps',
+      nextLabel: bs === 3 ? 'GO TO HOME →' : bs === 2 ? 'BOOK ' + toPick.length + (toPick.length === 1 ? ' SESSION →' : ' SESSIONS →') : 'CONTINUE →',
+      nextLocked: (bs === 0 && !s.format) || (bs === 2 && !allPicked), nextVariant: (bs === 0 && !s.format) || (bs === 2 && !allPicked) ? 'outline' : bs === 2 ? 'blue' : 'ink',
+      next: bs === 3 ? go('home', { booked: true }) : () => this.setState({ bstep: bs + 1 }), hasBack: bs > 0 && bs < 3, back: () => this.setState({ bstep: bs - 1 }) };
+    // home status
+    const st = s.booked && status !== 'missed' && status !== 'rescheduled' ? 'session_booked' : status;
+    const HM = {
+      purchased: ['Purchased', 'Your assessment starts here.', 'Five minutes to see how it works, then your intake.', 'SEE HOW IT WORKS →', go('welcome')],
+      profile_required: ['Profile required', 'Confirm your details.', 'Name, mobile and an emergency contact. Under a minute.', 'FINISH YOUR PROFILE →', () => { window.location.href = '01 Client - Sign In.dc.html'; }],
+      intake_required: ['Intake required', 'Fill your intake.', 'Ten short sections, one per screen. About XX min, and it saves as you go.', 'START INTAKE →', go('intake', { step: 0 })],
+      intake_half: ['Intake 3 of 10 done', 'Pick up where you left off.', 'Next is Movement concerns. Everything so far is saved.', 'CONTINUE INTAKE →', go('intake', { step: 3 })],
+      intake_complete: ['Intake complete', 'Book your assessment.', 'In person at TIC Kandivali or Samyah Borivali, or live online.', 'BOOK YOUR ASSESSMENT →', go('book', { bstep: 0 })],
+      booking_required: ['Intake done 3 days ago', 'Book your Movement Assessment.', 'Jayraj has 3 slots this week. Your intake is saved and ready for him.', 'SEE TIMES →', go('book', { bstep: 0 })],
+      session_booked: ['Session booked', 'Confirm Wed 2 Sep, 5:30 PM.', 'Movement Assessment at TIC Kandivali with Jayraj. Tap to confirm you are coming.', 'CONFIRM WED 2 SEP', () => this.setState({ confirmed: true })],
+      rescheduled: ['Rescheduled', 'Your assessment moved to Thu 3 Sep, 7:00 AM.', 'Jayraj had to move it. Same place, same length. Confirm the new time or pick another.', 'CONFIRM THU 3 SEP', () => this.setState({ confirmed: true })],
+      missed: ['Missed', 'Pick a new time.', 'We missed you on Wed 2 Sep. It happens. Your intake is saved, nothing is lost.', 'BOOK A NEW TIME →', go('book', { bstep: 2 })],
+      upload_failed: ['Upload failed', 'Your knee MRI did not upload.', 'The connection dropped. Everything else in your intake is saved.', 'TRY AGAIN →', go('intake', { step: 4 })]
+    }[st] || [];
+    const confirmedNow = s.confirmed && (st === 'session_booked' || st === 'rescheduled');
+    const H = { status: HM[0], title: confirmedNow ? 'You are confirmed for ' + (st === 'rescheduled' ? 'Thu 3 Sep.' : 'Wed 2 Sep.') : HM[1], line: confirmedNow ? 'We will remind you 24 hours and 2 hours before. Add it to your calendar below.' : HM[2], cta: confirmedNow ? 'ADD TO CALENDAR' : HM[3], go: HM[4] || (() => {}),
+      countdown: st === 'session_booked' || st === 'rescheduled', days: st === 'rescheduled' ? '4' : '3',
+      sessions: [['Movement Assessment', st === 'rescheduled' ? 'Thu 3 Sep · 7:00 AM · TIC Kandivali · Jayraj' : 'Wed 2 Sep · 5:30 PM · TIC Kandivali · Jayraj', confirmedNow ? 'Confirmed' : st === 'rescheduled' ? 'Moved' : 'Booked'], ['Breath Session', 'Fri 4 Sep · 7:00 AM · TIC Kandivali · Jayraj', 'Booked'], ['Trial Training', 'Mon 7 Sep · 7:30 AM · TIC Kandivali · Shimyu', 'Booked']].map(([name, when, x]) => ({ name, when, st: x, bg: x === 'Confirmed' ? 'var(--ink)' : x === 'Moved' ? 'var(--ice)' : '#fff', fg: x === 'Confirmed' ? '#fff' : 'var(--ink)' })),
+      hasTodo: ['session_booked', 'rescheduled', 'intake_complete', 'booking_required'].includes(st), todo: [['Add documents', 'Blood tests, scans or physio notes help Jayraj prepare.', '05 Client - Dashboard.dc.html'], ['Connect a health app', 'Sleep and heart rate between now and the day.', '05 Client - Dashboard.dc.html']].map(([t, d, href]) => ({ t, d, go: () => { window.location.href = href; } })) };
+    const done = { intake: !['purchased', 'profile_required', 'intake_required', 'intake_half'].includes(st), book: ['session_booked', 'rescheduled'].includes(st) };
+    const stageList = [['Intake', 'XX min', done.intake], ['Book', 'XX min', done.book], ['Your assessment', 'XX min across 2 or 3 sessions', false], ['Your report', 'Within XX hours', false]];
+    const curStage = stageList.findIndex(x => !x[2]);
+    const sec0 = screen === 'intake' ? (step + 1) / TOTAL : 0;
+    return {
+      L: { cols: wide ? 'minmax(0,1fr) 300px' : 'minmax(0,1fr)', side: wide, bodyCols: w >= 640 ? 'minmax(0,1fr) minmax(0,1fr)' : 'minmax(0,1fr)' },
+      is: { home: screen === 'home', welcome: screen === 'welcome', intake: screen === 'intake', book: screen === 'book', reminders: screen === 'reminders' },
+      saved: s.savedAt ? '✓ Saved' : screen === 'intake' || screen === 'book' ? 'Saves as you go' : '',
+      bar: { show: screen === 'intake' || screen === 'book', pct: (screen === 'intake' ? sec0 * 100 : (bs + 1) / 4 * 100) + '%' },
+      goHome: go('home'), goReminders: e => { e.preventDefault(); go('reminders')(); }, startIntake: go('intake', { step: 0 }),
+      H, I, B,
+      why: ['There is no fixed program at ADITUS. Everyone starts from a different place.', 'The assessment finds yours: how you move, breathe, recover and perform today.', 'Your practitioner leads it. You do not need to prepare or be fit for it.'],
+      stages: stageList.map(([t, d, dn], i) => ({ n: pad2(i), t, d, mark: dn ? '✓' : '', box: dn ? 'var(--blue)' : '#fff', bg: i === curStage ? 'var(--ice)' : '#fff' })),
+      expect: ['Jayraj meets you at the front desk and asks about your goals.', 'You do simple tests: turning, balancing, squatting, breathing.', 'Nothing is a pass or fail. You can skip anything.', 'Photos only if you said yes to them.', 'You leave knowing what happens next.'].map((t, i) => ({ n: pad2(i), t })),
+      extras: [['Add documents', 'Blood tests, X rays, MRI or physio notes. Jayraj reads them before you meet.', 'Add documents', '05 Client - Dashboard.dc.html'], ['Connect a health app', 'Apple Health, Garmin, Oura and others. Read only.', 'Connect', '05 Client - Dashboard.dc.html']].map(([t, d, cta, href]) => ({ t, d, cta, href })),
+      reminders: [['Intake unfinished · 24 hours', 'WhatsApp', 'Hi Aarav, your intake is 3 of 10 done. It saves as you go, so pick up where you left off any time: aditus.in/i/aarav', '', '10:00 AM'], ['Intake unfinished · 72 hours', 'Email', 'Your intake takes about XX minutes and helps Jayraj prepare for your assessment. Your answers so far are saved.', 'Your intake is waiting', '10:00 AM'], ['24 hours before', 'WhatsApp', 'Hi Aarav, your Movement Assessment is tomorrow at 5:30 PM at TIC Kandivali. Please arrive 10 minutes early and wear clothes you can move in. Reply here if you need to change anything.', '', '5:30 PM'], ['24 hours before', 'Email', 'Wed 2 Sep, 5:30 PM, TIC Kandivali with Jayraj. Shorts, a fitted T shirt, water. Directions inside.', 'Tomorrow: your Movement Assessment', '5:30 PM'], ['2 hours before', 'WhatsApp', 'See you at 5:30 PM, Aarav. TIC Kandivali, ground floor. Ask for Jayraj at the front desk.', '', '3:30 PM'], ['2 hours before · online', 'WhatsApp', 'Your Breath Session starts at 7:00 AM. Join here: meet.aditus.in/aarav. Have a mat and a chair ready.', '', '5:00 AM']].map(([when, ch, text, subject, time]) => ({ when, ch, text, subject, time, isEmail: ch === 'Email', align: ch === 'Email' ? 'stretch' : 'flex-start', bd: ch === 'Email' ? '2px solid var(--ink)' : '1px solid var(--grey-300)', bg: ch === 'Email' ? '#fff' : 'var(--mist)' }))
+    };
+  }
+}
+</script>
+</body>
+</html>

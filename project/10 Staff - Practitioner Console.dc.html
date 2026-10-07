@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/colors.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/typography.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/effects.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/base.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/styles.css">
+<script src="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/_ds_bundle.js"></script>
+<style>body{margin:0;background:#fff}a{color:var(--ink)}a:hover{color:var(--blue)}button,input,textarea{font:inherit;color:inherit}*{box-sizing:border-box}</style>
+</helmet>
+<div style="min-height:100vh;font-family:var(--font-mono);color:var(--ink);display:flex;flex-direction:column">
+  <header style="position:sticky;top:0;z-index:6;background:rgba(255,255,255,.97);border-bottom:2px solid var(--ink);display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;padding:10px clamp(14px,2.5vw,28px)">
+    <div style="display:flex;align-items:center;gap:8px"><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.AditusMark" size="{{ 26 }}" hint-size="26px,26px"></x-import><span style="font-family:var(--font-display);font-size:17px">ADITUS</span><span style="font-size:9px;text-transform:uppercase;padding:3px 6px;background:var(--ink);color:#fff">Staff</span></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;border:2px solid var(--ink)"><sc-for list="{{ roles }}" as="r" hint-placeholder-count="2"><button onClick="{{ r.pick }}" style="height:36px;padding:0 12px;border:0;box-shadow:inset -1px 0 0 var(--ink);cursor:pointer;font-family:var(--font-display);font-size:11px;text-transform:uppercase;white-space:nowrap;background:{{ r.bg }};color:{{ r.fg }}">{{ r.label }}</button></sc-for></div>
+    <nav style="display:flex;gap:2px;overflow-x:auto"><sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4"><button onClick="{{ t.pick }}" style="flex:none;height:36px;padding:0 12px;border:0;cursor:pointer;font-size:11px;text-transform:uppercase;background:{{ t.bg }};box-shadow:{{ t.bar }}">{{ t.label }}</button></sc-for></nav>
+    <span style="margin-left:auto;display:flex;align-items:center;gap:8px;font-size:10px;text-transform:uppercase"><i style="width:8px;height:8px;border-radius:50%;background:{{ net.dot }};display:block"></i>{{ net.label }}</span>
+  </header>
+
+  <main style="padding:clamp(14px,2.5vw,28px);display:flex;flex-direction:column;gap:18px;width:100%;max-width:1400px;margin:0 auto">
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:10px">
+      <div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--grey-600)">{{ ctx }}</span><h1 style="margin:0;font-family:var(--font-display);font-weight:400;font-size:clamp(24px,3.4vw,40px);line-height:.9;text-transform:uppercase">{{ title }}</h1></div>
+      <span style="display:flex;align-items:center;gap:6px;font-size:10px;color:var(--grey-700)"><span style="position:relative;width:10px;height:12px;flex:none"><span style="position:absolute;left:2px;top:0;width:6px;height:6px;border:1.5px solid currentColor;border-bottom:0;border-radius:3px 3px 0 0"></span><span style="position:absolute;left:0;bottom:0;width:10px;height:7px;background:currentColor"></span></span>Client, practitioner and head coach only · safety flags staff only</span>
+    </div>
+
+    <sc-if value="{{ is.brief }}" hint-placeholder-val="{{ true }}">
+      <div style="display:grid;grid-template-columns:{{ L.briefCols }};gap:16px;align-items:start">
+        <div style="display:flex;flex-direction:column;gap:14px;min-width:0">
+          <div style="box-shadow:inset 0 0 0 2px var(--blue);padding:14px 16px;display:flex;flex-direction:column;gap:4px"><span style="font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--blue)">Discuss before testing</span><span style="font:600 15px/1.4 var(--font-sans)">Previous right knee injury, meniscus tear, Mar 2023. Physio for 8 weeks. Pain on deep squat now.</span></div>
+          <div style="border:2px solid var(--ink);padding:16px;display:flex;flex-direction:column;gap:8px"><span style="font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--grey-600)">Goals, in his words</span><span style="font:400 18px/1.4 var(--font-sans)">“Play a full 5 a side game again without my knee talking to me.”</span><div style="display:flex;flex-wrap:wrap;gap:6px"><sc-for list="{{ brief.goals }}" as="g" hint-placeholder-count="2"><span style="font-size:10px;text-transform:uppercase;padding:4px 8px;box-shadow:inset 0 0 0 1.5px var(--ink)">{{ g }}</span></sc-for></div></div>
+          <div style="border:2px solid var(--ink);display:grid;grid-template-columns:{{ L.bodyCols }}">
+            <div style="background:var(--grey-50);padding:12px;display:flex;justify-content:center"><div style="position:relative;width:100%;max-width:150px;aspect-ratio:400/720">{{ brief.body }}</div></div>
+            <div style="display:flex;flex-direction:column"><div style="padding:12px 14px;border-bottom:1px solid var(--grey-200);font-size:10px;text-transform:uppercase;letter-spacing:.06em">Concerns marked</div><sc-for list="{{ brief.concerns }}" as="c" hint-placeholder-count="2"><div style="padding:12px 14px;border-bottom:1px solid var(--grey-200);display:flex;flex-direction:column;gap:3px"><b style="font:600 15px var(--font-sans)">{{ c.n }} · {{ c.v }}/10</b><span style="font-size:11px;color:var(--grey-700)">{{ c.w }}</span></div></sc-for></div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));border:2px solid var(--ink)"><sc-for list="{{ brief.facts }}" as="f" hint-placeholder-count="6"><div style="padding:12px 14px;display:flex;flex-direction:column;gap:3px;box-shadow:inset -1px -1px 0 var(--grey-200)"><span style="font-size:10px;text-transform:uppercase;color:var(--grey-600)">{{ f.k }}</span><span style="font:600 14px/1.35 var(--font-sans)">{{ f.v }}</span></div></sc-for></div>
+        </div>
+        <div style="position:sticky;top:72px;display:flex;flex-direction:column;gap:12px;min-width:0">
+          <div style="border:2px solid var(--ink);display:flex;flex-direction:column">
+            <div style="padding:12px 16px;border-bottom:2px solid var(--ink);display:flex;justify-content:space-between;gap:8px"><b style="font-size:11px;text-transform:uppercase;letter-spacing:.06em">Suggested tests</b><span style="font-size:10px;text-transform:uppercase;color:var(--grey-600)">{{ brief.count }}</span></div>
+            <sc-for list="{{ brief.tests }}" as="t" hint-placeholder-count="10"><button onClick="{{ t.toggle }}" style="text-align:left;border:0;border-bottom:1px solid var(--grey-200);background:#fff;cursor:pointer;min-height:44px;padding:8px 16px;display:grid;grid-template-columns:24px minmax(0,1fr) auto;gap:10px;align-items:center" style-hover="background:var(--mist)"><span style="width:20px;height:20px;border:2px solid var(--ink);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;background:{{ t.box }}">{{ t.mark }}</span><span style="font:500 14px var(--font-sans)">{{ t.name }} <span style="font:400 10px var(--font-mono);color:var(--grey-600);text-transform:uppercase">· {{ t.sys }}</span></span><span style="font-size:9px;text-transform:uppercase;color:var(--grey-600)">{{ t.why }}</span></button></sc-for>
+          </div>
+          <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="blue" size="lg" full="{{ true }}" onClick="{{ startConsole }}" hint-size="100%,58px">START ASSESSMENT →</x-import>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ is.console }}" hint-placeholder-val="{{ false }}">
+      <div style="display:grid;grid-template-columns:{{ L.consoleCols }};gap:16px;align-items:start">
+        <aside style="position:sticky;top:72px;z-index:2;background:#fff;display:flex;flex-direction:{{ L.tlDir }};gap:6px;min-width:0;overflow-x:auto">
+          <sc-for list="{{ timeline }}" as="p" hint-placeholder-count="8"><button onClick="{{ p.pick }}" style="flex:none;text-align:left;border:0;cursor:pointer;min-height:48px;padding:8px 12px;display:flex;flex-direction:column;gap:3px;background:{{ p.bg }};color:{{ p.fg }};box-shadow:{{ p.bd }}"><span style="font-family:var(--font-display);font-size:12px;text-transform:uppercase;white-space:nowrap">{{ p.mark }} {{ p.name }}</span><span style="font-size:10px;opacity:.8;white-space:nowrap">{{ p.sub }}</span></button></sc-for>
+          <sc-if value="{{ L.tlCol }}" hint-placeholder-val="{{ true }}"><div style="margin-top:8px;box-shadow:inset 0 0 0 2px var(--blue);padding:10px 12px;display:flex;flex-direction:column;gap:3px"><span style="font-size:9px;text-transform:uppercase;color:var(--blue)">Discuss before testing</span><span style="font:600 13px/1.35 var(--font-sans)">Right knee injury, 2023</span></div><button onClick="{{ goBrief }}" style="border:1.5px solid var(--ink);background:#fff;cursor:pointer;height:40px;font-size:10px;text-transform:uppercase">Client brief</button></sc-if>
+        </aside>
+
+        <section style="border:2px solid var(--ink);display:flex;flex-direction:column;min-width:0">
+          <div style="padding:14px 18px;border-bottom:1px solid var(--grey-200);display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;align-items:center"><span style="font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--grey-600)">{{ T.sys }} · test {{ T.pos }}</span><span style="display:flex;gap:6px"><span style="font-size:9px;text-transform:uppercase;padding:3px 6px;background:{{ T.tagBg }};color:{{ T.tagFg }};box-shadow:inset 0 0 0 1.5px var(--ink)">{{ T.tag }}</span><span style="font-size:9px;text-transform:uppercase;padding:3px 6px;box-shadow:inset 0 0 0 1px var(--grey-400)">{{ T.dir }}</span></span></div>
+          <div style="display:grid;grid-template-columns:{{ L.testCols }};border-bottom:1px solid var(--grey-200)">
+            <div style="padding:16px 18px;display:flex;flex-direction:column;gap:8px"><span style="font-family:var(--font-display);font-size:clamp(22px,2.4vw,30px);line-height:.92;text-transform:uppercase">{{ T.name }}</span><span style="font:400 15px/1.5 var(--font-sans);color:var(--grey-700)">{{ T.how }}</span></div>
+            <div style="min-height:150px;position:relative"><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.ImageSlot" caption="{{ T.clip }}" hint-size="100%,100%"></x-import></div>
+          </div>
+          <div style="padding:18px;display:flex;flex-direction:column;gap:16px">
+            <sc-if value="{{ T.isLR }}" hint-placeholder-val="{{ true }}">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><sc-for list="{{ T.lr }}" as="f" hint-placeholder-count="2"><div style="border:2px solid var(--ink);display:flex;flex-direction:column"><span style="padding:8px 12px;font-size:10px;text-transform:uppercase;border-bottom:1px solid var(--grey-200)">{{ f.side }}</span><div style="display:grid;grid-template-columns:56px 1fr 56px;align-items:center"><button onClick="{{ f.dec }}" style="height:64px;border:0;background:var(--grey-50);cursor:pointer;font-size:22px">−</button><span style="text-align:center;font-family:var(--font-display);font-size:34px">{{ f.v }}<span style="font:400 13px var(--font-mono)">{{ T.unit }}</span></span><button onClick="{{ f.inc }}" style="height:64px;border:0;background:var(--grey-50);cursor:pointer;font-size:22px">+</button></div></div></sc-for></div>
+              <span style="font-size:11px;text-transform:uppercase">{{ T.diff }}</span>
+            </sc-if>
+            <sc-if value="{{ T.isNum }}" hint-placeholder-val="{{ false }}"><div style="border:2px solid var(--ink);display:grid;grid-template-columns:64px 1fr 64px;align-items:center;max-width:360px"><button onClick="{{ T.dec }}" style="height:72px;border:0;background:var(--grey-50);cursor:pointer;font-size:24px">−</button><span style="text-align:center;font-family:var(--font-display);font-size:40px">{{ T.v }}<span style="font:400 14px var(--font-mono)">{{ T.unit }}</span></span><button onClick="{{ T.inc }}" style="height:72px;border:0;background:var(--grey-50);cursor:pointer;font-size:24px">+</button></div></sc-if>
+            <sc-if value="{{ T.isTimer }}" hint-placeholder-val="{{ false }}"><div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center"><span style="font-family:var(--font-display);font-size:56px;line-height:.9;min-width:150px">{{ T.clock }}<span style="font:400 14px var(--font-mono)"> s</span></span><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="{{ T.timerVariant }}" size="lg" onClick="{{ T.timer }}" hint-size="160px,58px">{{ T.timerLabel }}</x-import><sc-if value="{{ T.hasSides }}" hint-placeholder-val="{{ false }}"><div style="display:grid;grid-template-columns:1fr 1fr;border:2px solid var(--ink)"><sc-for list="{{ T.sideSel }}" as="o" hint-placeholder-count="2"><button onClick="{{ o.pick }}" style="height:54px;padding:0 14px;border:0;box-shadow:inset -1px 0 0 var(--ink);cursor:pointer;font-size:11px;text-transform:uppercase;background:{{ o.bg }};color:{{ o.fg }}">{{ o.label }}</button></sc-for></div></sc-if></div><span style="font-size:11px;color:var(--grey-700)">{{ T.timerNote }}</span></sc-if>
+            <sc-if value="{{ T.isScore }}" hint-placeholder-val="{{ false }}"><div style="display:flex;flex-direction:column;border:2px solid var(--ink)"><sc-for list="{{ T.scores }}" as="o" hint-placeholder-count="4"><button onClick="{{ o.pick }}" style="text-align:left;border:0;border-bottom:1px solid var(--grey-200);cursor:pointer;min-height:52px;padding:10px 14px;display:grid;grid-template-columns:40px 1fr;gap:12px;align-items:center;background:{{ o.bg }};color:{{ o.fg }}"><span style="font-family:var(--font-display);font-size:22px">{{ o.n }}</span><span style="font:400 14px/1.4 var(--font-sans)">{{ o.c }}</span></button></sc-for></div></sc-if>
+            <sc-if value="{{ T.isChoice }}" hint-placeholder-val="{{ false }}"><div style="display:flex;flex-wrap:wrap;gap:8px"><sc-for list="{{ T.choices }}" as="o" hint-placeholder-count="3"><button onClick="{{ o.pick }}" style="min-height:52px;padding:0 18px;border:2px solid var(--ink);cursor:pointer;font:600 15px var(--font-sans);background:{{ o.bg }};color:{{ o.fg }}">{{ o.label }}</button></sc-for></div></sc-if>
+            <div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:10px;text-transform:uppercase;letter-spacing:.06em">Observations</span><div style="display:flex;flex-wrap:wrap;gap:6px"><sc-for list="{{ T.obs }}" as="o" hint-placeholder-count="4"><button onClick="{{ o.pick }}" style="min-height:40px;padding:0 12px;border:1.5px solid var(--ink);cursor:pointer;font:500 13px var(--font-sans);background:{{ o.bg }};color:{{ o.fg }}">{{ o.label }}</button></sc-for></div></div>
+            <div style="display:grid;grid-template-columns:minmax(0,1fr) auto;border:2px solid var(--ink)"><input placeholder="Note, optional" style="height:52px;border:0;padding:0 14px;font:400 15px var(--font-sans);min-width:0"><button style="height:52px;padding:0 16px;border:0;box-shadow:inset 2px 0 0 var(--ink);background:#fff;cursor:pointer;font-size:10px;text-transform:uppercase">Dictate</button></div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+              <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="outline" size="md" disabled="{{ consentOff }}" hint-size="130px,50px">PHOTO</x-import>
+              <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="outline" size="md" disabled="{{ consentOff }}" hint-size="130px,50px">VIDEO</x-import>
+              <sc-if value="{{ consentOff }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;color:var(--grey-700)">Off. Aarav did not consent to photos and videos.</span></sc-if>
+              <button onClick="{{ T.flag }}" style="margin-left:auto;min-height:50px;padding:0 14px;border:0;cursor:pointer;display:flex;align-items:center;gap:10px;font-size:11px;text-transform:uppercase;background:{{ T.flagBg }};box-shadow:inset 0 0 0 2px var(--blue)">Flag as priority <span style="width:40px;height:22px;border:2px solid var(--ink);position:relative;background:{{ T.flagTg }}"><span style="position:absolute;top:2px;left:{{ T.flagX }};width:14px;height:14px;background:{{ T.flagKnob }}"></span></span></button>
+            </div>
+          </div>
+          <div style="position:sticky;bottom:0;z-index:2;padding:14px 18px;border-top:2px solid var(--ink);display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center;background:var(--grey-50)">
+            <span style="font-size:10px;text-transform:uppercase;color:var(--grey-700)">{{ savedLine }}</span>
+            <div style="display:flex;flex-wrap:wrap;gap:8px">
+              <sc-for list="{{ T.skips }}" as="sk" hint-placeholder-count="2"><button onClick="{{ sk.pick }}" style="height:44px;padding:0 12px;border:1.5px solid var(--grey-400);background:#fff;cursor:pointer;font-size:10px;text-transform:uppercase">Skip · {{ sk.label }}</button></sc-for>
+              <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="ink" size="md" onClick="{{ T.next }}" hint-size="160px,50px">{{ T.nextLabel }}</x-import>
+            </div>
+          </div>
+        </section>
+
+        <aside style="position:sticky;top:72px;max-height:calc(100vh - 88px);overflow:auto;background:#fff;border:2px solid var(--ink);display:flex;flex-direction:column;min-width:0">
+          <div style="padding:12px 16px;border-bottom:2px solid var(--ink);display:flex;justify-content:space-between;gap:8px"><b style="font-size:11px;text-transform:uppercase;letter-spacing:.06em">Captured</b><span style="font-size:10px;text-transform:uppercase">{{ capCount }}</span></div>
+          <sc-for list="{{ summary }}" as="g" hint-placeholder-count="4">
+            <div style="padding:10px 16px;border-bottom:1px solid var(--grey-200);display:flex;flex-direction:column;gap:6px"><span style="font-size:10px;text-transform:uppercase;color:var(--blue)">{{ g.sys }}</span><sc-for list="{{ g.rows }}" as="r" hint-placeholder-count="3"><button onClick="{{ r.go }}" style="border:0;background:none;padding:0;cursor:pointer;display:flex;justify-content:space-between;gap:8px;font-size:11px;text-align:left;color:{{ r.fg }}"><span>{{ r.flag }}{{ r.name }}</span><b style="white-space:nowrap">{{ r.v }}</b></button></sc-for></div>
+          </sc-for>
+          <div style="padding:12px 16px;display:flex;flex-direction:column;gap:6px"><span style="font-size:10px;text-transform:uppercase;letter-spacing:.06em">Flagged as priority</span><sc-for list="{{ flagged }}" as="f" hint-placeholder-count="2"><span style="font:600 13px var(--font-sans);padding:6px 8px;box-shadow:inset 0 0 0 1.5px var(--blue)">{{ f }}</span></sc-for></div>
+        </aside>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ is.photos }}" hint-placeholder-val="{{ false }}">
+      <sc-if value="{{ consentOff }}" hint-placeholder-val="{{ false }}"><div style="box-shadow:inset 0 0 0 2px var(--blue);padding:16px;font:600 15px/1.4 var(--font-sans)">Photo and video capture is off. Aarav did not consent. Use written observations for Front, Side and Back View.</div></sc-if>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:12px">
+        <sc-for list="{{ photos }}" as="p" hint-placeholder-count="5">
+          <div style="border:2px solid var(--ink);display:flex;flex-direction:column;opacity:{{ p.op }}">
+            <div style="position:relative;aspect-ratio:3/4"><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.ImageSlot" caption="{{ p.cap }}" hint-size="100%,100%"></x-import><div style="position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(0,109,224,.25) 1px,transparent 1px),linear-gradient(90deg,rgba(0,109,224,.25) 1px,transparent 1px);background-size:25% 12.5%"></div><div style="position:absolute;top:0;bottom:0;left:50%;width:2px;background:var(--blue);pointer-events:none"></div></div>
+            <div style="padding:10px 12px;display:flex;justify-content:space-between;align-items:center;gap:8px"><span style="display:flex;flex-direction:column;gap:2px"><b style="font-size:11px;text-transform:uppercase">{{ p.label }}</b><span style="font-size:9px;color:var(--grey-600)">{{ p.meta }}</span></span><button onClick="{{ p.retake }}" disabled="{{ consentOff }}" style="height:36px;padding:0 10px;border:1.5px solid var(--ink);background:#fff;cursor:pointer;font-size:10px;text-transform:uppercase">{{ p.act }}</button></div>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ is.wrap }}" hint-placeholder-val="{{ false }}">
+      <sc-if value="{{ returned }}" hint-placeholder-val="{{ false }}"><div style="box-shadow:inset 0 0 0 2px var(--blue);padding:16px;display:flex;flex-direction:column;gap:6px"><span style="font-size:10px;text-transform:uppercase;color:var(--blue)">Returned by the head coach · today 7:12 PM</span><span style="font:600 15px/1.45 var(--font-sans)">“Priority 3 needs a plain reason why it matters for him. And add the ankle to Side View, it explains the knee.”</span></div></sc-if>
+      <div style="display:grid;grid-template-columns:{{ L.briefCols }};gap:16px;align-items:start">
+        <div style="display:flex;flex-direction:column;gap:14px;min-width:0">
+          <span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em">Priorities · pick 3 to 5 · {{ prioCount }}</span>
+          <sc-for list="{{ prios }}" as="p" hint-placeholder-count="4">
+            <div style="border:2px solid var(--ink);display:flex;flex-direction:column">
+              <button onClick="{{ p.toggle }}" style="text-align:left;border:0;cursor:pointer;padding:12px 16px;display:grid;grid-template-columns:24px minmax(0,1fr) auto;gap:10px;align-items:center;background:{{ p.bg }}"><span style="width:20px;height:20px;border:2px solid var(--ink);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;background:{{ p.box }}">{{ p.mark }}</span><b style="font:600 16px var(--font-sans)">{{ p.name }}</b><span style="font-size:10px;text-transform:uppercase">{{ p.v }}</span></button>
+              <sc-if value="{{ p.on }}" hint-placeholder-val="{{ false }}">
+                <sc-for list="{{ p.fields }}" as="f" hint-placeholder-count="3"><label style="padding:10px 16px;border-top:1px solid var(--grey-200);display:flex;flex-direction:column;gap:6px"><span style="font-size:10px;text-transform:uppercase;color:var(--grey-600)">{{ f.k }}</span><textarea placeholder="{{ f.ph }}" style="min-height:56px;border:1.5px solid var(--grey-300);padding:8px 10px;font:400 14px/1.4 var(--font-sans);border-radius:0;resize:vertical">{{ f.v }}</textarea></label></sc-for>
+                <div style="padding:10px 16px;border-top:1px solid var(--grey-200);display:flex;flex-wrap:wrap;gap:6px;align-items:center"><span style="font-size:10px;text-transform:uppercase;color:var(--grey-600)">Related</span><sc-for list="{{ p.lib }}" as="l" hint-placeholder-count="2"><span style="font-size:10px;text-transform:uppercase;padding:4px 8px;box-shadow:inset 0 0 0 1.5px var(--ink)">{{ l }}</span></sc-for><span style="font-size:10px;text-transform:uppercase;color:var(--blue)">+ Add</span></div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+        <div style="position:sticky;top:72px;display:flex;flex-direction:column;gap:12px;min-width:0">
+          <div style="border:2px solid var(--ink);display:flex;flex-direction:column">
+            <div style="padding:12px 16px;border-bottom:2px solid var(--ink);font-size:11px;text-transform:uppercase;letter-spacing:.06em">Assessment sections</div>
+            <sc-for list="{{ sections }}" as="sc" hint-placeholder-count="7"><label style="padding:10px 16px;border-bottom:1px solid var(--grey-200);display:flex;flex-direction:column;gap:6px"><span style="display:flex;justify-content:space-between;font-size:10px;text-transform:uppercase"><b>{{ sc.k }}</b><span style="color:var(--grey-600)">{{ sc.st }}</span></span><textarea placeholder="{{ sc.ph }}" style="min-height:48px;border:1.5px solid var(--grey-300);padding:8px 10px;font:400 14px/1.4 var(--font-sans);border-radius:0;resize:vertical">{{ sc.v }}</textarea></label></sc-for>
+          </div>
+          <label style="border:2px solid var(--ink);padding:14px 16px;display:flex;flex-direction:column;gap:8px"><span style="font-size:10px;text-transform:uppercase;letter-spacing:.06em">Your note to Aarav, in your own voice</span><textarea style="min-height:70px;border:1.5px solid var(--grey-300);padding:8px 10px;font:400 14px/1.4 var(--font-sans);border-radius:0">Your body is not broken. One hip is doing less than the other, and everything else is working around it. That is very trainable.</textarea></label>
+          <div style="border:2px solid var(--ink);padding:14px 16px;display:flex;flex-direction:column;gap:10px"><span style="font-size:10px;text-transform:uppercase;letter-spacing:.06em">Recommended path</span><div style="display:grid;grid-template-columns:repeat(3,1fr);border:2px solid var(--ink)"><sc-for list="{{ paths }}" as="o" hint-placeholder-count="3"><button onClick="{{ o.pick }}" style="min-height:48px;padding:0 6px;border:0;box-shadow:inset -1px 0 0 var(--ink);cursor:pointer;font-size:10px;text-transform:uppercase;background:{{ o.bg }};color:{{ o.fg }}">{{ o.label }}</button></sc-for></div><input value="The right side needs one to one loading before group work." style="height:44px;border:1.5px solid var(--grey-300);padding:0 10px;font:400 14px var(--font-sans);border-radius:0"></div>
+          <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="{{ submitVariant }}" size="lg" full="{{ true }}" disabled="{{ submitLocked }}" onClick="{{ submit }}" hint-size="100%,58px">{{ submitLabel }}</x-import>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ is.queue }}" hint-placeholder-val="{{ false }}">
+      <div style="border:2px solid var(--ink);display:flex;flex-direction:column">
+        <sc-for list="{{ queue }}" as="q" hint-placeholder-count="4"><button onClick="{{ q.open }}" style="text-align:left;border:0;border-bottom:1px solid var(--grey-200);background:#fff;cursor:pointer;padding:14px 18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr));gap:6px 16px;align-items:center" style-hover="background:var(--mist)"><span style="display:flex;flex-direction:column;gap:2px"><b style="font:600 15px var(--font-sans)">{{ q.client }}</b><span style="font-size:10px;text-transform:uppercase;color:var(--grey-600)">{{ q.what }}</span></span><span style="font-size:12px">{{ q.coach }} · {{ q.when }}</span><span style="font-size:10px;text-transform:uppercase;justify-self:start;padding:3px 7px;background:{{ q.bg }};color:{{ q.fg }};box-shadow:inset 0 0 0 1.5px var(--ink)">{{ q.st }}</span></button></sc-for>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ is.review }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+        <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="{{ rv.approveVariant }}" size="md" disabled="{{ rv.locked }}" onClick="{{ rv.approve }}" hint-size="210px,50px">{{ rv.approveLabel }}</x-import>
+        <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="outline" size="md" disabled="{{ rv.locked }}" onClick="{{ rv.toReturn }}" hint-size="220px,50px">RETURN WITH COMMENT</x-import>
+        <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="outline" size="md" hint-size="100px,50px">EDIT</x-import>
+        <span style="font-size:11px;color:var(--grey-700)">{{ rv.line }}</span>
+      </div>
+      <sc-if value="{{ rv.returning }}" hint-placeholder-val="{{ false }}"><div style="border:2px solid var(--ink);padding:14px 16px;display:flex;flex-direction:column;gap:8px"><span style="font-size:10px;text-transform:uppercase">Comment for Jayraj</span><textarea style="min-height:70px;border:1.5px solid var(--grey-300);padding:8px 10px;font:400 14px/1.4 var(--font-sans);border-radius:0">Priority 3 needs a plain reason why it matters for him. And add the ankle to Side View, it explains the knee.</textarea><div><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="ink" size="sm" onClick="{{ rv.sendReturn }}" hint-size="160px,40px">SEND TO JAYRAJ</x-import></div></div></sc-if>
+      <div style="display:grid;grid-template-columns:{{ L.reviewCols }};gap:16px;align-items:start">
+        <div style="display:flex;flex-direction:column;gap:14px;min-width:0">
+          <div style="box-shadow:inset 0 0 0 2px var(--blue);padding:12px 16px;display:flex;flex-direction:column;gap:3px"><span style="font-size:10px;text-transform:uppercase;color:var(--blue)">Safety flag · discussed before testing</span><span style="font:600 14px var(--font-sans)">Right knee injury 2023. Jayraj note: pain 6/10 on deep squat, no pain on balance or rotation tests.</span></div>
+          <div style="border:2px solid var(--ink)"><sc-for list="{{ summary }}" as="g" hint-placeholder-count="4"><div style="padding:10px 16px;border-bottom:1px solid var(--grey-200);display:flex;flex-direction:column;gap:6px"><span style="font-size:10px;text-transform:uppercase;color:var(--blue)">{{ g.sys }}</span><sc-for list="{{ g.rows }}" as="r" hint-placeholder-count="3"><span style="display:flex;justify-content:space-between;gap:8px;font-size:12px;color:{{ r.fg }}"><span>{{ r.flag }}{{ r.name }}</span><b>{{ r.v }}</b></span></sc-for></div></sc-for></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,120px),1fr));gap:8px"><sc-for list="{{ photos }}" as="p" hint-placeholder-count="5"><div style="aspect-ratio:3/4;position:relative"><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.ImageSlot" caption="{{ p.label }}" hint-size="100%,100%"></x-import></div></sc-for></div>
+        </div>
+        <div style="border:2px solid var(--ink);display:flex;flex-direction:column;min-width:0">
+          <div style="padding:12px 16px;border-bottom:2px solid var(--ink);display:flex;justify-content:space-between;gap:8px"><b style="font-size:11px;text-transform:uppercase;letter-spacing:.06em">Report preview</b><span style="font-size:10px;text-transform:uppercase;color:var(--grey-600)">As Aarav will see it</span></div>
+          <div style="padding:16px;display:flex;flex-direction:column;gap:6px;border-bottom:1px solid var(--grey-200)"><span style="font-size:10px;text-transform:uppercase;color:var(--blue)">Your starting point</span><span style="font:400 16px/1.45 var(--font-sans)">You move well forwards and lose control when you turn or stand on your right leg. Everything starts with the right hip.</span></div>
+          <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1.3fr)">
+            <div style="background:var(--grey-50);padding:12px;display:flex;justify-content:center"><div style="position:relative;width:100%;max-width:130px;aspect-ratio:400/720">{{ preview.front }}</div></div>
+            <div style="background:var(--grey-50);padding:12px;display:flex;justify-content:center;box-shadow:inset 1px 0 0 var(--grey-200)"><div style="position:relative;width:100%;max-width:130px;aspect-ratio:400/720">{{ preview.back }}</div></div>
+            <div style="display:flex;flex-direction:column"><sc-for list="{{ preview.marks }}" as="m" hint-placeholder-count="4"><div style="padding:10px 12px;border-bottom:1px solid var(--grey-200);display:grid;grid-template-columns:26px 1fr;gap:2px 8px"><span style="grid-row:span 2;width:22px;height:22px;border:2px solid var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700">{{ m.n }}</span><b style="font:600 13px var(--font-sans)">{{ m.name }}</b><span style="font-size:11px;color:var(--grey-700)">{{ m.v }}</span></div></sc-for></div>
+          </div>
+          <div style="padding:16px;display:flex;flex-direction:column;gap:6px"><span style="font-size:10px;text-transform:uppercase;color:var(--blue)">Recommended path</span><span style="font-family:var(--font-display);font-size:20px;text-transform:uppercase">Personal Training.</span></div>
+        </div>
+      </div>
+    </sc-if>
+  </main>
+  <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}"><div style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:14px 18px;box-shadow:6px 6px 0 #006DE0;font:600 14px var(--font-sans);z-index:10;max-width:calc(100vw - 32px)">✓ {{ toastMsg }}</div></sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;online&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Session&quot;},&quot;offline&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Session&quot;},&quot;photoConsentOff&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Session&quot;},&quot;returned&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Review&quot;}}">
+class Component extends DCLogic {
+  state = { role: 'prac', tab: null, cur: 0, vals: { hipIR: { L: 36, R: 22 }, tspine: { L: 45, R: 34 }, balance: { L: 31, R: 14 }, hold: 16, rhr: 68, knee: 6, sleep: 6, stress: 7, selfrec: 5 }, flags: { hipIR: true, balance: true }, obs: {}, skipped: {}, run: false, t0: 0, tick: 0, side: 'R', picked: { hipIR: true, balance: true, knee: true, ribs: false }, off: {}, path: 'pt', submitted: false, rev: null, returning: false, photosTaken: { front: true, side: true }, w: 1280, toast: null };
+  componentDidMount() { this._r = () => this.setState({ w: window.innerWidth }); window.addEventListener('resize', this._r); this._r(); }
+  componentWillUnmount() { window.removeEventListener('resize', this._r); clearInterval(this._iv); }
+  flash(t) { this.setState({ toast: t }); clearTimeout(this._t); this._t = setTimeout(() => this.setState({ toast: null }), 3000); }
+
+  BANK = [
+    ['hipIR', 'movement', 'Hip internal rotation', 'Seated, knees at 90°. Inclinometer on the shin. Rotate the foot out until the pelvis lifts. Read the angle.', '°', 'lr', 'higher', 'Measured', 'both'],
+    ['hipER', 'movement', 'Hip external rotation', 'Seated, knees at 90°. Rotate the foot in until the pelvis lifts. Read the angle.', '°', 'lr', 'higher', 'Measured', 'both'],
+    ['ankle', 'movement', 'Ankle dorsiflexion', 'Knee to wall, heel down. Inclinometer on the shin at the end point.', '°', 'lr', 'higher', 'Measured', 'both'],
+    ['tspine', 'movement', 'Upper back rotation', 'Seated, hips locked with a block between the knees. Rotate, measure at the shoulders.', '°', 'lr', 'higher', 'Measured', 'both'],
+    ['overhead', 'movement', 'Overhead reach', 'Back to the wall, arms up with thumbs to the wall. Watch the ribs and lower back.', '', 'choice', 'higher', 'Observed', 'both', ['Full', 'Limited left', 'Limited right', 'Limited both']],
+    ['squat', 'movement', 'Deep squat quality', 'Bodyweight, feet hip width, arms forward. Three reps. Film front and side.', '/3', 'score', 'higher', 'Observed', 'both'],
+    ['balance', 'movement', 'Single leg balance', 'Eyes open, hands on hips. Stop when the foot touches down or moves. Best of three.', 's', 'timer', 'higher', 'Measured', 'both'],
+    ['foot', 'movement', 'Foot and arch posture', 'Standing relaxed, then on one leg. Watch the arch and the knee.', '', 'choice', 'higher', 'Observed', 'both', ['Neutral', 'Arch drops right', 'Arch drops both', 'High arch']],
+    ['knee', 'movement', 'Knee pain on deep squat', 'Ask at the bottom of the squat. Their own number, 0 to 10.', '/10', 'num', 'lower', 'Self reported', 'both'],
+    ['hold', 'breathwork', 'Breath hold after exhale', 'Seated. Normal breath in and out, hold the nose, time to the first clear urge.', 's', 'timer', 'higher', 'Measured', 'both'],
+    ['rate', 'breathwork', 'Resting breaths per minute', 'Seated, eyes closed. Count for 2 minutes, divide by 2.', '/min', 'num', 'lower', 'Measured', 'both'],
+    ['exhale', 'breathwork', 'Exhale length', 'One slow exhale through the nose after a full breath in.', 's', 'timer', 'higher', 'Measured', 'both'],
+    ['ribs', 'breathwork', 'Rib expansion, lower', 'Tape at the base of the sternum. Full exhale, full inhale, read the difference.', 'cm', 'num', 'higher', 'Measured', 'in person'],
+    ['nasal', 'breathwork', 'Nasal breathing under effort', 'Two floors of stairs at a steady pace, mouth closed.', '', 'choice', 'higher', 'Observed', 'both', ['Yes', 'Partly', 'Not yet']],
+    ['pattern', 'breathwork', 'Breathing pattern', 'Hands on chest and belly, seated then lying.', '', 'choice', 'higher', 'Observed', 'both', ['Chest led', 'Belly led', '360 expansion']],
+    ['sleep', 'recovery', 'Average sleep', 'From intake, confirm with the client.', 'h', 'num', 'higher', 'Self reported', 'both'],
+    ['selfrec', 'recovery', 'Recovery after training', 'Their rating the morning after hard exercise.', '/10', 'num', 'higher', 'Self reported', 'both'],
+    ['stress', 'recovery', 'Stress and workload', 'Their rating for a typical work week.', '/10', 'num', 'lower', 'Self reported', 'both'],
+    ['rhr', 'recovery', 'Resting heart rate', 'Seated 5 minutes, then read for 1 minute.', 'bpm', 'num', 'lower', 'Measured', 'both'],
+    ['goblet', 'performance', 'Goblet squat, 8 reps', 'To a 40 cm box. Stop before form changes or pain goes over 3.', 'kg', 'num', 'higher', 'Measured', 'in person'],
+    ['pushup', 'performance', 'Push ups until form breaks', 'Full range, hips in line. Count clean reps.', 'reps', 'num', 'higher', 'Measured', 'both'],
+    ['plank', 'performance', 'Plank hold', 'Forearms. Stop when the lower back sags.', 's', 'timer', 'higher', 'Measured', 'both'],
+    ['vjump', 'performance', 'Vertical jump', 'Countermovement, best of three.', 'cm', 'num', 'higher', 'Measured', 'in person'],
+    ['sts', 'performance', 'Single leg sit to stand', 'From a 45 cm box, no hands. Count clean reps each side.', 'reps', 'lr', 'higher', 'Measured', 'both']
+  ];
+  SYSN = { movement: 'Movement', breathwork: 'Breath', recovery: 'Recovery', performance: 'Performance' };
+
+  GN = { head: 'Head', neck: 'Neck', trap: 'Trapezius', trapback: 'Trapezius', delt: 'Shoulder', chest: 'Chest', bicep: 'Biceps', tricep: 'Triceps', forearm: 'Forearm', hand: 'Hand', abs: 'Abdominals', oblique: 'Obliques', hipflex: 'Hip flexors', quad: 'Quadriceps', knee: 'Knee', shin: 'Shin', calf: 'Calf', foot: 'Foot', scap: 'Shoulder blade', lat: 'Lats', lowback: 'Lower back', glute: 'Glutes', ham: 'Hamstrings', achilles: 'Achilles', uppback: 'Upper back' };
+  FG = { hip: ['R:hipflex', 'R:glute'], knee: ['R:knee'], foot: ['R:foot'], tspine: ['C:trapback', 'L:scap', 'R:scap', 'R:uppback', 'L:uppback'], ribs: ['L:oblique', 'R:oblique', 'L:lat', 'R:lat'], neck: ['C:neck', 'L:trap', 'R:trap'], nasal: ['C:head'], calf: ['R:calf', 'R:achilles'], lowback: ['C:lowback', 'R:lowback', 'L:lowback'], sleep: ['C:head'], balance: ['R:foot', 'R:shin', 'R:calf'], jump: ['L:glute', 'R:glute', 'L:ham', 'R:ham'], hang: ['R:hand', 'R:forearm'] };
+  POS = { hip: { front: [176, 366], back: [228, 388], right: [222, 362] }, knee: { front: [172, 543], right: [210, 543] }, foot: { front: [170, 692], back: [228, 692], right: [222, 690] }, tspine: { back: [200, 186], right: [176, 190], left: [176, 190] }, ribs: { front: [200, 236], back: [200, 258], right: [216, 268], left: [216, 268] }, neck: { front: [200, 118], right: [206, 116], left: [206, 116] }, nasal: { front: [200, 64], right: [222, 66], left: [222, 66] }, calf: { back: [226, 590], right: [190, 606] }, lowback: { back: [200, 312], right: [176, 284], left: [176, 284] }, sleep: { front: [200, 64], back: [200, 64], right: [205, 62], left: [205, 62] }, balance: { front: [170, 692], back: [228, 692], right: [222, 690] }, jump: { back: [200, 388], right: [182, 370], left: [182, 370] }, hang: { front: [91, 420], back: [309, 420], right: [206, 405] } };
+  HEAD = 'M200 24 C220 24 232 42 232 64 C232 88 218 104 200 104 C182 104 168 88 168 64 C168 42 180 24 200 24 Z';
+  M = {
+    front: [['C', 'head', this.HEAD], ['C', 'neck', 'M186 100 L214 100 L218 130 Q200 136 182 130 Z'], ['S', 'trap', 'M182 118 Q162 132 140 140 Q160 144 178 142 Q186 132 186 120 Z'], ['S', 'chest', 'M154 146 Q178 142 198 148 L198 214 Q176 222 154 214 Q138 206 134 188 Q140 162 154 146 Z'], ['S', 'delt', 'M140 142 Q114 144 106 168 Q102 192 110 212 Q124 198 132 180 Q140 160 152 148 Z'], ['S', 'bicep', 'M110 216 Q122 204 132 194 Q138 222 134 252 Q128 274 116 282 Q104 272 102 248 Q102 228 110 216 Z'], ['S', 'forearm', 'M102 288 Q114 282 126 288 Q124 322 114 360 Q106 380 98 392 Q86 386 86 372 Q88 330 102 288 Z'], ['S', 'hand', 'M84 398 Q98 392 102 400 Q104 420 98 440 Q88 446 80 438 Q76 418 84 398 Z'], ['M', 'abs', 'M178 222 L197 220 L197 252 L178 254 Z'], ['M', 'abs', 'M178 258 L197 256 L197 288 L178 290 Z'], ['M', 'abs', 'M178 294 L197 292 L197 324 L178 326 Z'], ['M', 'abs', 'M178 330 L197 328 L197 372 Q186 366 180 352 Z'], ['S', 'oblique', 'M154 218 Q164 224 174 226 L174 330 Q164 340 156 350 Q150 320 148 290 Q146 250 154 218 Z'], ['S', 'hipflex', 'M158 354 Q168 342 176 334 Q182 358 197 378 L197 400 Q178 394 162 378 Z'], ['S', 'quad', 'M154 380 Q164 388 172 400 Q170 452 168 500 Q162 520 154 524 Q144 480 144 432 Q146 400 154 380 Z'], ['S', 'quad', 'M176 402 Q186 408 195 410 Q196 462 188 506 Q180 520 172 512 Q174 452 176 402 Z'], ['S', 'quad', 'M191 474 Q199 494 195 520 Q186 532 176 526 Q182 502 191 474 Z'], ['S', 'knee', 'M158 532 Q172 524 186 532 Q188 546 184 554 Q172 560 160 554 Q154 544 158 532 Z'], ['S', 'shin', 'M156 562 Q164 558 172 562 Q170 612 166 662 Q162 670 158 668 Q150 620 156 562 Z'], ['S', 'calf', 'M176 562 Q190 570 192 604 Q190 642 178 664 Q172 666 170 660 Q176 612 176 562 Z'], ['S', 'foot', 'M156 676 Q170 670 182 676 Q190 694 188 708 Q170 714 150 708 Q148 692 156 676 Z']],
+    back: [['C', 'head', this.HEAD], ['C', 'neck', 'M186 100 L214 100 L216 124 L184 124 Z'], ['C', 'trapback', 'M186 112 L214 112 Q232 128 262 140 Q238 150 224 176 L210 248 L200 260 L190 248 L176 176 Q162 150 138 140 Q168 128 186 112 Z'], ['S', 'delt', 'M140 142 Q114 144 106 168 Q102 192 110 212 Q124 198 132 180 Q140 160 152 148 Z'], ['S', 'scap', 'M150 152 Q166 160 174 182 L170 222 Q154 222 140 210 Q134 186 150 152 Z'], ['S', 'lat', 'M140 214 Q158 226 172 228 L194 264 Q188 300 180 326 Q164 320 154 310 Q144 270 140 214 Z'], ['M', 'lowback', 'M184 270 L197 266 L197 350 L180 350 Q181 310 184 270 Z'], ['S', 'oblique', 'M150 306 Q166 326 178 334 L178 352 Q162 352 152 348 Q146 328 150 306 Z'], ['S', 'tricep', 'M110 216 Q122 204 132 194 Q138 222 134 252 Q128 274 116 282 Q104 272 102 248 Q102 228 110 216 Z'], ['S', 'forearm', 'M102 288 Q114 282 126 288 Q124 322 114 360 Q106 380 98 392 Q86 386 86 372 Q88 330 102 288 Z'], ['S', 'hand', 'M84 398 Q98 392 102 400 Q104 420 98 440 Q88 446 80 438 Q76 418 84 398 Z'], ['S', 'glute', 'M152 356 Q176 354 197 358 L197 416 Q180 426 162 420 Q146 406 146 382 Q146 364 152 356 Z'], ['S', 'ham', 'M148 424 Q160 430 172 430 Q172 472 168 512 Q160 526 152 522 Q144 472 148 424 Z'], ['S', 'ham', 'M176 430 Q188 430 196 426 Q196 472 190 512 Q182 524 172 518 Q176 472 176 430 Z'], ['S', 'knee', 'M156 530 Q172 526 190 530 Q190 542 186 548 Q172 552 158 548 Q154 540 156 530 Z'], ['S', 'calf', 'M154 554 Q166 550 172 554 Q172 592 166 618 Q156 614 150 598 Q148 572 154 554 Z'], ['S', 'calf', 'M174 554 Q186 550 194 558 Q196 592 186 620 Q178 620 174 612 Q174 582 174 554 Z'], ['S', 'achilles', 'M160 624 Q172 628 184 626 Q180 652 176 670 L168 670 Q164 648 160 624 Z'], ['S', 'foot', 'M158 678 Q172 672 186 678 Q188 696 182 708 Q168 712 156 706 Q152 692 158 678 Z']],
+    side: [['C', 'head', 'M205 24 C228 24 240 44 238 62 L245 76 L238 82 C236 96 224 104 205 104 C186 104 172 88 172 64 C172 42 184 24 205 24 Z'], ['C', 'neck', 'M192 100 L218 100 L222 132 L186 130 Z'], ['S', 'trap', 'M186 116 Q174 126 166 142 L194 140 Q190 128 192 116 Z'], ['S', 'uppback', 'M164 144 Q182 136 190 142 L188 236 Q170 232 160 214 Q154 178 164 144 Z'], ['S', 'chest', 'M206 142 Q236 148 244 178 Q246 202 238 218 L206 222 Z'], ['S', 'oblique', 'M192 224 L238 222 Q242 262 236 302 Q214 316 196 318 Q188 272 192 224 Z'], ['S', 'lowback', 'M160 218 Q174 236 190 240 L192 318 Q176 326 164 332 Q152 282 160 218 Z'], ['S', 'glute', 'M164 336 Q190 324 202 332 Q206 370 198 406 Q176 416 160 402 Q150 368 164 336 Z'], ['S', 'hipflex', 'M206 332 Q226 322 238 332 Q240 362 228 390 Q214 394 204 394 Q210 362 206 332 Z'], ['S', 'ham', 'M164 408 Q184 418 200 412 Q204 472 198 526 Q186 532 176 522 Q166 462 164 408 Z'], ['S', 'quad', 'M204 398 Q228 394 236 406 Q240 462 228 522 Q216 532 204 526 Q208 462 204 398 Z'], ['S', 'knee', 'M194 530 Q210 524 226 530 Q228 546 222 556 Q208 560 196 554 Q190 542 194 530 Z'], ['S', 'calf', 'M180 560 Q198 556 202 564 Q200 612 194 652 Q188 666 182 662 Q172 612 180 560 Z'], ['S', 'shin', 'M206 562 Q220 558 222 568 Q218 622 212 664 L204 664 Q208 612 206 562 Z'], ['S', 'foot', 'M184 670 L214 668 Q240 676 256 694 Q256 706 244 708 L186 708 Q178 690 184 670 Z'], ['S', 'delt', 'M178 140 Q204 132 220 150 Q226 176 212 198 Q198 202 186 194 Q172 168 178 140 Z'], ['S', 'bicep', 'M188 198 Q200 194 212 200 Q214 240 208 280 Q198 288 190 282 Q184 240 188 198 Z'], ['S', 'forearm', 'M190 288 Q202 284 212 290 Q216 330 214 370 Q206 380 200 378 Q192 332 190 288 Z'], ['S', 'hand', 'M198 382 Q212 380 216 388 Q218 410 212 428 Q202 432 196 424 Q192 404 198 382 Z']]
+  };
+
+  gLabel(k) { const [s, g] = k.split(':'); return (s === 'R' ? 'Right ' : s === 'L' ? 'Left ' : '') + (s === 'C' ? this.GN[g] : this.GN[g].toLowerCase()); }
+
+  body(view, spots, guides, hi) {
+    const h = React.createElement, side = view === 'left' || view === 'right';
+    const g = [];
+    if (guides) {
+      [[140, 'Shoulder'], [366, 'Hip'], [543, 'Knee'], [710, 'Floor']].forEach(([y, t], i) => {
+        g.push(h('line', { key: 'l' + i, x1: 0, x2: 400, y1: y, y2: y, style: { stroke: '#D0D5DD', strokeWidth: 1, strokeDasharray: '3 5' } }));
+        g.push(h('text', { key: 't' + i, x: 2, y: y - 6, style: { fontFamily: 'Space Mono, monospace', fontSize: 10, fill: '#98A2B3', letterSpacing: '.06em' } }, t.toUpperCase()));
+      });
+      g.push(h('line', { key: 'plumb', x1: 200, x2: 200, y1: 14, y2: 712, style: { stroke: '#BDEBFF', strokeWidth: 1.5 } }));
+    }
+    const near = view === 'front' ? 'R' : view === 'back' ? 'L' : view === 'right' ? 'R' : 'L';
+    const far = near === 'R' ? 'L' : 'R';
+    const paths = [];
+    const fillOf = k => hi.sel.includes(k) ? '#006DE0' : hi.group === k ? '#101828' : hi.hover === k ? '#98A2B3' : '#E6E8EC';
+    const mk = (k, d, i, tf) => paths.push(h('path', { key: k + i + (tf ? 'm' : ''), d, transform: tf, onClick: () => hi.onPick(k), onMouseEnter: () => hi.onHover(k), onMouseLeave: () => hi.onHover(null), style: { fill: fillOf(k), stroke: '#FFFFFF', strokeWidth: 2, strokeLinejoin: 'round', cursor: 'pointer', transition: 'fill .25s' } }));
+    const set = side ? this.M.side : this.M[view];
+    set.forEach(([t, id, d], i) => {
+      if (t === 'C') mk('C:' + id, d, i);
+      else if (side) mk(near + ':' + id, d, i);
+      else { mk((t === 'M' ? 'C' : near) + ':' + id, d, i); mk((t === 'M' ? 'C' : far) + ':' + id, d, i, 'translate(400,0) scale(-1,1)'); }
+    });
+    const sil = h('g', { key: 'sil', transform: view === 'left' ? 'translate(400,0) scale(-1,1)' : undefined }, paths);
+    const ground = h('ellipse', { key: 'gr', cx: 200, cy: 712, rx: 120, ry: 8, style: { fill: '#E6E8EC' } });
+    const sp = spots.map(s => h('g', { key: s.id, onClick: s.pick, style: { cursor: 'pointer' } },
+      s.on ? h('circle', { cx: s.x, cy: s.y, r: 12, style: { fill: 'none', stroke: '#101828', strokeWidth: 1.5, pointerEvents: 'none' } },
+        h('animate', { attributeName: 'r', values: '10;28', dur: '1.8s', repeatCount: 'indefinite' }),
+        h('animate', { attributeName: 'opacity', values: '.8;0', dur: '1.8s', repeatCount: 'indefinite' })) : null,
+      h('circle', { cx: s.x, cy: s.y, r: s.on ? 8 : 6, style: { fill: s.on ? '#101828' : '#FFFFFF', stroke: s.on ? '#FFFFFF' : '#006DE0', strokeWidth: 2.5 } }),
+      h('text', { x: s.x + (s.x > 300 ? -14 : 14), y: s.y + 4, textAnchor: s.x > 300 ? 'end' : 'start', style: { fontFamily: 'Space Mono, monospace', fontSize: 12, fontWeight: 700, fill: '#101828', paintOrder: 'stroke', stroke: '#F7F8FA', strokeWidth: 4, pointerEvents: 'none' } }, s.n)));
+    return h('svg', { viewBox: '0 0 400 720', style: { position: 'absolute', inset: 0, width: '100%', height: '100%', overflow: 'visible' } }, g, ground, sil, sp);
+  }
+
+
+  renderVals() {
+    const s = this.state, w = s.w, online = !!this.props.online, consentOff = !!this.props.photoConsentOff, offline = !!this.props.offline;
+    const role = s.role, tab = s.tab || (role === 'prac' ? (this.props.returned ? 'wrap' : 'console') : 'queue');
+    const set = (k, v) => this.setState(st => ({ vals: { ...st.vals, [k]: v }, savedAt: Date.now() }));
+    const tests = this.BANK.filter(t => !s.off[t[0]]);
+    const cur = Math.min(s.cur, tests.length - 1), t = tests[cur], id = t[0], v = s.vals[id];
+    const tagOf = tt => online && tt[8] === 'in person' ? 'Not online' : online && tt[7] === 'Measured' && ['lr'].includes(tt[5]) && tt[1] === 'movement' ? 'Observed' : tt[7];
+    const fmtV = tt => { const x = s.vals[tt[0]]; if (s.skipped[tt[0]]) return 'Not tested'; if (x == null) return '·'; if (typeof x === 'object') return 'L ' + x.L + ' · R ' + x.R + tt[4]; return x + (tt[4] && !tt[4].startsWith('/') ? ' ' : '') + tt[4]; };
+    const capN = tests.filter(tt => s.vals[tt[0]] != null || s.skipped[tt[0]]).length;
+    const sel = on => ({ bg: on ? 'var(--ink)' : '#fff', fg: on ? '#fff' : 'var(--ink)' });
+    const clock = s.run ? ((Date.now() - s.t0) / 1000).toFixed(1) : (typeof v === 'object' && v ? (v[s.side] != null ? String(v[s.side]) : '0.0') : v != null ? String(v) : '0.0');
+    const next = () => { this.setState({ cur: Math.min(cur + 1, tests.length - 1), run: false, savedAt: Date.now() }); clearInterval(this._iv); };
+    const T = { sys: this.SYSN[t[1]], pos: (cur + 1) + ' of ' + tests.length, name: t[2], how: t[3], unit: t[4], tag: tagOf(t), tagBg: tagOf(t) === 'Measured' ? 'var(--ink)' : '#fff', tagFg: tagOf(t) === 'Measured' ? '#fff' : 'var(--ink)', dir: t[6] === 'lower' ? 'Lower is better' : 'Higher is better', clip: 'CLIP: ' + t[2].toUpperCase(),
+      isLR: t[5] === 'lr', isNum: t[5] === 'num', isTimer: t[5] === 'timer', isScore: t[5] === 'score', isChoice: t[5] === 'choice',
+      lr: ['L', 'R'].map(k => { const o = v || {}; const val = o[k] != null ? o[k] : 0; return { side: k === 'L' ? 'Left' : 'Right', v: val, dec: () => set(id, { ...o, [k]: Math.max(0, val - 1) }), inc: () => set(id, { ...o, [k]: val + 1 }) }; }),
+      diff: v && v.L != null && v.R != null ? 'Difference ' + Math.abs(v.L - v.R) + t[4] + (Math.abs(v.L - v.R) >= 8 ? ' · worth flagging' : '') : 'Enter both sides',
+      v: v != null ? v : 0, dec: () => set(id, Math.max(0, (v || 0) - 1)), inc: () => set(id, (v || 0) + 1),
+      clock, timerLabel: s.run ? 'STOP' : 'START', timerVariant: s.run ? 'ink' : 'blue', hasSides: id === 'balance', sideSel: [['L', 'Left'], ['R', 'Right']].map(([k, l]) => ({ label: l, ...sel(s.side === k), pick: () => this.setState({ side: k }) })), timerNote: online ? 'The same timer shows large on Aarav’s screen.' : 'Tap stop when the foot touches down.',
+      timer: () => { if (s.run) { clearInterval(this._iv); const secs = Math.round((Date.now() - s.t0) / 100) / 10; this.setState({ run: false }); if (id === 'balance') set(id, { ...(v || {}), [s.side]: Math.round(secs) }); else set(id, Math.round(secs)); } else { this.setState({ run: true, t0: Date.now() }); this._iv = setInterval(() => this.setState({ tick: Date.now() }), 100); } },
+      scores: [[3, 'Heels down, hips below knees, trunk upright, knees track the toes'], [2, 'One change: heels lift, or knees drift in, or trunk tips'], [1, 'Two or more changes'], [0, 'Pain stops the movement']].map(([n, c]) => ({ n, c, ...sel(v === n), pick: () => set(id, n) })),
+      choices: (t[9] || []).map(o => ({ label: o, ...sel(v === o), pick: () => set(id, o) })),
+      obs: ['Shifts left', 'Knee drifts in', 'Arch drops', 'Holds breath', 'Pain', 'Guarded'].map(o => { const cur2 = s.obs[id] || [], on = cur2.includes(o); return { label: o, ...sel(on), pick: () => this.setState(st => ({ obs: { ...st.obs, [id]: on ? cur2.filter(x => x !== o) : cur2.concat(o) }, savedAt: Date.now() })) }; }),
+      flag: () => this.setState(st => ({ flags: { ...st.flags, [id]: !st.flags[id] }, savedAt: Date.now() })), flagBg: s.flags[id] ? 'var(--ice)' : '#fff', flagTg: s.flags[id] ? 'var(--blue)' : '#fff', flagKnob: s.flags[id] ? '#fff' : 'var(--ink)', flagX: s.flags[id] ? '20px' : '2px',
+      skips: [['Client declined', 'declined'], ['Pain today', 'pain'], ['No equipment', 'equipment']].slice(0, 2).map(([label, r]) => ({ label, pick: () => { this.setState(st => ({ skipped: { ...st.skipped, [id]: r } })); next(); } })),
+      next, nextLabel: cur === tests.length - 1 ? 'FINISH TESTING →' : 'SAVE AND NEXT →' };
+    if (cur === tests.length - 1) T.next = () => this.setState({ tab: 'wrap' });
+    const groups = ['movement', 'breathwork', 'recovery', 'performance'];
+    const summary = groups.map(g => ({ sys: this.SYSN[g], rows: tests.filter(tt => tt[1] === g).map(tt => { const i = tests.indexOf(tt); return { name: tt[2], v: fmtV(tt), flag: s.flags[tt[0]] ? '● ' : '', fg: s.vals[tt[0]] != null ? 'var(--ink)' : 'var(--grey-400)', go: () => this.setState({ cur: i }) }; }) }));
+    const PH = [['arrival', 'Arrival', 'Checked in 5:22 PM'], ['talk', 'Conversation', 'Goals and the knee'], ['movement', 'Movement', ''], ['breathwork', 'Breath', ''], ['recovery', 'Recovery', ''], ['performance', 'Performance', ''], ['exp', 'Experience', 'Breath practice'], ['close', 'Close', 'What happens next']];
+    const curSys = t[1];
+    const timeline = PH.map(([k, name, sub], i) => { const gi = groups.indexOf(k), curGi = groups.indexOf(curSys); const done = i < 2 || (gi >= 0 && gi < curGi); const now = k === curSys; const n = gi >= 0 ? tests.filter(tt => tt[1] === k) : []; return { name, mark: done ? '✓' : now ? '●' : '', sub: gi >= 0 ? n.filter(tt => s.vals[tt[0]] != null).length + ' of ' + n.length : sub, bg: now ? 'var(--ink)' : done ? 'var(--ice)' : '#fff', fg: now ? '#fff' : 'var(--ink)', bd: 'inset 0 0 0 1.5px var(--ink)', pick: () => { if (gi >= 0) this.setState({ cur: tests.findIndex(tt => tt[1] === k) }); } }; });
+    const prioIds = ['hipIR', 'balance', 'knee', 'tspine', 'ribs'];
+    const prioN = Object.values(s.picked).filter(Boolean).length;
+    const PF = { hipIR: ['Right hip turns in 22°, left 36°. He shifts left at the bottom of a squat.', 'The knee and lower back take the turn the hip cannot.', 'Opening right hip rotation, then loading it.'], balance: ['Right leg held 14 s, left 31 s. The right arch drops as he loses balance.', 'Every stair, run and kick is single leg balance.', 'Strengthening the right foot and leg.'], knee: ['Pain 6 of 10 at the bottom of a deep squat, right side.', '', 'Box squat lowered week by week, pain under 3.'], tspine: ['Upper back turns 34° right, 45° left.', 'The lower back makes up the difference.', ''], ribs: ['Lower ribs move 2.0 cm.', 'Breath sits high in the chest.', ''] };
+    const MP = ['hipIR', 'balance', 'knee', 'tspine'];
+    const POSF = { hipIR: [176, 366], balance: [170, 692], knee: [172, 543] }, POSB = { hipIR: [228, 388], balance: [228, 692], tspine: [200, 186] };
+    const spots = P => MP.map((k, i) => P[k] && { id: k, x: P[k][0], y: P[k][1], n: String(i + 1).padStart(2, '0'), on: false, pick: () => {} }).filter(Boolean);
+    const hi = { sel: ['R:hipflex', 'R:glute', 'R:foot', 'R:calf', 'R:knee', 'C:trapback'], prio: [], group: null, hover: null, onHover: () => {}, onPick: () => {} };
+    const rvState = s.rev || (this.props.returned ? 'returned' : null);
+    const TABS = role === 'prac' ? [['brief', 'Brief'], ['console', 'Console'], ['photos', 'Photos'], ['wrap', 'Wrap up']] : [['queue', 'Queue'], ['review', 'Review']];
+    const wide = w >= 1100, mid = w >= 760;
+    return {
+      roles: [['prac', 'Practitioner'], ['head', 'Head coach']].map(([k, l]) => ({ label: l, ...sel(role === k), pick: () => this.setState({ role: k, tab: null }) })),
+      tabs: TABS.map(([k, l]) => ({ label: l, bg: tab === k ? 'var(--ice)' : 'transparent', bar: tab === k ? 'inset 0 -3px 0 #006DE0' : 'none', pick: () => this.setState({ tab: k }) })),
+      net: offline ? { dot: 'var(--grey-400)', label: 'Offline · saved on tablet, syncing' } : { dot: 'var(--blue)', label: 'Online' },
+      ctx: role === 'prac' ? 'Aarav Mehta · Movement Assessment · Wed 2 Sep, 5:30 PM · ' + (online ? 'Live online' : 'TIC Kandivali') : 'Head coach · ' + (tab === 'review' ? 'Aarav Mehta · submitted by Jayraj' : 'Assessments waiting'),
+      title: { brief: 'Before you start.', console: online ? 'Assessment · online.' : 'Assessment.', photos: 'Posture photos.', wrap: 'Wrap up.', queue: 'Review queue.', review: 'Aarav Mehta.' }[tab],
+      is: { brief: tab === 'brief', console: tab === 'console', photos: tab === 'photos', wrap: tab === 'wrap', queue: tab === 'queue', review: tab === 'review' },
+      L: { briefCols: wide ? 'minmax(0,1.3fr) minmax(0,1fr)' : 'minmax(0,1fr)', bodyCols: mid ? '170px minmax(0,1fr)' : 'minmax(0,1fr)', consoleCols: wide ? '190px minmax(0,1fr) 280px' : 'minmax(0,1fr)', tlDir: wide ? 'column' : 'row', tlCol: wide, testCols: mid ? 'minmax(0,1.4fr) minmax(0,1fr)' : 'minmax(0,1fr)', reviewCols: wide ? 'minmax(0,1fr) minmax(0,1.2fr)' : 'minmax(0,1fr)' },
+      brief: { goals: ['Play football without niggles', 'Run without knee pain'], body: this.body('front', [], false, { sel: ['R:knee', 'R:hipflex'], prio: [], group: null, hover: null, onHover: () => {}, onPick: () => {} }), concerns: [['Right knee', 5, 'Squatting, stairs'], ['Right hip', 3, 'Sitting long']].map(([n, x, wh]) => ({ n, v: x, w: wh })),
+        facts: [['Sleep', '6 to 7 h · wakes okay'], ['Stress and workload', 'Heavy · over 8 h sitting'], ['Activity', '2 days a week · football, walking'], ['Documents', 'Blood test · knee X ray'], ['Health data', 'Apple Health · RHR 68, sleep 6.1 h'], ['Earlier assessment', 'None. This is his baseline.']].map(([k, x]) => ({ k, v: x })),
+        count: tests.length + ' tests · about XX min', tests: this.BANK.map(tt => { const on = !s.off[tt[0]]; return { name: tt[2], sys: this.SYSN[tt[1]], why: ['knee', 'hipIR', 'squat', 'balance'].includes(tt[0]) ? 'From goals and knee' : online && tt[8] === 'in person' ? 'In person only' : '', mark: on ? '✓' : '', box: on ? 'var(--blue)' : '#fff', toggle: () => this.setState(st => ({ off: { ...st.off, [tt[0]]: on } })) }; }) },
+      goBrief: () => this.setState({ tab: 'brief' }), startConsole: () => this.setState({ tab: 'console' }),
+      T, summary, timeline, capCount: capN + ' of ' + tests.length, flagged: tests.filter(tt => s.flags[tt[0]]).map(tt => tt[2]),
+      consentOff, savedLine: offline ? 'Saved on tablet, syncing when back online' : s.savedAt ? 'Saved · just now' : 'Saved · 5:52 PM',
+      photos: [['front', 'Front'], ['side', 'Side'], ['back', 'Back'], ['left', 'Left'], ['right', 'Right']].map(([k, l]) => { const has = s.photosTaken[k]; return { label: l, cap: consentOff ? 'OFF · NO CONSENT' : has ? 'PHOTO: ' + l.toUpperCase() : 'TAP TO CAPTURE', meta: has && !consentOff ? 'Auto labelled · 2 Sep 2026 · 5:58 PM' : 'Not taken', act: has ? 'Retake' : 'Capture', op: consentOff ? .5 : 1, retake: () => !consentOff && this.setState(st => ({ photosTaken: { ...st.photosTaken, [k]: true } })) }; }),
+      prioCount: prioN + ' chosen', prios: prioIds.map(k => { const tt = this.BANK.find(b => b[0] === k), on = !!s.picked[k], f = PF[k]; return { name: tt[2], v: fmtV(tt), on, mark: on ? '✓' : '', box: on ? 'var(--blue)' : '#fff', bg: on ? 'var(--ice)' : '#fff', toggle: () => this.setState(st => ({ picked: { ...st.picked, [k]: !on } })), fields: [['What we observed', f[0], 'What did you see, in plain words?'], ['Why it matters', f[1], 'Why does this matter for him, day to day?'], ['What we would work on', f[2], 'One line. Strengthening, opening, loading...']].map(([kk, vv, ph]) => ({ k: kk, v: vv, ph })), lib: k === 'hipIR' ? ['90 90 hip switch', 'Why hips get stuck'] : ['Short foot hold'] }; }),
+      sections: [['Big Picture', 'You move well forwards and lose control when you turn or stand on the right leg.'], ['Front View', 'Right knee drifts in on squat and step down.'], ['Side View', ''], ['Back View', 'Weight shifts left. Right glute switches on late.'], ['Muscle Strategy', 'Left side and lower back carry what the right hip should share.'], ['Key Observations', 'Right hip rotation 16° short of the left.'], ['Start Here', 'Hip first. Then the foot. Then load.']].map(([k, x]) => ({ k, v: x, st: x ? 'Written' : 'To write', ph: 'Plain words, two or three lines' })),
+      paths: [['pt', 'Personal Training'], ['gt', 'Group Training'], ['either', 'Either']].map(([k, l]) => ({ label: l, ...sel(s.path === k), pick: () => this.setState({ path: k }) })),
+      returned: !!this.props.returned && !s.submitted, submitLabel: s.submitted ? '✓ SUBMITTED FOR REVIEW' : prioN < 3 || prioN > 5 ? 'PICK 3 TO 5 PRIORITIES' : 'SUBMIT FOR REVIEW →', submitLocked: s.submitted || prioN < 3 || prioN > 5, submitVariant: s.submitted ? 'ink' : prioN < 3 || prioN > 5 ? 'outline' : 'blue',
+      submit: () => { this.setState({ submitted: true }); this.flash('Submitted. The head coach has been notified.'); },
+      queue: [['Aarav Mehta', 'Assessment report · baseline', 'Jayraj', 'Today 7:05 PM', rvState === 'ok' ? 'Released' : rvState === 'returned' ? 'Returned' : 'Waiting'], ['Rohan Shah', 'Reassessment report', 'Jayraj', 'Sat 29 Aug', 'Waiting'], ['Meera Iyer', 'Assessment report · online', 'Shimyu', 'Fri 28 Aug', 'Returned'], ['Kabir Singh', 'Reassessment report', 'Shimyu', 'Thu 27 Aug', 'Released']].map(([client, what, coach, when, st]) => ({ client, what, coach, when, st, bg: st === 'Released' ? 'var(--ink)' : st === 'Waiting' ? 'var(--ice)' : '#fff', fg: st === 'Released' ? '#fff' : 'var(--ink)', open: () => client === 'Aarav Mehta' && this.setState({ tab: 'review' }) })),
+      rv: { locked: rvState === 'ok', returning: s.returning, approveLabel: rvState === 'ok' ? '✓ RELEASED' : 'APPROVE AND RELEASE', approveVariant: rvState === 'ok' ? 'ink' : 'blue', line: rvState === 'ok' ? 'Aarav has an email and a WhatsApp: “Your report is ready.”' : rvState === 'returned' ? 'Returned to Jayraj with your comment.' : 'Submitted today 7:05 PM by Jayraj',
+        approve: () => { this.setState({ rev: 'ok', returning: false }); this.flash('Released. Aarav gets an email and a WhatsApp now.'); }, toReturn: () => this.setState({ returning: true }), sendReturn: () => { this.setState({ rev: 'returned', returning: false }); this.flash('Returned to Jayraj with your comment.'); } },
+      preview: { front: this.body('front', spots(POSF), false, hi), back: this.body('back', spots(POSB), false, hi), marks: MP.map((k, i) => { const tt = this.BANK.find(b => b[0] === k); return { n: String(i + 1).padStart(2, '0'), name: tt[2], v: fmtV(tt) }; }) },
+      toast: !!s.toast, toastMsg: s.toast || ''
+    };
+  }
+}
+</script>
+</body>
+</html>

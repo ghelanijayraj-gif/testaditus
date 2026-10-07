@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/colors.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/typography.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/base.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/styles.css">
+<script src="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/_ds_bundle.js"></script>
+</helmet>
+<div style="font-family:var(--font-mono);color:var(--ink);border:2px solid var(--ink);background:#fff;display:flex;flex-direction:column;width:100%">
+  <div style="padding:12px 14px;border-bottom:2px solid var(--ink);display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap">
+    <span style="font-family:var(--font-display);font-size:16px;text-transform:uppercase">{{ title }}</span>
+    <span style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--grey-600)">{{ legend }}</span>
+  </div>
+  <sc-for list="{{ rows }}" as="r" hint-placeholder-count="4">
+    <div style="padding:12px 14px;border-bottom:1px solid var(--grey-200);display:flex;flex-direction:column;gap:6px">
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <span style="font-family:var(--font-display);font-size:13px;text-transform:uppercase;min-width:110px">{{ r.sys }}</span>
+        <span style="display:flex;align-items:center;gap:6px"><span style="width:28px;height:12px;display:flex;box-shadow:inset 0 0 0 2px var(--blue)"><i style="width:{{ r.nowFill }};height:100%;background:var(--blue);display:block"></i></span><b style="font-size:10px;text-transform:uppercase">{{ r.nowL }}</b></span>
+        <sc-if value="{{ r.change }}" hint-placeholder-val="{{ false }}"><span style="display:flex;align-items:center;gap:6px;color:var(--grey-600)"><span style="font-size:11px">→</span><span style="width:28px;height:12px;display:flex;box-shadow:inset 0 0 0 1.5px var(--grey-400)"><i style="width:{{ r.nextFill }};height:100%;background:var(--ice);display:block"></i></span><span style="font-size:10px;text-transform:uppercase">{{ r.nextL }} when done</span></span></sc-if>
+      </div>
+      <span style="font:400 13px/1.4 var(--font-sans);color:var(--grey-700)">{{ r.why }}</span>
+      <span style="font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--blue)">{{ r.tags }}</span>
+    </div>
+  </sc-for>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:380,&quot;height&quot;:420},&quot;title&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;What your plan covers&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;legend&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Full · Partial · Not covered&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;rows&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;{sys:string,nowL:string,nowFill:string,nextL:string,nextFill:string,change:boolean,why:string,tags:string}[]&quot;}}"></script>
+</body>
+</html>

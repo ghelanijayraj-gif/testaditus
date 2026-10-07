@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/colors.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/typography.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/effects.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/base.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/styles.css">
+<script src="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/_ds_bundle.js"></script>
+<style>body{margin:0;background:#fff}a{color:var(--ink)}a:hover{color:var(--blue)}button,input,textarea{font:inherit;color:inherit}*{box-sizing:border-box}</style>
+</helmet>
+<div style="min-height:100vh;font-family:var(--font-mono);color:var(--ink);display:flex;flex-direction:column">
+  <header style="position:sticky;top:0;z-index:5;background:rgba(255,255,255,.97);border-bottom:1px solid var(--grey-200);height:60px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 clamp(16px,3vw,32px)">
+    <div style="display:flex;align-items:center;gap:8px"><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.AditusMark" size="{{ 26 }}" hint-size="26px,26px"></x-import><span style="font-family:var(--font-display);font-size:18px">ADITUS</span></div>
+    <sc-if value="{{ act.show }}" hint-placeholder-val="{{ true }}"><button onClick="{{ act.go }}" style="height:44px;padding:0 16px;border:0;cursor:pointer;font-family:var(--font-display);font-size:13px;text-transform:uppercase;white-space:nowrap;background:{{ act.bg }};color:{{ act.fg }};box-shadow:{{ act.bd }}">{{ act.label }}</button></sc-if>
+  </header>
+
+  <main style="flex:1;width:100%;max-width:{{ L.max }};margin:0 auto;padding:clamp(20px,4vw,40px) clamp(16px,3vw,32px) 80px;display:flex;flex-direction:column;gap:18px">
+
+    <sc-if value="{{ is.checkin }}" hint-placeholder-val="{{ true }}">
+      <span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--grey-600)">Today · Wed 2 Sep · 5:30 PM</span>
+      <h1 style="margin:0;font-family:var(--font-display);font-weight:400;font-size:clamp(32px,7vw,52px);line-height:.88;text-transform:uppercase">{{ CI.title }}</h1>
+      <span style="font:400 17px/1.45 var(--font-sans)">{{ CI.line }}</span>
+      <div style="border:2px solid var(--ink);display:grid;grid-template-columns:96px minmax(0,1fr)">
+        <div style="min-height:110px;border-right:2px solid var(--ink)"><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.ImageSlot" caption="JAYRAJ" hint-size="96px,100%"></x-import></div>
+        <div style="padding:14px 16px;display:flex;flex-direction:column;gap:4px;justify-content:center"><span style="font-size:10px;text-transform:uppercase;color:var(--grey-600)">You are meeting</span><b style="font:600 18px var(--font-sans)">Jayraj</b><span style="font-size:11px;text-transform:uppercase">Assessment practitioner</span></div>
+      </div>
+      <div style="border:2px solid var(--ink);display:flex;flex-direction:column">
+        <sc-for list="{{ CI.rows }}" as="r" hint-placeholder-count="3"><div style="padding:12px 16px;border-bottom:1px solid var(--grey-200);display:grid;grid-template-columns:72px minmax(0,1fr);gap:10px"><span style="font-size:10px;text-transform:uppercase;color:var(--grey-600)">{{ r.k }}</span><span style="font:400 15px/1.4 var(--font-sans)">{{ r.v }}</span></div></sc-for>
+        <a href="#" style="padding:12px 16px;font-size:12px;text-transform:uppercase;font-weight:700;text-decoration:none">Directions in Google Maps →</a>
+      </div>
+      <sc-if value="{{ CI.done }}" hint-placeholder-val="{{ false }}"><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="ink" size="lg" full="{{ true }}" onClick="{{ goToday }}" hint-size="100%,58px">SEE TODAY'S ASSESSMENT →</x-import></sc-if>
+    </sc-if>
+
+    <sc-if value="{{ is.today }}" hint-placeholder-val="{{ false }}">
+      <span style="display:flex;justify-content:space-between;gap:10px;align-items:center"><span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--grey-600)">Today's assessment · with Jayraj</span><span style="display:flex;align-items:center;gap:6px;font-size:10px;color:var(--grey-600)"><span style="position:relative;width:10px;height:12px;flex:none"><span style="position:absolute;left:2px;top:0;width:6px;height:6px;border:1.5px solid currentColor;border-bottom:0;border-radius:3px 3px 0 0"></span><span style="position:absolute;left:0;bottom:0;width:10px;height:7px;background:currentColor"></span></span>Only you, Jayraj, head coach</span></span>
+      <sc-if value="{{ TD.paused }}" hint-placeholder-val="{{ false }}"><div style="box-shadow:inset 0 0 0 2px var(--blue);padding:16px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px"><span style="display:flex;flex-direction:column;gap:3px"><b style="font:600 16px var(--font-sans)">Paused. Jayraj knows.</b><span style="font-size:12px;color:var(--grey-700)">Take the time you need. Nothing is lost.</span></span><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="blue" size="md" onClick="{{ TD.resume }}" hint-size="140px,50px">RESUME</x-import></div></sc-if>
+      <div style="background:var(--ink);color:#fff;padding:20px;display:flex;flex-direction:column;gap:10px">
+        <span style="font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--ice)">Now · {{ TD.phase }}</span>
+        <span style="font:400 19px/1.45 var(--font-sans);letter-spacing:-.01em">{{ TD.why }}</span>
+        <span style="font-size:11px;text-transform:uppercase;color:var(--grey-300)">{{ TD.count }} · values appear in your report</span>
+      </div>
+      <div style="border:2px solid var(--ink);display:flex;flex-direction:column">
+        <sc-for list="{{ TD.phases }}" as="p" hint-placeholder-count="7"><div style="min-height:52px;padding:10px 16px;border-bottom:1px solid var(--grey-200);display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:10px;align-items:center;background:{{ p.bg }}"><span style="width:22px;height:22px;border:2px solid var(--ink);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;background:{{ p.box }}">{{ p.mark }}</span><span style="font-family:var(--font-display);font-size:14px;text-transform:uppercase">{{ p.name }}</span><span style="font-size:10px;text-transform:uppercase;color:var(--grey-600)">{{ p.st }}</span></div></sc-for>
+      </div>
+      <div style="position:sticky;bottom:0;z-index:3;background:rgba(255,255,255,.97);padding:12px 0;border-top:1px solid var(--grey-200);display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="outline" size="md" full="{{ true }}" onClick="{{ TD.openTell }}" hint-size="100%,50px">TELL JAYRAJ</x-import>
+        <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="outline" size="md" full="{{ true }}" onClick="{{ TD.pause }}" hint-size="100%,50px">PAUSE</x-import>
+      </div>
+      <sc-if value="{{ TD.tell }}" hint-placeholder-val="{{ false }}">
+        <div style="border:2px solid var(--ink);padding:16px;display:flex;flex-direction:column;gap:10px">
+          <span style="font-size:11px;text-transform:uppercase;letter-spacing:.06em">Tell your practitioner something</span>
+          <div style="display:flex;flex-wrap:wrap;gap:6px"><sc-for list="{{ TD.chips }}" as="o" hint-placeholder-count="4"><button onClick="{{ o.pick }}" style="min-height:44px;padding:0 12px;border:1.5px solid var(--ink);cursor:pointer;font:500 14px var(--font-sans);background:{{ o.bg }};color:{{ o.fg }}">{{ o.label }}</button></sc-for></div>
+          <input placeholder="A few words, optional" style="height:48px;border:2px solid var(--ink);padding:0 12px;font:400 15px var(--font-sans);border-radius:0">
+          <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="blue" size="md" full="{{ true }}" onClick="{{ TD.send }}" hint-size="100%,50px">SEND TO JAYRAJ</x-import>
+        </div>
+      </sc-if>
+      <button onClick="{{ TD.advance }}" style="align-self:flex-start;border:0;background:none;padding:0;height:36px;cursor:pointer;font-size:10px;text-transform:uppercase;color:var(--grey-600);text-decoration:underline;text-underline-offset:4px">Prototype: practitioner finishes this phase</button>
+    </sc-if>
+
+    <sc-if value="{{ is.close }}" hint-placeholder-val="{{ false }}">
+      <span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--blue)">✓ All phases done</span>
+      <h1 style="margin:0;font-family:var(--font-display);font-weight:400;font-size:clamp(32px,7vw,52px);line-height:.88;text-transform:uppercase">Your assessment is done.</h1>
+      <span style="font:400 17px/1.45 var(--font-sans)">Your report will be ready within XX hours. We will tell you on WhatsApp and email.</span>
+      <div style="border:2px solid var(--ink);padding:16px;display:flex;flex-direction:column;gap:10px">
+        <span style="font-size:11px;text-transform:uppercase;letter-spacing:.06em">How was today?</span>
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px"><sc-for list="{{ rates }}" as="r" hint-placeholder-count="5"><button onClick="{{ r.pick }}" style="height:52px;border:2px solid var(--ink);cursor:pointer;font-family:var(--font-display);font-size:18px;background:{{ r.bg }};color:{{ r.fg }}">{{ r.n }}</button></sc-for></div>
+        <input placeholder="Anything to add, optional" style="height:48px;border:1.5px solid var(--grey-300);padding:0 12px;font:400 15px var(--font-sans);border-radius:0">
+      </div>
+      <div style="background:var(--grey-50);padding:18px;display:flex;flex-direction:column;gap:10px">
+        <span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em">What happens next</span>
+        <sc-for list="{{ nextLines }}" as="x" hint-placeholder-count="3"><span style="font:400 15px/1.45 var(--font-sans);display:grid;grid-template-columns:28px 1fr"><span style="font:400 11px var(--font-mono);color:var(--blue)">{{ x.n }}</span>{{ x.t }}</span></sc-for>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ is.setup }}" hint-placeholder-val="{{ false }}">
+      <span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--grey-600)">Live online · Fri 4 Sep · 7:00 AM</span>
+      <h1 style="margin:0;font-family:var(--font-display);font-weight:400;font-size:clamp(30px,6vw,48px);line-height:.88;text-transform:uppercase">Get set up.</h1>
+      <div style="display:grid;grid-template-columns:{{ L.setupCols }};gap:14px;align-items:start">
+        <div style="position:relative;aspect-ratio:4/3;border:2px solid var(--ink)"><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.ImageSlot" caption="CAMERA PREVIEW" hint-size="100%,100%"></x-import><div style="position:absolute;inset:8% 34%;border:2px dashed var(--blue);pointer-events:none"></div><span style="position:absolute;left:10px;bottom:10px;font-size:10px;text-transform:uppercase;background:#fff;padding:3px 6px">Fit your whole body in the box</span></div>
+        <div style="border:2px solid var(--ink);display:flex;flex-direction:column"><sc-for list="{{ checks }}" as="c" hint-placeholder-count="3"><div style="padding:12px 16px;border-bottom:1px solid var(--grey-200);display:flex;justify-content:space-between;gap:10px"><span style="font:600 15px var(--font-sans)">{{ c.t }}</span><span style="font-size:11px;text-transform:uppercase;color:{{ c.fg }}">{{ c.st }}</span></div></sc-for></div>
+      </div>
+      <div style="border:2px solid var(--ink);padding:16px;display:flex;flex-direction:column;gap:8px"><span style="font-size:11px;text-transform:uppercase;letter-spacing:.06em">Placement</span><sc-for list="{{ guide }}" as="g" hint-placeholder-count="5"><span style="font:400 15px/1.45 var(--font-sans);display:grid;grid-template-columns:24px 1fr"><span style="color:var(--blue)">·</span>{{ g }}</span></sc-for></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="outline" size="md" full="{{ true }}" onClick="{{ testLink }}" hint-size="100%,50px">{{ linkLabel }}</x-import>
+        <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="ink" size="md" full="{{ true }}" onClick="{{ goPhotos }}" hint-size="100%,50px">NEXT: PHOTOS →</x-import>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ is.photos }}" hint-placeholder-val="{{ false }}">
+      <span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--grey-600)">Photo {{ PH.n }} of 3 · {{ PH.view }}</span>
+      <h1 style="margin:0;font-family:var(--font-display);font-weight:400;font-size:clamp(30px,6vw,48px);line-height:.88;text-transform:uppercase">{{ PH.title }}</h1>
+      <sc-if value="{{ PH.off }}" hint-placeholder-val="{{ false }}"><div style="box-shadow:inset 0 0 0 2px var(--blue);padding:16px;display:flex;flex-direction:column;gap:6px"><b style="font:600 16px var(--font-sans)">Photos are off.</b><span style="font:400 14px/1.45 var(--font-sans);color:var(--grey-700)">You said no to photos and videos, so we skip this. Jayraj writes down what he sees instead. You can change it in Account.</span></div></sc-if>
+      <sc-if value="{{ PH.on }}" hint-placeholder-val="{{ true }}">
+        <div style="position:relative;width:100%;max-width:340px;align-self:center;aspect-ratio:3/4;border:2px solid var(--ink);background:var(--grey-50)">
+          <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.ImageSlot" caption="{{ PH.cap }}" hint-size="100%,100%"></x-import>
+          <div style="position:absolute;inset:6% 18%;opacity:.55;pointer-events:none">{{ PH.ghost }}</div>
+          <sc-if value="{{ PH.counting }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:120px;color:var(--blue)">{{ PH.count }}</span></sc-if>
+        </div>
+        <span style="font:400 14px/1.45 var(--font-sans);color:var(--grey-700);text-align:center">{{ PH.tip }}</span>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="outline" size="md" full="{{ true }}" onClick="{{ PH.retake }}" hint-size="100%,50px">RETAKE</x-import>
+          <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="blue" size="md" full="{{ true }}" onClick="{{ PH.shoot }}" hint-size="100%,50px">{{ PH.shootLabel }}</x-import>
+        </div>
+      </sc-if>
+      <span style="display:flex;align-items:center;gap:6px;font-size:10px;color:var(--grey-600);justify-content:center">Seen only by you, Jayraj and the head coach</span>
+      <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="ink" size="lg" full="{{ true }}" onClick="{{ goLive }}" hint-size="100%,58px">JOIN SESSION →</x-import>
+    </sc-if>
+
+    <sc-if value="{{ is.live }}" hint-placeholder-val="{{ false }}">
+      <div style="display:grid;grid-template-columns:{{ L.liveCols }};gap:14px;align-items:start">
+        <div style="position:relative;aspect-ratio:16/10;background:var(--ink)">
+          <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.ImageSlot" caption="VIDEO: JAYRAJ" tone="dark" hint-size="100%,100%"></x-import>
+          <div style="position:absolute;right:10px;bottom:10px;width:26%;aspect-ratio:3/4;border:2px solid #fff"><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.ImageSlot" caption="YOU" hint-size="100%,100%"></x-import></div>
+          <div style="position:absolute;left:10px;top:10px;background:#fff;padding:10px 12px;max-width:62%;display:flex;flex-direction:column;gap:3px;box-shadow:4px 4px 0 #006DE0"><span style="font-size:9px;text-transform:uppercase;color:var(--blue)">From Jayraj</span><b style="font:600 16px/1.3 var(--font-sans)">{{ LV.instr }}</b></div>
+          <sc-if value="{{ LV.lost }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;inset:0;background:rgba(16,24,40,.88);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:20px;text-align:center"><span style="font-family:var(--font-display);font-size:24px;text-transform:uppercase">Connection lost.</span><span style="font:400 15px/1.45 var(--font-sans)">Reconnecting. Your results so far are saved. Jayraj will wait.</span><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="white" size="md" onClick="{{ LV.rejoin }}" hint-size="140px,50px">REJOIN</x-import></div></sc-if>
+        </div>
+        <div style="position:sticky;top:76px;display:flex;flex-direction:column;gap:12px;min-width:0">
+          <div style="border:2px solid var(--ink);padding:16px;display:flex;flex-direction:column;gap:8px;align-items:flex-start"><span style="font-size:10px;text-transform:uppercase;letter-spacing:.06em">Single leg balance · right</span><span style="font-family:var(--font-display);font-size:72px;line-height:.85">{{ LV.clock }}<span style="font:400 16px var(--font-mono)"> s</span></span><span style="font-size:11px;color:var(--grey-700)">Jayraj starts and stops the timer.</span><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="{{ LV.tv }}" size="sm" onClick="{{ LV.timer }}" hint-size="140px,40px">{{ LV.tl }}</x-import></div>
+          <div style="border:2px solid var(--ink);display:flex;flex-direction:column"><sc-for list="{{ LV.phases }}" as="p" hint-placeholder-count="7"><div style="padding:8px 14px;border-bottom:1px solid var(--grey-200);display:flex;justify-content:space-between;gap:8px;font-size:11px;text-transform:uppercase;background:{{ p.bg }};color:{{ p.fg }}"><span>{{ p.mark }} {{ p.name }}</span><span>{{ p.st }}</span></div></sc-for></div>
+          <span style="font-size:10px;text-transform:uppercase;color:var(--grey-600)">Online: rib tape and joint angles are observed on camera, not measured</span>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="outline" size="sm" full="{{ true }}" hint-size="100%,40px">TELL JAYRAJ</x-import><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="outline" size="sm" full="{{ true }}" onClick="{{ LV.drop }}" hint-size="100%,40px">LEAVE CALL</x-import></div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ is.released }}" hint-placeholder-val="{{ false }}">
+      <span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--grey-600)">Hi Aarav · Report released · Sat 5 Sep</span>
+      <div style="background:var(--blue);color:#fff;padding:22px;display:flex;flex-direction:column;gap:12px"><span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--ice)">Your next step</span><span style="font-family:var(--font-display);font-size:clamp(28px,5vw,40px);line-height:.92;text-transform:uppercase">Your report is ready.</span><span style="font:400 16px/1.45 var(--font-sans)">Reviewed by Jayraj and approved by the head coach. Six short screens, about 3 minutes.</span><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="white" size="lg" full="{{ true }}" onClick="{{ goReveal }}" hint-size="100%,58px">WALK ME THROUGH IT →</x-import></div>
+      <div style="display:flex;flex-direction:column;gap:8px"><span style="font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--grey-600)">Also sent to you</span>
+        <div style="align-self:flex-start;max-width:420px;border:1px solid var(--grey-300);background:var(--mist);padding:12px 14px;display:flex;flex-direction:column;gap:4px"><span style="font-size:9px;text-transform:uppercase;color:var(--grey-600)">WhatsApp · 11:02 AM</span><span style="font:400 15px/1.45 var(--font-sans)">Hi Aarav, your report is ready. Open it here: aditus.in/r/aarav. Jayraj is around if you have questions.</span></div>
+        <div style="border:2px solid var(--ink);padding:12px 14px;display:flex;flex-direction:column;gap:4px"><span style="font-size:9px;text-transform:uppercase;color:var(--grey-600)">Email · 11:02 AM</span><b style="font:600 15px var(--font-sans)">Your report is ready</b><span style="font:400 14px/1.45 var(--font-sans);color:var(--grey-700)">Your starting point, what matters most, and your recommended path.</span></div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ is.reveal }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><div style="display:grid;grid-template-columns:repeat(6,1fr);gap:3px;flex:1;max-width:240px"><sc-for list="{{ RV.bars }}" as="b" hint-placeholder-count="6"><i style="height:4px;background:{{ b }};display:block"></i></sc-for></div><button onClick="{{ RV.skip }}" style="border:0;background:none;padding:0;height:36px;cursor:pointer;font-size:11px;text-transform:uppercase;color:var(--grey-600)">Skip</button></div>
+      <span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--blue)">{{ RV.n }}</span>
+      <h1 style="margin:0;font-family:var(--font-display);font-weight:400;font-size:clamp(30px,6vw,48px);line-height:.88;text-transform:uppercase">{{ RV.title }}</h1>
+      <sc-if value="{{ RV.s0 }}" hint-placeholder-val="{{ true }}"><span style="font:400 19px/1.5 var(--font-sans);letter-spacing:-.01em">You move well forwards. You lose control when you turn, or when you stand on your right leg. Your breath sits high in your chest. Sleep is short on weeknights. Everything starts with your right hip.</span></sc-if>
+      <sc-if value="{{ RV.s1 }}" hint-placeholder-val="{{ false }}"><div style="display:grid;grid-template-columns:1fr 1fr;border:2px solid var(--ink)"><sc-for list="{{ RV.sys }}" as="x" hint-placeholder-count="4"><div style="padding:16px;display:flex;flex-direction:column;gap:8px;box-shadow:inset -1px -1px 0 var(--grey-200)"><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.AditusMark" size="{{ 32 }}" active="{{ x.id }}" hint-size="32px,32px"></x-import><b style="font-family:var(--font-display);font-weight:400;font-size:16px;text-transform:uppercase">{{ x.name }}</b><span style="font:400 14px/1.4 var(--font-sans);color:var(--grey-700)">{{ x.t }}</span></div></sc-for></div></sc-if>
+      <sc-if value="{{ RV.s2 }}" hint-placeholder-val="{{ false }}">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--grey-50);padding:12px"><div style="position:relative;width:100%;aspect-ratio:400/720">{{ RV.front }}</div><div style="position:relative;width:100%;aspect-ratio:400/720">{{ RV.back }}</div></div>
+        <div style="border:2px solid var(--ink)"><sc-for list="{{ RV.marks }}" as="m" hint-placeholder-count="4"><div style="padding:12px 16px;border-bottom:1px solid var(--grey-200);display:grid;grid-template-columns:32px 1fr;gap:3px 10px"><span style="grid-row:span 2;width:26px;height:26px;border:2px solid var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700">{{ m.n }}</span><b style="font:600 15px var(--font-sans)">{{ m.t }}</b><span style="font-size:12px;color:var(--grey-700)">{{ m.v }}</span></div></sc-for></div>
+      </sc-if>
+      <sc-if value="{{ RV.s3 }}" hint-placeholder-val="{{ false }}"><sc-for list="{{ RV.work }}" as="x" hint-placeholder-count="4"><div style="border:2px solid var(--ink);padding:16px;display:grid;grid-template-columns:36px 1fr;gap:10px"><span style="font-family:var(--font-display);font-size:20px;color:var(--blue)">{{ x.n }}</span><span style="font:600 16px/1.4 var(--font-sans)">{{ x.t }}</span></div></sc-for></sc-if>
+      <sc-if value="{{ RV.s4 }}" hint-placeholder-val="{{ false }}"><span style="font:400 17px/1.45 var(--font-sans);color:var(--grey-700)">Jayraj recommends Personal Training first. The right side needs one to one loading before group work.</span><sc-for list="{{ RV.plans }}" as="p" hint-placeholder-count="2"><div style="border:2px solid var(--ink);padding:16px;display:flex;justify-content:space-between;align-items:center;gap:10px;background:{{ p.bg }}"><span style="display:flex;flex-direction:column;gap:3px"><b style="font:600 16px var(--font-sans)">{{ p.t }}</b><span style="font-size:11px;color:var(--grey-700)">{{ p.d }}</span></span><b style="font:600 17px var(--font-sans)">₹XX,XXX</b></div></sc-for></sc-if>
+      <sc-if value="{{ RV.s5 }}" hint-placeholder-val="{{ false }}"><span style="font:400 18px/1.45 var(--font-sans)">Pay on Shopify and your full dashboard opens. Your first session with Shimyu is the next thing to book.</span><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="outline" size="md" full="{{ true }}" hint-size="100%,50px">DOWNLOAD PDF</x-import><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="outline" size="md" full="{{ true }}" hint-size="100%,50px">SHARE ON WHATSAPP</x-import></div></sc-if>
+      <div style="position:sticky;bottom:0;z-index:3;background:rgba(255,255,255,.97);border-top:1px solid var(--grey-200);padding:12px 0;display:grid;grid-template-columns:auto 1fr;gap:8px"><sc-if value="{{ RV.hasBack }}" hint-placeholder-val="{{ false }}"><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="outline" size="lg" onClick="{{ RV.back }}" hint-size="90px,58px">←</x-import></sc-if><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="{{ RV.nv }}" size="lg" full="{{ true }}" onClick="{{ RV.next }}" hint-size="100%,58px">{{ RV.nl }}</x-import></div>
+    </sc-if>
+  </main>
+  <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}"><div style="position:fixed;top:72px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:14px 18px;box-shadow:6px 6px 0 #006DE0;font:600 14px var(--font-sans);z-index:10;max-width:calc(100vw - 32px)">✓ {{ toastMsg }}</div></sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;screen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;checkin&quot;,&quot;options&quot;:[&quot;checkin&quot;,&quot;today&quot;,&quot;close&quot;,&quot;setup&quot;,&quot;photos&quot;,&quot;live&quot;,&quot;released&quot;,&quot;reveal&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Screen&quot;},&quot;photoConsentOff&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;States&quot;},&quot;connectionLost&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;States&quot;}}">
+class Component extends DCLogic {
+  state = { screen: null, checked: false, phase: 2, paused: false, tell: false, chip: null, rating: 0, link: false, shot: 0, counting: 0, lost: false, run: false, t0: 0, rv: 0, w: 1280, toast: null };
+  componentDidMount() { this._r = () => this.setState({ w: window.innerWidth }); window.addEventListener('resize', this._r); this._r(); }
+  componentWillUnmount() { window.removeEventListener('resize', this._r); clearInterval(this._iv); clearInterval(this._cd); }
+  componentDidUpdate(pp) { if (pp.screen !== this.props.screen) this.setState({ screen: null }); }
+  flash(t) { this.setState({ toast: t }); clearTimeout(this._t); this._t = setTimeout(() => this.setState({ toast: null }), 3000); }
+
+  GN = { head: 'Head', neck: 'Neck', trap: 'Trapezius', trapback: 'Trapezius', delt: 'Shoulder', chest: 'Chest', bicep: 'Biceps', tricep: 'Triceps', forearm: 'Forearm', hand: 'Hand', abs: 'Abdominals', oblique: 'Obliques', hipflex: 'Hip flexors', quad: 'Quadriceps', knee: 'Knee', shin: 'Shin', calf: 'Calf', foot: 'Foot', scap: 'Shoulder blade', lat: 'Lats', lowback: 'Lower back', glute: 'Glutes', ham: 'Hamstrings', achilles: 'Achilles', uppback: 'Upper back' };
+  FG = { hip: ['R:hipflex', 'R:glute'], knee: ['R:knee'], foot: ['R:foot'], tspine: ['C:trapback', 'L:scap', 'R:scap', 'R:uppback', 'L:uppback'], ribs: ['L:oblique', 'R:oblique', 'L:lat', 'R:lat'], neck: ['C:neck', 'L:trap', 'R:trap'], nasal: ['C:head'], calf: ['R:calf', 'R:achilles'], lowback: ['C:lowback', 'R:lowback', 'L:lowback'], sleep: ['C:head'], balance: ['R:foot', 'R:shin', 'R:calf'], jump: ['L:glute', 'R:glute', 'L:ham', 'R:ham'], hang: ['R:hand', 'R:forearm'] };
+  POS = { hip: { front: [176, 366], back: [228, 388], right: [222, 362] }, knee: { front: [172, 543], right: [210, 543] }, foot: { front: [170, 692], back: [228, 692], right: [222, 690] }, tspine: { back: [200, 186], right: [176, 190], left: [176, 190] }, ribs: { front: [200, 236], back: [200, 258], right: [216, 268], left: [216, 268] }, neck: { front: [200, 118], right: [206, 116], left: [206, 116] }, nasal: { front: [200, 64], right: [222, 66], left: [222, 66] }, calf: { back: [226, 590], right: [190, 606] }, lowback: { back: [200, 312], right: [176, 284], left: [176, 284] }, sleep: { front: [200, 64], back: [200, 64], right: [205, 62], left: [205, 62] }, balance: { front: [170, 692], back: [228, 692], right: [222, 690] }, jump: { back: [200, 388], right: [182, 370], left: [182, 370] }, hang: { front: [91, 420], back: [309, 420], right: [206, 405] } };
+  HEAD = 'M200 24 C220 24 232 42 232 64 C232 88 218 104 200 104 C182 104 168 88 168 64 C168 42 180 24 200 24 Z';
+  M = {
+    front: [['C', 'head', this.HEAD], ['C', 'neck', 'M186 100 L214 100 L218 130 Q200 136 182 130 Z'], ['S', 'trap', 'M182 118 Q162 132 140 140 Q160 144 178 142 Q186 132 186 120 Z'], ['S', 'chest', 'M154 146 Q178 142 198 148 L198 214 Q176 222 154 214 Q138 206 134 188 Q140 162 154 146 Z'], ['S', 'delt', 'M140 142 Q114 144 106 168 Q102 192 110 212 Q124 198 132 180 Q140 160 152 148 Z'], ['S', 'bicep', 'M110 216 Q122 204 132 194 Q138 222 134 252 Q128 274 116 282 Q104 272 102 248 Q102 228 110 216 Z'], ['S', 'forearm', 'M102 288 Q114 282 126 288 Q124 322 114 360 Q106 380 98 392 Q86 386 86 372 Q88 330 102 288 Z'], ['S', 'hand', 'M84 398 Q98 392 102 400 Q104 420 98 440 Q88 446 80 438 Q76 418 84 398 Z'], ['M', 'abs', 'M178 222 L197 220 L197 252 L178 254 Z'], ['M', 'abs', 'M178 258 L197 256 L197 288 L178 290 Z'], ['M', 'abs', 'M178 294 L197 292 L197 324 L178 326 Z'], ['M', 'abs', 'M178 330 L197 328 L197 372 Q186 366 180 352 Z'], ['S', 'oblique', 'M154 218 Q164 224 174 226 L174 330 Q164 340 156 350 Q150 320 148 290 Q146 250 154 218 Z'], ['S', 'hipflex', 'M158 354 Q168 342 176 334 Q182 358 197 378 L197 400 Q178 394 162 378 Z'], ['S', 'quad', 'M154 380 Q164 388 172 400 Q170 452 168 500 Q162 520 154 524 Q144 480 144 432 Q146 400 154 380 Z'], ['S', 'quad', 'M176 402 Q186 408 195 410 Q196 462 188 506 Q180 520 172 512 Q174 452 176 402 Z'], ['S', 'quad', 'M191 474 Q199 494 195 520 Q186 532 176 526 Q182 502 191 474 Z'], ['S', 'knee', 'M158 532 Q172 524 186 532 Q188 546 184 554 Q172 560 160 554 Q154 544 158 532 Z'], ['S', 'shin', 'M156 562 Q164 558 172 562 Q170 612 166 662 Q162 670 158 668 Q150 620 156 562 Z'], ['S', 'calf', 'M176 562 Q190 570 192 604 Q190 642 178 664 Q172 666 170 660 Q176 612 176 562 Z'], ['S', 'foot', 'M156 676 Q170 670 182 676 Q190 694 188 708 Q170 714 150 708 Q148 692 156 676 Z']],
+    back: [['C', 'head', this.HEAD], ['C', 'neck', 'M186 100 L214 100 L216 124 L184 124 Z'], ['C', 'trapback', 'M186 112 L214 112 Q232 128 262 140 Q238 150 224 176 L210 248 L200 260 L190 248 L176 176 Q162 150 138 140 Q168 128 186 112 Z'], ['S', 'delt', 'M140 142 Q114 144 106 168 Q102 192 110 212 Q124 198 132 180 Q140 160 152 148 Z'], ['S', 'scap', 'M150 152 Q166 160 174 182 L170 222 Q154 222 140 210 Q134 186 150 152 Z'], ['S', 'lat', 'M140 214 Q158 226 172 228 L194 264 Q188 300 180 326 Q164 320 154 310 Q144 270 140 214 Z'], ['M', 'lowback', 'M184 270 L197 266 L197 350 L180 350 Q181 310 184 270 Z'], ['S', 'oblique', 'M150 306 Q166 326 178 334 L178 352 Q162 352 152 348 Q146 328 150 306 Z'], ['S', 'tricep', 'M110 216 Q122 204 132 194 Q138 222 134 252 Q128 274 116 282 Q104 272 102 248 Q102 228 110 216 Z'], ['S', 'forearm', 'M102 288 Q114 282 126 288 Q124 322 114 360 Q106 380 98 392 Q86 386 86 372 Q88 330 102 288 Z'], ['S', 'hand', 'M84 398 Q98 392 102 400 Q104 420 98 440 Q88 446 80 438 Q76 418 84 398 Z'], ['S', 'glute', 'M152 356 Q176 354 197 358 L197 416 Q180 426 162 420 Q146 406 146 382 Q146 364 152 356 Z'], ['S', 'ham', 'M148 424 Q160 430 172 430 Q172 472 168 512 Q160 526 152 522 Q144 472 148 424 Z'], ['S', 'ham', 'M176 430 Q188 430 196 426 Q196 472 190 512 Q182 524 172 518 Q176 472 176 430 Z'], ['S', 'knee', 'M156 530 Q172 526 190 530 Q190 542 186 548 Q172 552 158 548 Q154 540 156 530 Z'], ['S', 'calf', 'M154 554 Q166 550 172 554 Q172 592 166 618 Q156 614 150 598 Q148 572 154 554 Z'], ['S', 'calf', 'M174 554 Q186 550 194 558 Q196 592 186 620 Q178 620 174 612 Q174 582 174 554 Z'], ['S', 'achilles', 'M160 624 Q172 628 184 626 Q180 652 176 670 L168 670 Q164 648 160 624 Z'], ['S', 'foot', 'M158 678 Q172 672 186 678 Q188 696 182 708 Q168 712 156 706 Q152 692 158 678 Z']],
+    side: [['C', 'head', 'M205 24 C228 24 240 44 238 62 L245 76 L238 82 C236 96 224 104 205 104 C186 104 172 88 172 64 C172 42 184 24 205 24 Z'], ['C', 'neck', 'M192 100 L218 100 L222 132 L186 130 Z'], ['S', 'trap', 'M186 116 Q174 126 166 142 L194 140 Q190 128 192 116 Z'], ['S', 'uppback', 'M164 144 Q182 136 190 142 L188 236 Q170 232 160 214 Q154 178 164 144 Z'], ['S', 'chest', 'M206 142 Q236 148 244 178 Q246 202 238 218 L206 222 Z'], ['S', 'oblique', 'M192 224 L238 222 Q242 262 236 302 Q214 316 196 318 Q188 272 192 224 Z'], ['S', 'lowback', 'M160 218 Q174 236 190 240 L192 318 Q176 326 164 332 Q152 282 160 218 Z'], ['S', 'glute', 'M164 336 Q190 324 202 332 Q206 370 198 406 Q176 416 160 402 Q150 368 164 336 Z'], ['S', 'hipflex', 'M206 332 Q226 322 238 332 Q240 362 228 390 Q214 394 204 394 Q210 362 206 332 Z'], ['S', 'ham', 'M164 408 Q184 418 200 412 Q204 472 198 526 Q186 532 176 522 Q166 462 164 408 Z'], ['S', 'quad', 'M204 398 Q228 394 236 406 Q240 462 228 522 Q216 532 204 526 Q208 462 204 398 Z'], ['S', 'knee', 'M194 530 Q210 524 226 530 Q228 546 222 556 Q208 560 196 554 Q190 542 194 530 Z'], ['S', 'calf', 'M180 560 Q198 556 202 564 Q200 612 194 652 Q188 666 182 662 Q172 612 180 560 Z'], ['S', 'shin', 'M206 562 Q220 558 222 568 Q218 622 212 664 L204 664 Q208 612 206 562 Z'], ['S', 'foot', 'M184 670 L214 668 Q240 676 256 694 Q256 706 244 708 L186 708 Q178 690 184 670 Z'], ['S', 'delt', 'M178 140 Q204 132 220 150 Q226 176 212 198 Q198 202 186 194 Q172 168 178 140 Z'], ['S', 'bicep', 'M188 198 Q200 194 212 200 Q214 240 208 280 Q198 288 190 282 Q184 240 188 198 Z'], ['S', 'forearm', 'M190 288 Q202 284 212 290 Q216 330 214 370 Q206 380 200 378 Q192 332 190 288 Z'], ['S', 'hand', 'M198 382 Q212 380 216 388 Q218 410 212 428 Q202 432 196 424 Q192 404 198 382 Z']]
+  };
+
+  gLabel(k) { const [s, g] = k.split(':'); return (s === 'R' ? 'Right ' : s === 'L' ? 'Left ' : '') + (s === 'C' ? this.GN[g] : this.GN[g].toLowerCase()); }
+
+  body(view, spots, guides, hi) {
+    const h = React.createElement, side = view === 'left' || view === 'right';
+    const g = [];
+    if (guides) {
+      [[140, 'Shoulder'], [366, 'Hip'], [543, 'Knee'], [710, 'Floor']].forEach(([y, t], i) => {
+        g.push(h('line', { key: 'l' + i, x1: 0, x2: 400, y1: y, y2: y, style: { stroke: '#D0D5DD', strokeWidth: 1, strokeDasharray: '3 5' } }));
+        g.push(h('text', { key: 't' + i, x: 2, y: y - 6, style: { fontFamily: 'Space Mono, monospace', fontSize: 10, fill: '#98A2B3', letterSpacing: '.06em' } }, t.toUpperCase()));
+      });
+      g.push(h('line', { key: 'plumb', x1: 200, x2: 200, y1: 14, y2: 712, style: { stroke: '#BDEBFF', strokeWidth: 1.5 } }));
+    }
+    const near = view === 'front' ? 'R' : view === 'back' ? 'L' : view === 'right' ? 'R' : 'L';
+    const far = near === 'R' ? 'L' : 'R';
+    const paths = [];
+    const fillOf = k => hi.sel.includes(k) ? '#006DE0' : hi.group === k ? '#101828' : hi.hover === k ? '#98A2B3' : '#E6E8EC';
+    const mk = (k, d, i, tf) => paths.push(h('path', { key: k + i + (tf ? 'm' : ''), d, transform: tf, onClick: () => hi.onPick(k), onMouseEnter: () => hi.onHover(k), onMouseLeave: () => hi.onHover(null), style: { fill: fillOf(k), stroke: '#FFFFFF', strokeWidth: 2, strokeLinejoin: 'round', cursor: 'pointer', transition: 'fill .25s' } }));
+    const set = side ? this.M.side : this.M[view];
+    set.forEach(([t, id, d], i) => {
+      if (t === 'C') mk('C:' + id, d, i);
+      else if (side) mk(near + ':' + id, d, i);
+      else { mk((t === 'M' ? 'C' : near) + ':' + id, d, i); mk((t === 'M' ? 'C' : far) + ':' + id, d, i, 'translate(400,0) scale(-1,1)'); }
+    });
+    const sil = h('g', { key: 'sil', transform: view === 'left' ? 'translate(400,0) scale(-1,1)' : undefined }, paths);
+    const ground = h('ellipse', { key: 'gr', cx: 200, cy: 712, rx: 120, ry: 8, style: { fill: '#E6E8EC' } });
+    const sp = spots.map(s => h('g', { key: s.id, onClick: s.pick, style: { cursor: 'pointer' } },
+      s.on ? h('circle', { cx: s.x, cy: s.y, r: 12, style: { fill: 'none', stroke: '#101828', strokeWidth: 1.5, pointerEvents: 'none' } },
+        h('animate', { attributeName: 'r', values: '10;28', dur: '1.8s', repeatCount: 'indefinite' }),
+        h('animate', { attributeName: 'opacity', values: '.8;0', dur: '1.8s', repeatCount: 'indefinite' })) : null,
+      h('circle', { cx: s.x, cy: s.y, r: s.on ? 8 : 6, style: { fill: s.on ? '#101828' : '#FFFFFF', stroke: s.on ? '#FFFFFF' : '#006DE0', strokeWidth: 2.5 } }),
+      h('text', { x: s.x + (s.x > 300 ? -14 : 14), y: s.y + 4, textAnchor: s.x > 300 ? 'end' : 'start', style: { fontFamily: 'Space Mono, monospace', fontSize: 12, fontWeight: 700, fill: '#101828', paintOrder: 'stroke', stroke: '#F7F8FA', strokeWidth: 4, pointerEvents: 'none' } }, s.n)));
+    return h('svg', { viewBox: '0 0 400 720', style: { position: 'absolute', inset: 0, width: '100%', height: '100%', overflow: 'visible' } }, g, ground, sil, sp);
+  }
+
+
+  renderVals() {
+    const s = this.state, w = s.w, scr = s.screen || this.props.screen || 'checkin', off = !!this.props.photoConsentOff;
+    const go = x => () => { this.setState({ screen: x }); window.scrollTo && window.scrollTo(0, 0); };
+    const sel = on => ({ bg: on ? 'var(--ink)' : '#fff', fg: on ? '#fff' : 'var(--ink)' });
+    const PH = [['Check in', 'Arrived 5:22 PM'], ['Conversation', 'Your goals and the knee'], ['Movement', 'We measure how far each hip rotates, left and right, because it changes how your knee takes load.'], ['Breath', 'We time a calm breath hold and watch where your breath goes, because it shows how hard easy effort is for you.'], ['Recovery', 'We take your resting heart rate and go over your sleep answers, to set how hard training should be.'], ['Performance', 'A few strength tests, stopped well before anything hurts, so your plan starts at the right load.'], ['Close', 'Jayraj tells you what he saw, in plain words, and what happens next.']];
+    const p = Math.min(s.phase, PH.length - 1);
+    const counts = [0, 0, 9, 15, 19, 24, 24];
+    const pad2 = i => String(i + 1).padStart(2, '0');
+    const isTimer = s.run ? ((Date.now() - s.t0) / 1000).toFixed(1) : '14.0';
+    let act = { show: false };
+    if (scr === 'checkin') act = s.checked ? { show: true, label: '✓ Checked in', bg: '#fff', fg: 'var(--ink)', bd: 'inset 0 0 0 1.5px var(--grey-300)', go: () => {} } : { show: true, label: 'I am here', bg: 'var(--blue)', fg: '#fff', bd: 'none', go: () => { this.setState({ checked: true }); this.flash('Jayraj knows you are here.'); } };
+    if (scr === 'setup' || scr === 'photos') act = { show: true, label: 'Join session', bg: 'var(--blue)', fg: '#fff', bd: 'none', go: go('live') };
+    const VIEWS = [['Front', 'front'], ['Side', 'right'], ['Back', 'back']];
+    const shotI = Math.min(s.shot, 2);
+    const ghostHi = { sel: [], prio: [], group: null, hover: null, onHover: () => {}, onPick: () => {} };
+    const POSF = { hip: [176, 366], bal: [170, 692], knee: [172, 543] }, POSB = { hip: [228, 388], bal: [228, 692] };
+    const MK = [['hip', 'Right hip rotation', 'R 22° · L 36°'], ['bal', 'Right leg balance', 'R 14 s · L 31 s'], ['knee', 'Knee on deep squat', '6/10, your own rating']];
+    const spots = P => MK.map((m, i) => P[m[0]] && { id: m[0], x: P[m[0]][0], y: P[m[0]][1], n: pad2(i), on: false, pick: () => {} }).filter(Boolean);
+    const hi = { sel: ['R:hipflex', 'R:glute', 'R:foot', 'R:calf', 'R:knee'], prio: [], group: null, hover: null, onHover: () => {}, onPick: () => {} };
+    const RVT = ['Your starting point.', 'The four systems.', 'What matters most.', 'What we would work on.', 'Your recommended path.', 'Start training.'];
+    const rv = s.rv;
+    return {
+      act, L: { max: scr === 'live' ? '1180px' : '620px', setupCols: w >= 700 ? 'minmax(0,1.2fr) minmax(0,1fr)' : 'minmax(0,1fr)', liveCols: w >= 900 ? 'minmax(0,1.7fr) minmax(0,1fr)' : 'minmax(0,1fr)' },
+      is: { checkin: scr === 'checkin', today: scr === 'today', close: scr === 'close', setup: scr === 'setup', photos: scr === 'photos', live: scr === 'live', released: scr === 'released', reveal: scr === 'reveal' },
+      CI: { title: s.checked ? 'Jayraj is on his way.' : 'Welcome, Aarav.', line: s.checked ? 'Take a seat in the lounge. He will come and get you in a minute or two.' : 'Tap I am here when you walk in. Jayraj gets a message and comes to find you.', done: s.checked, rows: [['Where', 'TIC Kandivali · Address placeholder, Kandivali East'], ['Entry', 'Ground floor, glass doors on the left. Ask at the front desk.'], ['Bring', 'Water, and glasses if you wear them. Shorts and a fitted T shirt.']].map(([k, v]) => ({ k, v })) },
+      goToday: go('today'),
+      TD: { phase: PH[p][0], why: PH[p][1], count: counts[p] + ' of 24 measures captured', paused: s.paused, tell: s.tell,
+        phases: PH.map(([n], i) => ({ name: n, mark: i < p ? '✓' : '', box: i < p ? 'var(--blue)' : i === p ? 'var(--ink)' : '#fff', bg: i === p ? 'var(--ice)' : '#fff', st: i < p ? 'Done' : i === p ? (s.paused ? 'Paused' : 'Now') : '' })),
+        pause: () => { this.setState({ paused: true }); this.flash('Paused. Jayraj has been told.'); }, resume: () => this.setState({ paused: false }), openTell: () => this.setState({ tell: !s.tell }),
+        chips: ['Pain today', 'I need water', 'I need a break', 'Something else'].map(o => ({ label: o, ...sel(s.chip === o), pick: () => this.setState({ chip: o }) })),
+        send: () => { this.setState({ tell: false, chip: null }); this.flash('Sent. Jayraj will see it before the next test.'); },
+        advance: () => p >= PH.length - 1 ? go('close')() : this.setState({ phase: p + 1 }) },
+      rates: [1, 2, 3, 4, 5].map(n => ({ n, ...sel(n <= s.rating), pick: () => this.setState({ rating: n }) })),
+      nextLines: ['Jayraj writes up your results and picks your 3 to 5 priorities.', 'The head coach checks every report before it is released.', 'You get a WhatsApp and an email when it is ready. Then you choose a plan.'].map((t, i) => ({ n: pad2(i), t })),
+      checks: [['Camera', '✓ Working', 'var(--ink)'], ['Microphone', '✓ Working', 'var(--ink)'], ['Connection', s.link ? '✓ Strong' : 'Not tested', s.link ? 'var(--ink)' : 'var(--grey-600)']].map(([t, st, fg]) => ({ t, st, fg })),
+      guide: ['Phone or laptop on a flat surface, 2 to 3 metres away', 'Your whole body in frame, head to feet', 'About 2 by 2 metres of clear floor, placeholder', 'Shorts and a fitted top so your knees and hips are visible', 'A chair without arms, and a mat'],
+      testLink: () => { this.setState({ link: true }); this.flash('Join link works. See you at 7:00 AM.'); }, linkLabel: s.link ? '✓ LINK TESTED' : 'TEST JOIN LINK', goPhotos: go('photos'), goLive: go('live'),
+      PH: { off, on: !off, n: shotI + 1, view: VIEWS[shotI][0], title: s.shot >= 3 ? 'All three done.' : VIEWS[shotI][0] + ' photo.', cap: s.shot > shotI || s.shot >= 3 ? 'PHOTO: ' + VIEWS[shotI][0].toUpperCase() + ' · 4 SEP' : 'CAMERA', ghost: this.body(VIEWS[shotI][1], [], false, ghostHi), counting: s.counting > 0, count: s.counting,
+        tip: shotI === 0 ? 'Stand in the outline, arms relaxed, feet hip width.' : shotI === 1 ? 'Turn to your right. Look straight ahead.' : 'Turn your back to the camera.',
+        shootLabel: s.shot >= 3 ? '✓ DONE' : 'START 3 SECOND TIMER', retake: () => this.setState({ shot: Math.max(0, Math.min(s.shot, 2)) }),
+        shoot: () => { if (s.shot >= 3 || s.counting) return; this.setState({ counting: 3 }); clearInterval(this._cd); this._cd = setInterval(() => this.setState(st => { if (st.counting <= 1) { clearInterval(this._cd); return { counting: 0, shot: st.shot + 1 }; } return { counting: st.counting - 1 }; }), 700); } },
+      LV: { instr: 'Stand on your right leg, eyes open. Hands on hips.', clock: isTimer, lost: s.lost || !!this.props.connectionLost, rejoin: () => this.setState({ lost: false }), drop: () => this.setState({ lost: true }),
+        tl: s.run ? 'STOP' : 'START', tv: s.run ? 'ink' : 'blue', timer: () => { if (s.run) { clearInterval(this._iv); this.setState({ run: false }); } else { this.setState({ run: true, t0: Date.now() }); this._iv = setInterval(() => this.forceUpdate(), 100); } },
+        phases: PH.map(([n], i) => ({ name: n, mark: i < 2 ? '✓' : i === 2 ? '●' : '', st: i < 2 ? 'Done' : i === 2 ? '9 of 24' : '', bg: i === 2 ? 'var(--ink)' : '#fff', fg: i === 2 ? '#fff' : 'var(--ink)' })) },
+      goReveal: () => this.setState({ screen: 'reveal', rv: 0 }),
+      RV: { n: (rv + 1) + ' of 6', title: RVT[rv], bars: RVT.map((_, i) => i <= rv ? 'var(--blue)' : 'var(--grey-200)'), s0: rv === 0, s1: rv === 1, s2: rv === 2, s3: rv === 3, s4: rv === 4, s5: rv === 5,
+        sys: [['movement', 'Movement', 'Right hip turns in 14° less than the left.'], ['breathwork', 'Breath', 'Breath sits high in the chest at rest.'], ['recovery', 'Recovery', 'Short sleep on weeknights. Resting heart rate 68 bpm.'], ['performance', 'Performance', 'Right leg weaker than the left.']].map(([id, name, t]) => ({ id, name, t })),
+        front: this.body('front', spots(POSF), false, hi), back: this.body('back', spots(POSB), false, hi), marks: MK.map(([, t, v], i) => ({ n: pad2(i), t, v })),
+        work: ['Opening right hip rotation, then loading it.', 'Strengthening the right foot and leg.', 'Breathing into the lower ribs.', 'A fixed wake time, every day.'].map((t, i) => ({ n: pad2(i), t })),
+        plans: [['Personal Training · 12 sessions', '1:1 with Shimyu · 45 days · recommended', 'var(--ice)'], ['Group Training · 24 classes', 'Mobility Lab and Fundamentals · 60 days', '#fff']].map(([t, d, bg]) => ({ t, d, bg })),
+        hasBack: rv > 0, back: () => this.setState({ rv: rv - 1 }), nl: rv === 5 ? 'START TRAINING →' : 'NEXT →', nv: rv === 5 ? 'blue' : 'ink',
+        next: () => rv === 5 ? (window.location.href = '05 Client - Dashboard.dc.html') : this.setState({ rv: rv + 1 }), skip: () => { window.location.href = '05 Client - Dashboard.dc.html'; } },
+      toast: !!s.toast, toastMsg: s.toast || ''
+    };
+  }
+}
+</script>
+</body>
+</html>

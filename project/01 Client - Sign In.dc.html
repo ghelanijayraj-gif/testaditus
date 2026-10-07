@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/colors.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/typography.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/effects.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/base.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/styles.css">
+<script src="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/_ds_bundle.js"></script>
+<style>body{margin:0;background:#fff}a{color:var(--ink)}a:hover{color:var(--blue)}button,input{font:inherit;color:inherit}*{box-sizing:border-box}input:focus{outline:2px solid var(--sky);outline-offset:0}</style>
+</helmet>
+<div style="min-height:100vh;display:grid;grid-template-columns:{{ L.shell }};font-family:var(--font-mono);color:var(--ink);background:#fff">
+
+  <sc-if value="{{ L.side }}" hint-placeholder-val="{{ true }}">
+    <aside style="position:sticky;top:0;height:100vh;background:var(--blue);color:#fff;display:flex;flex-direction:column;justify-content:space-between;padding:clamp(28px,4vw,56px);overflow:hidden">
+      <div style="display:flex;align-items:center;gap:12px">
+        <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.AditusMark" size="{{ 36 }}" color="#FFFFFF" muted="#879DDA" hint-size="36px,36px"></x-import>
+        <span style="font-family:var(--font-display);font-size:22px">ADITUS</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:20px;max-width:560px">
+        <span style="font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--ice)">{{ panel.kicker }}</span>
+        <h1 style="margin:0;font-family:var(--font-display);font-weight:400;font-size:clamp(44px,5.4vw,88px);line-height:.86;text-transform:uppercase;text-wrap:balance">{{ panel.title }}</h1>
+        <p style="margin:0;font:400 clamp(17px,1.4vw,20px)/1.4 var(--font-sans);letter-spacing:-.015em;max-width:440px;color:#fff">{{ panel.line }}</p>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:20px">
+        <span style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;line-height:1.6">Help · WhatsApp +91 98200 41700<br>TIC Kandivali · Samyah Borivali</span>
+        <div style="opacity:.9;margin:0 -80px -120px 0"><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.AditusMark" size="{{ 300 }}" color="#FFFFFF" muted="#31B1EF" active="{{ markActive }}" hint-size="300px,300px"></x-import></div>
+      </div>
+    </aside>
+  </sc-if>
+
+  <div style="min-width:0;display:flex;flex-direction:column;min-height:100vh">
+    <header style="height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(18px,3vw,40px);border-bottom:1px solid var(--grey-200)">
+      <sc-if value="{{ L.mobile }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;gap:8px;align-items:center"><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.AditusMark" size="{{ 26 }}" hint-size="26px,26px"></x-import><span style="font-family:var(--font-display);font-size:18px">ADITUS</span></div>
+      </sc-if>
+      <sc-if value="{{ back.show }}" hint-placeholder-val="{{ false }}">
+        <button onClick="{{ back.go }}" style="border:0;background:none;cursor:pointer;font-size:12px;text-transform:uppercase;letter-spacing:.06em;height:44px;padding:0">← {{ back.label }}</button>
+      </sc-if>
+      <span style="margin-left:auto;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--grey-600)">{{ headerRight }}</span>
+    </header>
+
+    <main style="flex:1;display:flex;justify-content:center;padding:clamp(28px,6vh,72px) clamp(18px,4vw,48px) 56px">
+      <div style="width:100%;max-width:{{ L.colMax }};display:flex;flex-direction:column;gap:28px">
+
+        <sc-if value="{{ L.mobile }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--blue)">{{ panel.kicker }}</span>
+            <h1 style="margin:0;font-family:var(--font-display);font-weight:400;font-size:34px;line-height:.88;text-transform:uppercase">{{ panel.title }}</h1>
+            <p style="margin:0;font:400 16px/1.45 var(--font-sans);color:var(--grey-700)">{{ panel.line }}</p>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isSetup }}" hint-placeholder-val="{{ false }}">
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
+            <sc-for list="{{ steps }}" as="s" hint-placeholder-count="4">
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <div style="height:6px;background:{{ s.bar }}"></div>
+                <span style="font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:{{ s.fg }}">{{ s.n }} · {{ s.label }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ is.paid }}" hint-placeholder-val="{{ false }}">
+          <div style="border:2px solid var(--ink);display:flex;flex-direction:column">
+            <div style="padding:16px 18px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--ink)">
+              <span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em">Order #ADT1042</span>
+              <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Label" tone="ink" hint-size="60px,22px">✓ PAID</x-import>
+            </div>
+            <div style="padding:18px;display:flex;justify-content:space-between;gap:16px;border-bottom:1px solid var(--grey-200)">
+              <div style="display:flex;flex-direction:column;gap:4px"><span style="font:600 18px var(--font-sans)">Personal Training · Cycle 1</span><span style="font-size:12px;color:var(--grey-700)">Movement Assessment + 12 sessions · 1:1</span></div>
+              <span style="font:600 18px var(--font-sans);white-space:nowrap">₹XX,XXX</span>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr))">
+              <div style="padding:14px 18px;display:flex;flex-direction:column;gap:4px;box-shadow:inset -1px 0 0 var(--grey-200)"><span style="font-size:10px;text-transform:uppercase;color:var(--grey-600)">Date</span><span style="font-size:13px">Fri 28 Aug 2026</span></div>
+              <div style="padding:14px 18px;display:flex;flex-direction:column;gap:4px;box-shadow:inset -1px 0 0 var(--grey-200)"><span style="font-size:10px;text-transform:uppercase;color:var(--grey-600)">Paid with</span><span style="font-size:13px">UPI</span></div>
+              <div style="padding:14px 18px;display:flex;flex-direction:column;gap:4px"><span style="font-size:10px;text-transform:uppercase;color:var(--grey-600)">Includes GST</span><span style="font-size:13px">₹X,XXX</span></div>
+            </div>
+          </div>
+          <div style="background:var(--ice);padding:16px 18px;display:flex;flex-direction:column;gap:4px">
+            <span style="font:600 16px var(--font-sans)">We have emailed you a link to set up your account.</span>
+            <span style="font-size:12px;color:var(--grey-700)">Sent to aarav.mehta@example.com · The link expires in 48 hours</span>
+          </div>
+          <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="ink" size="lg" full="{{ true }}" onClick="{{ go.email }}" hint-size="100%,58px">CONTINUE TO ADITUS →</x-import>
+          <span style="font-size:11px;color:var(--grey-600)">No email? Check spam, or WhatsApp us on +91 98200 41700.</span>
+        </sc-if>
+
+        <sc-if value="{{ is.email }}" hint-placeholder-val="{{ false }}">
+          <div style="border:1px solid var(--grey-300);display:flex;flex-direction:column;background:var(--grey-50)">
+            <div style="padding:14px 18px;display:flex;flex-direction:column;gap:6px;border-bottom:1px solid var(--grey-300);background:#fff">
+              <span style="font:600 16px var(--font-sans)">Welcome to ADITUS, set up your account</span>
+              <span style="font-size:11px;color:var(--grey-600)">ADITUS &lt;hello@aditus.in&gt; · to aarav.mehta@example.com · 10:42 AM</span>
+            </div>
+            <div style="padding:clamp(16px,3vw,28px);display:flex;justify-content:center">
+              <div style="width:100%;max-width:520px;background:#fff;border-top:6px solid var(--blue);display:flex;flex-direction:column">
+                <div style="padding:22px 24px 0;display:flex;align-items:center;gap:8px"><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.AditusMark" size="{{ 24 }}" hint-size="24px,24px"></x-import><span style="font-family:var(--font-display);font-size:16px">ADITUS</span></div>
+                <div style="padding:22px 24px;display:flex;flex-direction:column;gap:14px">
+                  <span style="font-family:var(--font-display);font-size:28px;line-height:.9;text-transform:uppercase">Hi Aarav. Your assessment starts here.</span>
+                  <span style="font:400 15px/1.5 var(--font-sans)">You bought Personal Training, Cycle 1: a Movement Assessment and 12 sessions. Your coach is Shimyu at TIC Kandivali.</span>
+                  <span style="font:400 15px/1.5 var(--font-sans)">Set up your account to book your assessment and track every session.</span>
+                  <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="blue" size="md" onClick="{{ go.setup1 }}" hint-size="240px,50px">SET UP MY ACCOUNT →</x-import>
+                  <span style="font-size:11px;line-height:1.5;color:var(--grey-600)">This link is unique to you. It works once and expires in 48 hours.</span>
+                </div>
+                <div style="padding:16px 24px;border-top:1px solid var(--grey-200);font-size:11px;line-height:1.6;color:var(--grey-600)">Questions? WhatsApp us on +91 98200 41700<br>ADITUS · TIC Kandivali · Samyah Borivali · Mumbai</div>
+              </div>
+            </div>
+          </div>
+          <button onClick="{{ go.expired }}" style="align-self:flex-start;border:0;background:none;padding:0;cursor:pointer;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--grey-600);text-decoration:underline;text-underline-offset:4px">See what happens if the link has expired</button>
+        </sc-if>
+
+        <sc-if value="{{ is.setup1 }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:18px">
+            <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:11px;text-transform:uppercase;letter-spacing:.06em">Full name</span><input value="{{ name }}" onChange="{{ onName }}" style="height:52px;border:2px solid var(--ink);padding:0 14px;font-size:14px;border-radius:0"></label>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <span style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;display:flex;justify-content:space-between">Email<span style="color:var(--grey-600)">From your order · Locked</span></span>
+              <div style="height:52px;border:2px solid var(--grey-300);background:var(--grey-50);padding:0 14px;font-size:14px;display:flex;align-items:center;color:var(--grey-700)">aarav.mehta@example.com</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <span style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;display:flex;justify-content:space-between">Mobile<span style="color:var(--grey-600)">From your order · You can edit</span></span>
+              <div style="display:flex">
+                <span style="height:52px;padding:0 14px;border:2px solid var(--ink);border-right:0;display:flex;align-items:center;font-size:14px;background:var(--grey-50)">+91</span>
+                <input value="{{ mobileNo }}" onChange="{{ onMobile }}" inputmode="numeric" style="flex:1;min-width:0;height:52px;border:2px solid var(--ink);padding:0 14px;font-size:14px;border-radius:0">
+              </div>
+              <span style="font-size:11px;color:var(--grey-600)">We use this for session reminders on WhatsApp, if you turn them on.</span>
+            </div>
+            <label style="display:flex;flex-direction:column;gap:8px;max-width:240px"><span style="font-size:11px;text-transform:uppercase;letter-spacing:.06em">Date of birth</span><input type="date" value="{{ dob }}" onChange="{{ onDob }}" style="height:52px;border:2px solid var(--ink);padding:0 14px;font-size:14px;border-radius:0"></label>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <span style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;display:flex;justify-content:space-between">Emergency contact<span style="color:var(--grey-600)">Only used if you are unwell in a session</span></span>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:8px">
+                <input value="{{ ecName }}" onChange="{{ onEcName }}" placeholder="Name and relation" style="height:52px;border:2px solid var(--ink);padding:0 14px;font-size:14px;border-radius:0;min-width:0">
+                <input value="{{ ecPhone }}" onChange="{{ onEcPhone }}" placeholder="+91 mobile" inputmode="tel" style="height:52px;border:2px solid var(--ink);padding:0 14px;font-size:14px;border-radius:0;min-width:0">
+              </div>
+            </div>
+          </div>
+          <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="ink" size="lg" full="{{ true }}" onClick="{{ go.setup2 }}" hint-size="100%,58px">CONTINUE →</x-import>
+        </sc-if>
+
+        <sc-if value="{{ is.setup2 }}" hint-placeholder-val="{{ false }}">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px">
+            <sc-for list="{{ methods }}" as="m" hint-placeholder-count="2">
+              <button onClick="{{ m.pick }}" style="text-align:left;cursor:pointer;padding:18px;border:2px solid var(--ink);display:flex;flex-direction:column;gap:12px;min-height:200px;background:{{ m.bg }};box-shadow:{{ m.shadow }};transition:background .2s,box-shadow .2s">
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+                  <span style="width:24px;height:24px;border:2px solid var(--ink);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;background:{{ m.dot }}">{{ m.tick }}</span>
+                  <sc-if value="{{ m.simple }}" hint-placeholder-val="{{ false }}"><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Label" tone="blue" hint-size="80px,22px">SIMPLER</x-import></sc-if>
+                </div>
+                <span style="font-family:var(--font-display);font-size:20px;line-height:.92;text-transform:uppercase">{{ m.title }}</span>
+                <span style="font:400 14px/1.45 var(--font-sans);color:var(--grey-700)">{{ m.line }}</span>
+              </button>
+            </sc-for>
+          </div>
+          <sc-if value="{{ isPw }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:11px;text-transform:uppercase;letter-spacing:.06em">Choose a password</span>
+                <div style="display:flex"><input type="{{ pwType }}" value="{{ pw }}" onChange="{{ onPw }}" placeholder="At least 10 characters" style="flex:1;min-width:0;height:52px;border:2px solid var(--ink);border-right:0;padding:0 14px;font-size:14px;border-radius:0"><button onClick="{{ togglePw }}" style="height:52px;padding:0 14px;border:2px solid var(--ink);background:#fff;cursor:pointer;font-size:11px;text-transform:uppercase">{{ pwToggle }}</button></div>
+              </label>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <sc-for list="{{ pwRules }}" as="r" hint-placeholder-count="2"><span style="font-size:12px;color:{{ r.fg }}">{{ r.mark }} {{ r.t }}</span></sc-for>
+              </div>
+            </div>
+          </sc-if>
+          <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="ink" size="lg" full="{{ true }}" onClick="{{ go.setup3 }}" hint-size="100%,58px">CONTINUE →</x-import>
+        </sc-if>
+
+        <sc-if value="{{ is.setup3 }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <span style="font-size:11px;text-transform:uppercase;letter-spacing:.06em">Preferred centre</span>
+            <div style="border:2px solid var(--ink);display:flex;flex-direction:column">
+              <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.OptionRow" label="TIC Kandivali" desc="Kandivali West · Mon to Sat, 6:30 AM to 9:00 PM" checked="{{ c.tic }}" onClick="{{ pickTic }}" hint-size="100%,64px"></x-import>
+              <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.OptionRow" label="Samyah Borivali" desc="Borivali West · Mon to Sat, 7:00 AM to 8:00 PM" checked="{{ c.sam }}" onClick="{{ pickSam }}" hint-size="100%,64px"></x-import>
+            </div>
+          </div>
+          <button onClick="{{ toggleWa }}" style="border:2px solid var(--ink);background:#fff;cursor:pointer;padding:16px;display:flex;justify-content:space-between;align-items:center;gap:16px;text-align:left">
+            <span style="display:flex;flex-direction:column;gap:4px"><span style="font:600 16px var(--font-sans)">WhatsApp updates</span><span style="font-size:12px;color:var(--grey-700)">Session reminders and report alerts on +91 {{ mobileNo }}.</span></span>
+            <span style="flex:none;width:52px;height:28px;border:2px solid var(--ink);background:{{ wa.bg }};position:relative;transition:background .2s"><span style="position:absolute;top:2px;left:{{ wa.x }};width:20px;height:20px;background:{{ wa.knob }};transition:left .2s"></span></span>
+          </button>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <span style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;display:flex;justify-content:space-between">Consents<span style="color:var(--grey-600)">All optional · Change any time</span></span>
+            <div style="border:2px solid var(--ink);display:flex;flex-direction:column">
+              <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.OptionRow" multi="{{ true }}" label="Store my health documents" desc="Blood tests, scans and notes you upload. Seen only by you, your coach and the head coach." checked="{{ cons.health }}" onClick="{{ tHealth }}" hint-size="100%,72px"></x-import>
+              <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.OptionRow" multi="{{ true }}" label="Progress photos and videos" desc="We film you at baseline and reassessment to compare. Only you and your coach see them." checked="{{ cons.photos }}" onClick="{{ tPhotos }}" hint-size="100%,72px"></x-import>
+              <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.OptionRow" multi="{{ true }}" label="Sync data from health apps" desc="If you connect Apple Health or similar, we read sleep, heart rate and activity. You choose what your coach sees." checked="{{ cons.apps }}" onClick="{{ tApps }}" hint-size="100%,72px"></x-import>
+              <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.OptionRow" multi="{{ true }}" label="Share my story as a testimonial" desc="We may ask to publish your progress. We always show you the final version first." checked="{{ cons.story }}" onClick="{{ tStory }}" hint-size="100%,72px"></x-import>
+              <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.OptionRow" multi="{{ true }}" label="Add me to the ADITUS community" desc="A WhatsApp group for events, Run and Plunge, and open practice." checked="{{ cons.community }}" onClick="{{ tCommunity }}" hint-size="100%,72px"></x-import>
+            </div>
+          </div>
+          <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="blue" size="lg" full="{{ true }}" onClick="{{ go.setup4 }}" hint-size="100%,58px">CONTINUE →</x-import>
+        </sc-if>
+
+        <sc-if value="{{ is.setup4 }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ addFile }}" style="border:2px dashed var(--ink);background:var(--grey-50);cursor:pointer;padding:24px;display:flex;flex-direction:column;align-items:flex-start;gap:8px;text-align:left" style-hover="background:var(--mist)">
+            <span style="font-family:var(--font-display);font-size:18px;text-transform:uppercase">Drop files here.</span>
+            <span style="font:400 14px/1.45 var(--font-sans);color:var(--grey-700)">Blood tests, X ray or MRI reports, physio notes. PDF, JPG or PNG up to 25 MB.</span>
+            <span style="margin-top:6px;height:40px;padding:0 14px;display:flex;align-items:center;background:var(--ink);color:#fff;font-family:var(--font-display);font-size:12px">BROWSE FILES</span>
+          </button>
+          <sc-if value="{{ hasFiles }}" hint-placeholder-val="{{ false }}">
+            <div style="border:2px solid var(--ink);display:flex;flex-direction:column">
+              <sc-for list="{{ files }}" as="f" hint-placeholder-count="2">
+                <div style="padding:12px 16px;border-bottom:1px solid var(--grey-200);display:flex;justify-content:space-between;gap:12px;align-items:center"><span style="display:flex;flex-direction:column;gap:2px"><span style="font:600 14px var(--font-sans)">{{ f.name }}</span><span style="font-size:10px;text-transform:uppercase;color:var(--grey-600)">{{ f.type }} · {{ f.date }}</span></span><span style="font-size:11px;text-transform:uppercase">✓ Added</span></div>
+              </sc-for>
+            </div>
+          </sc-if>
+          <span style="font-size:11px;color:var(--grey-600)">Seen only by you, your coach and the head coach. You can add more later in Documents.</span>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="outline" size="lg" full="{{ true }}" onClick="{{ go.done }}" hint-size="100%,58px">SKIP FOR NOW</x-import>
+            <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="blue" size="lg" full="{{ true }}" onClick="{{ go.done }}" hint-size="100%,58px">FINISH SETUP →</x-import>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ is.done }}" hint-placeholder-val="{{ false }}">
+          <div style="border:2px solid var(--ink);display:flex;flex-direction:column">
+            <sc-for list="{{ summary }}" as="s" hint-placeholder-count="4">
+              <div style="padding:14px 18px;display:flex;justify-content:space-between;gap:16px;border-bottom:1px solid var(--grey-200)"><span style="font-size:11px;text-transform:uppercase;color:var(--grey-600)">{{ s.k }}</span><span style="font-size:13px;text-align:right">{{ s.v }}</span></div>
+            </sc-for>
+          </div>
+          <a href="05 Client - Dashboard.dc.html" style="text-decoration:none"><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="ink" size="lg" full="{{ true }}" hint-size="100%,58px">GO TO MY PROFILE →</x-import></a>
+          <span style="font-size:11px;color:var(--grey-600)">Taking you to Home in {{ countdown }} s</span>
+        </sc-if>
+
+        <sc-if value="{{ is.signin }}" hint-placeholder-val="{{ true }}">
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:11px;text-transform:uppercase;letter-spacing:.06em">Email</span><input type="email" value="{{ email }}" onChange="{{ onEmail }}" placeholder="you@email.com" style="height:52px;border:2px solid var(--ink);padding:0 14px;font-size:14px;border-radius:0"></label>
+          <sc-if value="{{ isPwSignin }}" hint-placeholder-val="{{ false }}">
+            <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:11px;text-transform:uppercase;letter-spacing:.06em;display:flex;justify-content:space-between">Password<button onClick="{{ go.forgot }}" style="border:0;background:none;padding:0;cursor:pointer;font-size:11px;text-transform:uppercase;color:var(--blue)">Forgot password</button></span><input type="password" value="{{ pw }}" onChange="{{ onPw }}" style="height:52px;border:2px solid var(--ink);padding:0 14px;font-size:14px;border-radius:0"></label>
+          </sc-if>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="{{ signin.primaryVariant }}" size="lg" full="{{ true }}" onClick="{{ signin.primary }}" hint-size="100%,58px">{{ signin.primaryLabel }}</x-import>
+            <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="outline" size="lg" full="{{ true }}" onClick="{{ signin.secondary }}" hint-size="100%,58px">{{ signin.secondaryLabel }}</x-import>
+          </div>
+          <div style="border-top:1px solid var(--grey-200);padding-top:18px;display:flex;flex-direction:column;gap:8px;font-size:12px;line-height:1.6;color:var(--grey-700)">
+            <span>First time here? Your setup link is in your welcome email.</span>
+            <span>Need help? WhatsApp us on <b style="color:var(--ink)">+91 98200 41700</b></span>
+            <button onClick="{{ go.paid }}" style="align-self:flex-start;border:0;background:none;padding:0;cursor:pointer;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--grey-600);text-decoration:underline;text-underline-offset:4px">See the new client flow from payment</button>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ is.check }}" hint-placeholder-val="{{ false }}">
+          <div style="border:2px solid var(--ink);padding:20px;display:flex;flex-direction:column;gap:6px">
+            <span style="font-size:11px;text-transform:uppercase;color:var(--grey-600)">Sent to</span>
+            <span style="font:600 18px var(--font-sans);word-break:break-all">{{ email }}</span>
+            <span style="font-size:12px;color:var(--grey-700)">The link works once and lasts 15 minutes. Open it on this device.</span>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px">
+            <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="ink" size="md" full="{{ true }}" hint-size="100%,50px">OPEN GMAIL →</x-import>
+            <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="outline" size="md" full="{{ true }}" onClick="{{ resend }}" disabled="{{ resendLocked }}" hint-size="100%,50px">{{ resendLabel }}</x-import>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px 20px;font-size:12px">
+            <button onClick="{{ go.signin }}" style="border:0;background:none;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:4px;font-size:12px">Use a different email</button>
+            <button onClick="{{ go.expired }}" style="border:0;background:none;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:4px;font-size:12px;color:var(--grey-600)">Preview: link expired</button>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ is.expired }}" hint-placeholder-val="{{ false }}">
+          <div style="background:var(--grey-50);border:2px solid var(--ink);padding:20px;display:flex;flex-direction:column;gap:8px">
+            <span style="font:600 16px var(--font-sans)">Links work once and last 48 hours for setup, 15 minutes for sign in.</span>
+            <span style="font-size:12px;color:var(--grey-700)">Nothing is lost. Your order and details are saved.</span>
+          </div>
+          <label style="display:flex;flex-direction:column;gap:8px"><span style="font-size:11px;text-transform:uppercase;letter-spacing:.06em">Email</span><input type="email" value="{{ email }}" onChange="{{ onEmail }}" style="height:52px;border:2px solid var(--ink);padding:0 14px;font-size:14px;border-radius:0"></label>
+          <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="blue" size="lg" full="{{ true }}" onClick="{{ go.check }}" hint-size="100%,58px">SEND A NEW LINK →</x-import>
+          <span style="font-size:12px;color:var(--grey-700)">Still stuck? WhatsApp us on <b style="color:var(--ink)">+91 98200 41700</b></span>
+        </sc-if>
+
+      </div>
+    </main>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;start&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;signin&quot;,&quot;options&quot;:[&quot;signin&quot;,&quot;check&quot;,&quot;expired&quot;,&quot;paid&quot;,&quot;email&quot;,&quot;setup1&quot;,&quot;setup2&quot;,&quot;setup3&quot;,&quot;setup4&quot;,&quot;done&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Flow&quot;}}">
+class Component extends DCLogic {
+  state = { screen: this.props.start ?? 'signin', w: typeof window !== 'undefined' ? window.innerWidth : 1440, name: 'Aarav Mehta', mobileNo: '98765 43210', email: 'aarav.mehta@example.com', method: 'link', pw: '', showPw: false, centre: '', wa: false, cons: { health: false, photos: false, apps: false, story: false, community: false }, dob: '1991-03-14', ecName: '', ecPhone: '', files: [], signinPw: false, countdown: 5, resendIn: 0 };
+  componentDidMount() { this._r = () => this.setState({ w: window.innerWidth }); window.addEventListener('resize', this._r); this._r(); }
+  componentWillUnmount() { window.removeEventListener('resize', this._r); clearInterval(this._t); clearInterval(this._c); }
+  componentDidUpdate(pp, ps) {
+    if (pp.start !== this.props.start && this.props.start) this.setState({ screen: this.props.start });
+    if (ps.screen !== this.state.screen && this.state.screen === 'done') {
+      clearInterval(this._c); this.setState({ countdown: 5 });
+      this._c = setInterval(() => this.setState(s => { if (s.countdown <= 1) { clearInterval(this._c); try { window.location.href = '05 Client - Dashboard.dc.html'; } catch (e) {} return { countdown: 0 }; } return { countdown: s.countdown - 1 }; }), 1000);
+    }
+    if (ps.screen !== this.state.screen && this.state.screen === 'check') this.startResend();
+  }
+  startResend() { clearInterval(this._t); this.setState({ resendIn: 30 }); this._t = setInterval(() => this.setState(s => { if (s.resendIn <= 1) { clearInterval(this._t); return { resendIn: 0 }; } return { resendIn: s.resendIn - 1 }; }), 1000); }
+
+  P = {
+    signin: ['Welcome back', 'Sign in.', 'Your sessions, homework and reports are where you left them.'],
+    check: ['Sign in', 'Check your email.', 'We sent you a sign in link. Tap it and you are in. No password needed.'],
+    expired: ['Sign in', 'This link has expired.', 'Send yourself a new one. It takes a few seconds.'],
+    paid: ['Payment confirmed', 'Your assessment starts here.', 'Thank you, Aarav. Next, set up your account so you can book your assessment and track your sessions.'],
+    email: ['Your inbox', 'Check your email.', 'This is the email we sent you. The button inside is your private setup link.'],
+    setup1: ['Account setup · 1 of 4', 'Confirm your details.', 'We filled these in from your order. Check they are right.'],
+    setup2: ['Account setup · 2 of 4', 'Secure your account.', 'Choose how you want to sign in. You can change it later in Account.'],
+    setup3: ['Account setup · 3 of 4', 'Your preferences.', 'Where you train, how we reach you, and what you are happy for us to use. Nothing is ticked for you.'],
+    setup4: ['Account setup · 4 of 4 · optional', 'Bring your documents.', 'Upload blood tests, scans or physio notes you already have. They help us read your baseline. Skip if you have none.'],
+    done: ["You're in", "You're in.", 'Your account is ready. First step: fill your intake and book your Movement Assessment. It becomes your baseline.']
+  };
+
+  renderVals() {
+    const s = this.state, sc = s.screen, w = s.w;
+    const mobile = w < 900;
+    const go = k => () => this.setState({ screen: k });
+    const p = this.P[sc] || this.P.signin;
+    const is = {}; ['signin', 'check', 'expired', 'paid', 'email', 'setup1', 'setup2', 'setup3', 'setup4', 'done'].forEach(k => is[k] = sc === k);
+    const stepN = { setup1: 1, setup2: 2, setup3: 3, setup4: 4 }[sc] || 0;
+    const backMap = { setup2: ['setup1', 'Details'], setup3: ['setup2', 'Security'], setup4: ['setup3', 'Preferences'], check: ['signin', 'Sign in'], expired: ['signin', 'Sign in'], email: ['paid', 'Order'] };
+    const b = backMap[sc];
+    const pwLong = s.pw.length >= 10, pwNum = /\d/.test(s.pw);
+    const tog = k => () => this.setState(st => ({ cons: { ...st.cons, [k]: !st.cons[k] } }));
+    const centreName = s.centre === 'tic' ? 'TIC Kandivali' : s.centre === 'sam' ? 'Samyah Borivali' : 'Not chosen';
+    return {
+      L: { shell: mobile ? 'minmax(0,1fr)' : 'minmax(360px,44%) minmax(0,1fr)', side: !mobile, mobile, colMax: is.email ? '640px' : '460px' },
+      panel: { kicker: p[0], title: p[1], line: p[2] },
+      markActive: ['', 'movement', 'breathwork', 'recovery', 'performance'][stepN] || (is.done ? 'performance' : ''),
+      headerRight: sc.startsWith('setup') ? 'Secure setup · aarav.mehta@example.com' : is.paid ? 'Order #ADT1042' : 'Client profile',
+      back: b ? { show: true, label: b[1], go: go(b[0]) } : { show: false, label: '', go: () => {} },
+      is, isSetup: stepN > 0,
+      steps: ['Details', 'Security', 'Preferences', 'Documents'].map((l, i) => ({ n: String(i + 1).padStart(2, '0'), label: l, bar: i + 1 < stepN ? 'var(--ink)' : i + 1 === stepN ? 'var(--blue)' : 'var(--grey-200)', fg: i + 1 <= stepN ? 'var(--ink)' : 'var(--grey-600)' })),
+      go: { email: go('email'), setup1: go('setup1'), setup2: go('setup2'), setup3: go('setup3'), setup4: go('setup4'), done: go('done'), expired: go('expired'), check: go('check'), signin: go('signin'), paid: go('paid'), forgot: () => this.setState({ screen: 'check', signinPw: false }) },
+      name: s.name, onName: e => this.setState({ name: e.target.value }),
+      mobileNo: s.mobileNo, onMobile: e => this.setState({ mobileNo: e.target.value }),
+      email: s.email, onEmail: e => this.setState({ email: e.target.value }),
+      methods: [
+        { id: 'link', title: 'Always sign in with an email link', line: 'We email you a link each time. Nothing to remember.', simple: true },
+        { id: 'password', title: 'Use a password', line: 'Sign in with your email and a password you choose.', simple: false }
+      ].map(m => { const on = s.method === m.id; return { ...m, bg: on ? 'var(--ice)' : '#fff', shadow: on ? 'inset 0 -4px 0 var(--blue)' : 'none', dot: on ? 'var(--blue)' : '#fff', tick: on ? '✓' : '', pick: () => this.setState({ method: m.id }) }; }),
+      isPw: s.method === 'password',
+      pw: s.pw, onPw: e => this.setState({ pw: e.target.value }), pwType: s.showPw ? 'text' : 'password', pwToggle: s.showPw ? 'Hide' : 'Show', togglePw: () => this.setState({ showPw: !s.showPw }),
+      pwRules: [[pwLong, 'At least 10 characters'], [pwNum, 'At least one number']].map(([ok, t]) => ({ t, mark: ok ? '✓' : '·', fg: ok ? 'var(--ink)' : 'var(--grey-600)' })),
+      c: { tic: s.centre === 'tic', sam: s.centre === 'sam' }, pickTic: () => this.setState({ centre: 'tic' }), pickSam: () => this.setState({ centre: 'sam' }),
+      toggleWa: () => this.setState({ wa: !s.wa }), wa: { bg: s.wa ? 'var(--blue)' : '#fff', knob: s.wa ? '#fff' : 'var(--ink)', x: s.wa ? '26px' : '2px' },
+      cons: s.cons, tHealth: tog('health'), tApps: tog('apps'), tPhotos: tog('photos'), tStory: tog('story'), tCommunity: tog('community'),
+      summary: [{ k: 'Name', v: s.name }, { k: 'Sign in', v: s.method === 'link' ? 'Email link' : 'Password' }, { k: 'Centre', v: centreName }, { k: 'WhatsApp updates', v: s.wa ? 'On' : 'Off' }, { k: 'Consents given', v: Object.values(s.cons).filter(Boolean).length + ' of 5' }, { k: 'Documents added', v: String(s.files.length) }],
+      countdown: s.countdown,
+      dob: s.dob, onDob: e => this.setState({ dob: e.target.value }), ecName: s.ecName, onEcName: e => this.setState({ ecName: e.target.value }), ecPhone: s.ecPhone, onEcPhone: e => this.setState({ ecPhone: e.target.value }),
+      files: s.files, hasFiles: s.files.length > 0, addFile: () => this.setState(st => ({ files: st.files.concat([[{ name: 'Blood test, full panel.pdf', type: 'Blood test', date: '18 Aug 2026' }, { name: 'Right knee X ray.jpg', type: 'Scan', date: '22 Jul 2026' }][st.files.length % 2]]) })),
+      isPwSignin: s.signinPw,
+      signin: s.signinPw
+        ? { primaryLabel: 'SIGN IN →', primaryVariant: 'ink', primary: () => { window.location.href = '05 Client - Dashboard.dc.html'; }, secondaryLabel: 'EMAIL ME A LINK INSTEAD', secondary: () => this.setState({ signinPw: false }) }
+        : { primaryLabel: 'EMAIL ME A SIGN IN LINK →', primaryVariant: 'blue', primary: go('check'), secondaryLabel: 'USE PASSWORD', secondary: () => this.setState({ signinPw: true }) },
+      resend: () => this.startResend(), resendLocked: s.resendIn > 0, resendLabel: s.resendIn > 0 ? 'RESEND IN ' + s.resendIn + ' S' : 'RESEND LINK'
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/colors.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/typography.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/effects.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/base.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/styles.css">
+<script src="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/_ds_bundle.js"></script>
+<style>body{margin:0;background:#fff}a{color:var(--ink)}a:hover{color:var(--blue)}button,input,textarea{font:inherit;color:inherit}*{box-sizing:border-box}</style>
+</helmet>
+<div style="min-height:100vh;font-family:var(--font-mono);color:var(--ink);display:flex;flex-direction:column;background:#fff">
+  <div style="position:sticky;top:0;z-index:30;background:var(--grey-50);border-bottom:1px solid var(--grey-200);display:flex;flex-direction:column">
+    <div style="height:40px;display:flex;align-items:center;gap:6px;padding:0 clamp(10px,2vw,24px);overflow-x:auto">
+      <span style="flex:none;font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--grey-600);margin-right:4px">Prototype state</span>
+      <sc-for list="{{ states }}" as="x" hint-placeholder-count="8"><button onClick="{{ x.pick }}" style="flex:none;height:28px;padding:0 10px;border:1.5px solid var(--ink);cursor:pointer;font-size:10px;text-transform:uppercase;white-space:nowrap;background:{{ x.bg }};color:{{ x.fg }}">{{ x.label }}</button></sc-for>
+    </div>
+    <div style="height:36px;display:flex;align-items:center;gap:2px;padding:0 clamp(10px,2vw,24px);overflow-x:auto;border-top:1px solid var(--grey-200)">
+      <sc-for list="{{ screens }}" as="t" hint-placeholder-count="8"><button onClick="{{ t.pick }}" style="flex:none;height:35px;padding:0 10px;border:0;cursor:pointer;font-size:10px;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;background:transparent;color:{{ t.fg }};box-shadow:{{ t.bar }}">{{ t.label }}</button></sc-for>
+      <a href="12 Staff - Admin Console.dc.html" style="margin-left:auto;flex:none;font-size:10px;text-transform:uppercase;text-decoration:none">Staff console →</a>
+    </div>
+  </div>
+
+  <header style="position:sticky;top:77px;z-index:20;background:rgba(255,255,255,.97);border-bottom:2px solid var(--ink);height:60px;display:flex;align-items:center;gap:14px;padding:0 clamp(14px,3vw,32px)">
+    <div style="display:flex;align-items:center;gap:8px;flex:none"><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.AditusMark" size="{{ 26 }}" hint-size="26px,26px"></x-import><span style="font-family:var(--font-display);font-size:18px">ADITUS</span></div>
+    <sc-if value="{{ L.wide }}" hint-placeholder-val="{{ true }}"><nav style="display:flex;gap:2px;margin-left:12px"><sc-for list="{{ nav }}" as="n" hint-placeholder-count="2"><button onClick="{{ n.pick }}" style="height:58px;padding:0 12px;border:0;background:transparent;cursor:pointer;font-size:11px;text-transform:uppercase;color:{{ n.fg }};box-shadow:{{ n.bar }}">{{ n.label }}</button></sc-for></nav></sc-if>
+    <span style="margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:1px"><b style="font:600 14px var(--font-sans)">{{ P.full }}</b><span style="font-size:9px;text-transform:uppercase;color:var(--grey-600)">{{ P.city }}</span></span>
+  </header>
+
+  <sc-if value="{{ is.checkout }}" hint-placeholder-val="{{ false }}">
+    <main style="width:100%;max-width:1080px;margin:0 auto;padding:clamp(20px,4vw,40px) clamp(14px,3vw,32px) 80px;display:flex;flex-direction:column;gap:20px">
+      <span style="font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--grey-600)">aditus.in · checkout</span>
+      <sc-if value="{{ P.mumbai }}" hint-placeholder-val="{{ true }}"><div style="background:var(--ice);padding:16px 18px;display:flex;flex-wrap:wrap;align-items:center;gap:12px"><span style="flex:1 1 320px;min-width:0;display:flex;flex-direction:column;gap:4px"><b style="font:600 17px var(--font-sans)">You’re near our centres. We recommend starting with an in person session.</b><span style="font:400 14px/1.45 var(--font-sans);color:var(--grey-700)">Hands on measures at TIC Kandivali or Samyah Borivali, plus a trial training. Paid, optional.</span></span><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="outline" size="sm" onClick="{{ CO.toggle }}" hint-size="170px,40px">{{ CO.addL }}</x-import></div></sc-if>
+      <div style="display:grid;grid-template-columns:{{ L.two }};gap:clamp(20px,4vw,40px);align-items:start">
+        <div style="display:flex;flex-direction:column;gap:12px;min-width:0">
+          <h1 style="margin:0;font-family:var(--font-display);font-weight:400;font-size:clamp(30px,5vw,48px);line-height:.9;text-transform:uppercase">Online Assessment.</h1>
+          <span style="font:400 17px/1.5 var(--font-sans);color:var(--grey-700)">An intake, then guided photos, movement videos and self tests at home. A practitioner reviews everything and writes your report.</span>
+          <div style="border:1px solid var(--grey-200);padding:12px 14px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><span style="font-size:11px;text-transform:uppercase;color:var(--grey-600)">Location · from your address</span><span style="font:500 14px var(--font-sans)">{{ P.city }} {{ P.pin }} · <a href="#" onClick="{{ CO.noop }}">Change</a></span></div>
+          <sc-if value="{{ P.notMumbai }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:var(--grey-700)">Visiting Mumbai? <a href="#" onClick="{{ CO.noop }}">Message the team →</a></span></sc-if>
+        </div>
+        <div style="position:sticky;top:157px;border:2px solid var(--ink);display:flex;flex-direction:column">
+          <span style="padding:12px 16px;border-bottom:2px solid var(--ink);font-family:var(--font-display);font-size:16px;text-transform:uppercase">Order summary</span>
+          <sc-for list="{{ CO.lines }}" as="l" hint-placeholder-count="2"><div style="padding:12px 16px;border-bottom:1px solid var(--grey-200);display:flex;justify-content:space-between;gap:12px"><span style="font:500 14px var(--font-sans)">{{ l.k }}</span><span style="font:600 14px var(--font-sans)">{{ l.v }}</span></div></sc-for>
+          <div style="padding:14px 16px"><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="blue" size="lg" full="{{ true }}" onClick="{{ CO.pay }}" hint-size="100%,58px">PAY ON SHOPIFY →</x-import></div>
+        </div>
+      </div>
+    </main>
+  </sc-if>
+
+  <sc-if value="{{ REC.show }}" hint-placeholder-val="{{ false }}">
+    <div style="width:100%;max-width:1180px;margin:0 auto;padding:clamp(18px,3vw,28px) clamp(14px,3vw,32px) 0">
+      <div style="border:2px solid var(--blue);display:grid;grid-template-columns:{{ L.rec }}">
+        <div style="padding:clamp(16px,2.5vw,24px);display:flex;flex-direction:column;gap:10px;min-width:0">
+          <span style="font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--blue)">{{ REC.kicker }}</span>
+          <span style="font-family:var(--font-display);font-size:clamp(22px,3vw,30px);line-height:.95;text-transform:uppercase">{{ REC.title }}</span>
+          <sc-for list="{{ REC.why }}" as="y" hint-placeholder-count="3"><span style="display:flex;gap:8px;font:400 15px/1.45 var(--font-sans)"><span style="color:var(--blue)">✓</span>{{ y }}</span></sc-for>
+          <sc-if value="{{ REC.hasNote }}" hint-placeholder-val="{{ false }}"><div style="background:var(--grey-50);padding:12px 14px;display:flex;flex-direction:column;gap:4px"><span style="font:400 15px/1.5 var(--font-sans)">“{{ REC.note }}”</span><span style="font-size:10px;text-transform:uppercase;color:var(--grey-600)">Jayraj · your practitioner</span></div></sc-if>
+        </div>
+        <div style="background:var(--ice);padding:clamp(16px,2.5vw,24px);display:flex;flex-direction:column;gap:10px">
+          <span style="display:flex;justify-content:space-between;align-items:baseline;gap:8px"><span style="font-size:10px;text-transform:uppercase;letter-spacing:.06em">In person session</span><b style="font:600 18px var(--font-sans)">Paid · ₹X,XXX</b></span>
+          <sc-for list="{{ REC.inc }}" as="i" hint-placeholder-count="3"><span style="display:flex;justify-content:space-between;gap:8px;padding:8px 0;border-top:1px solid rgba(16,24,40,.12);font:500 14px var(--font-sans)"><span>{{ i.k }}</span><span style="font-family:var(--font-mono);font-size:11px">{{ i.v }}</span></span></sc-for>
+          <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="blue" size="md" full="{{ true }}" onClick="{{ REC.add }}" hint-size="100%,50px">ADD AND BOOK →</x-import>
+          <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="outline" size="md" full="{{ true }}" onClick="{{ REC.skip }}" hint-size="100%,50px">CONTINUE ONLINE ONLY</x-import>
+          <span style="font-size:10px;color:var(--grey-700)">You can change this later from your assessment plan.</span>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ is.welcome }}" hint-placeholder-val="{{ false }}">
+    <main style="width:100%;max-width:1180px;margin:0 auto;padding:clamp(20px,4vw,40px) clamp(14px,3vw,32px) 80px;display:grid;grid-template-columns:{{ L.two }};gap:clamp(20px,4vw,40px);align-items:start">
+      <div style="display:flex;flex-direction:column;gap:16px;min-width:0">
+        <h1 style="margin:0;font-family:var(--font-display);font-weight:400;font-size:clamp(34px,6vw,60px);line-height:.88;text-transform:uppercase">Your assessment starts here.</h1>
+        <sc-for list="{{ W.lines }}" as="x" hint-placeholder-count="3"><span style="font:400 17px/1.5 var(--font-sans);color:var(--grey-700)">{{ x }}</span></sc-for>
+        <div style="border:2px solid var(--ink);display:flex;flex-direction:column"><sc-for list="{{ PL.cards }}" as="m" hint-placeholder-count="4"><div style="padding:14px 16px;border-bottom:1px solid var(--grey-200);display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:12px;align-items:center;background:{{ m.rowBg }}"><span style="font-size:11px;color:var(--grey-600)">{{ m.n }}</span><span style="display:flex;flex-direction:column;gap:2px;min-width:0"><b style="font:600 16px var(--font-sans);color:{{ m.nameFg }}">{{ m.name }}</b><span style="font-size:11px;color:var(--grey-600)">{{ m.short }}</span></span><span style="font-size:10px;text-transform:uppercase;white-space:nowrap">{{ m.time }}</span></div></sc-for></div>
+        <sc-if value="{{ P.notMumbai }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:var(--grey-700)">Visiting Mumbai? <a href="#" onClick="{{ CO.noop }}">Message the team →</a></span></sc-if>
+        <div><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="ink" size="lg" onClick="{{ W.start }}" hint-size="220px,58px">START INTAKE →</x-import></div>
+      </div>
+      <div style="position:sticky;top:157px;display:flex;flex-direction:column;gap:10px"><dc-import name="21 Shared - Coverage Grid" title="What your plan covers" legend="Updates as you go" rows="{{ COV }}" hint-size="100%,380px"></dc-import></div>
+    </main>
+  </sc-if>
+
+  <sc-if value="{{ is.home }}" hint-placeholder-val="{{ true }}">
+    <main style="width:100%;max-width:1180px;margin:0 auto;padding:clamp(20px,4vw,40px) clamp(14px,3vw,32px) 100px;display:grid;grid-template-columns:{{ L.two }};gap:clamp(20px,4vw,40px);align-items:start">
+      <div style="display:flex;flex-direction:column;gap:18px;min-width:0">
+        <span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--grey-600)">Good evening, {{ P.first }}</span>
+        <sc-if value="{{ NX.show }}" hint-placeholder-val="{{ true }}">
+          <div style="border:2px solid var(--ink);padding:clamp(18px,3vw,28px);display:flex;flex-direction:column;gap:12px">
+            <span style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><span style="font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--blue)">Your next step</span><span style="font-size:10px;text-transform:uppercase;color:var(--grey-600)">{{ PL.progress }}</span></span>
+            <span style="font-family:var(--font-display);font-size:clamp(26px,4vw,40px);line-height:.92;text-transform:uppercase">{{ NX.title }}</span>
+            <span style="font:400 16px/1.5 var(--font-sans);color:var(--grey-700)">{{ NX.line }}</span>
+            <sc-if value="{{ NX.hasNote }}" hint-placeholder-val="{{ false }}"><div style="background:var(--grey-50);padding:12px 14px;display:flex;flex-direction:column;gap:4px"><span style="font-size:10px;text-transform:uppercase;color:var(--blue)">Added for you by Jayraj</span><span style="font:400 15px/1.5 var(--font-sans)">“{{ NX.note }}”</span></div></sc-if>
+            <sc-if value="{{ NX.hasAct }}" hint-placeholder-val="{{ true }}"><div><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="ink" size="lg" onClick="{{ NX.go }}" hint-size="220px,58px">{{ NX.act }}</x-import></div></sc-if>
+            <sc-if value="{{ NX.hasReopen }}" hint-placeholder-val="{{ false }}"><button onClick="{{ NX.reopen }}" style="align-self:flex-start;border:0;background:none;padding:0;cursor:pointer;font-size:11px;text-transform:uppercase;text-decoration:underline">Changed your mind? In person session →</button></sc-if>
+          </div>
+        </sc-if>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px"><span style="font-family:var(--font-display);font-size:18px;text-transform:uppercase">Your assessment plan</span><button onClick="{{ goPlan }}" style="border:0;background:none;cursor:pointer;font-size:11px;text-transform:uppercase">See all steps →</button></div>
+        <div style="height:8px;background:var(--grey-200);display:flex"><i style="width:{{ PL.pct }};background:var(--blue);display:block"></i></div>
+        <div style="display:flex;flex-direction:column;border:1px solid var(--grey-200)"><sc-for list="{{ PL.cards }}" as="m" hint-placeholder-count="4"><button onClick="{{ goPlan }}" style="border:0;border-bottom:1px solid var(--grey-200);background:#fff;cursor:pointer;text-align:left;min-height:52px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;gap:10px"><span style="font:500 15px var(--font-sans);color:{{ m.nameFg }}">{{ m.name }}</span><span style="flex:none;padding:3px 8px;font-size:9px;text-transform:uppercase;letter-spacing:.04em;background:{{ m.chipBg }};color:{{ m.chipFg }};box-shadow:{{ m.chipBd }}">{{ m.chip }}</span></button></sc-for></div>
+      </div>
+      <div style="position:sticky;top:157px;display:flex;flex-direction:column;gap:10px"><dc-import name="21 Shared - Coverage Grid" title="What your plan covers" legend="Updates as you go" rows="{{ COV }}" hint-size="100%,380px"></dc-import></div>
+    </main>
+  </sc-if>
+
+  <sc-if value="{{ is.plan }}" hint-placeholder-val="{{ false }}">
+    <main style="width:100%;max-width:1180px;margin:0 auto;padding:clamp(20px,4vw,40px) clamp(14px,3vw,32px) 100px;display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap">
+        <div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--grey-600)">Assessment · Baseline</span><h1 style="margin:0;font-family:var(--font-display);font-weight:400;font-size:clamp(30px,5vw,48px);line-height:.9;text-transform:uppercase">Your assessment plan.</h1></div>
+        <span style="display:flex;align-items:center;gap:6px;font-size:10px;text-transform:uppercase;color:var(--grey-700)">🔒︎ Who can see this: you, Jayraj and your head coach</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px"><span style="font:600 15px var(--font-sans)">{{ PL.progress }}</span><div style="height:8px;background:var(--grey-200);display:flex"><i style="width:{{ PL.pct }};background:var(--blue);display:block"></i></div></div>
+      <div style="display:grid;grid-template-columns:{{ L.two }};gap:clamp(20px,3vw,32px);align-items:start">
+        <div style="display:flex;flex-direction:column;gap:12px;min-width:0">
+          <sc-for list="{{ PL.cards }}" as="m" hint-placeholder-count="4">
+            <div style="border:{{ m.border }};display:flex;flex-direction:column;background:#fff">
+              <sc-if value="{{ m.custom }}" hint-placeholder-val="{{ false }}"><span style="padding:6px 16px;background:var(--ice);font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--navy)">{{ m.by }}</span></sc-if>
+              <div style="padding:16px;display:grid;grid-template-columns:28px minmax(0,1fr);gap:12px">
+                <span style="width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:11px;background:{{ m.numBg }};color:{{ m.numFg }};box-shadow:inset 0 0 0 2px {{ m.numBd }}">{{ m.mark }}</span>
+                <div style="display:flex;flex-direction:column;gap:8px;min-width:0">
+                  <span style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap"><b style="font:600 18px/1.2 var(--font-sans);color:{{ m.nameFg }}">{{ m.name }}</b><span style="flex:none;padding:4px 8px;font-size:9px;text-transform:uppercase;letter-spacing:.04em;background:{{ m.chipBg }};color:{{ m.chipFg }};box-shadow:{{ m.chipBd }}">{{ m.chip }}</span></span>
+                  <span style="font:400 15px/1.45 var(--font-sans);color:var(--grey-700)">{{ m.purpose }}</span>
+                  <span style="display:flex;flex-wrap:wrap;gap:6px 14px;font-size:10px;text-transform:uppercase;color:var(--grey-600)"><span>{{ m.type }}</span><span>{{ m.time }}</span><sc-if value="{{ m.hasDue }}" hint-placeholder-val="{{ false }}"><span>Due {{ m.due }}</span></sc-if><sc-if value="{{ m.notCustom }}" hint-placeholder-val="{{ true }}"><span>{{ m.by }}</span></sc-if></span>
+                  <sc-if value="{{ m.hasNote }}" hint-placeholder-val="{{ false }}"><div style="background:var(--grey-50);padding:10px 12px;font:400 14px/1.5 var(--font-sans)">“{{ m.note }}”</div></sc-if>
+                  <sc-if value="{{ m.hasExtra }}" hint-placeholder-val="{{ false }}"><span style="font:500 14px/1.45 var(--font-sans);color:var(--navy)">{{ m.extra }}</span></sc-if>
+                  <sc-if value="{{ m.hasAct }}" hint-placeholder-val="{{ false }}"><div><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="{{ m.actV }}" size="md" onClick="{{ m.go }}" hint-size="200px,50px">{{ m.act }}</x-import></div></sc-if>
+                </div>
+              </div>
+            </div>
+          </sc-for>
+          <sc-if value="{{ PL.reopen }}" hint-placeholder-val="{{ false }}"><div style="border:1.5px dashed var(--grey-400);padding:14px 16px;display:flex;flex-wrap:wrap;align-items:center;gap:10px"><span style="flex:1 1 260px;min-width:0;font:400 14px/1.45 var(--font-sans);color:var(--grey-700)">You chose to continue online only on Tue 6 Oct. In person session · paid · ₹X,XXX</span><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="outline" size="sm" onClick="{{ NX.reopen }}" hint-size="120px,40px">REOPEN</x-import></div></sc-if>
+          <sc-for list="{{ PL.sys }}" as="m" hint-placeholder-count="2"><div style="padding:12px 16px;display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:12px;align-items:center;background:var(--grey-50)"><span style="font-size:11px;color:var(--grey-600)">{{ m.n }}</span><span style="display:flex;flex-direction:column;gap:2px"><b style="font:600 15px var(--font-sans);color:var(--grey-700)">{{ m.name }}</b><span style="font-size:11px;color:var(--grey-600)">{{ m.line }}</span></span><span style="font-size:9px;text-transform:uppercase;color:var(--grey-600)">No action</span></div></sc-for>
+          <sc-if value="{{ P.notMumbai }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:var(--grey-700)">Visiting Mumbai? <a href="#" onClick="{{ CO.noop }}">Message the team →</a></span></sc-if>
+        </div>
+        <div style="position:sticky;top:157px;display:flex;flex-direction:column;gap:10px"><dc-import name="21 Shared - Coverage Grid" title="What your plan covers" legend="Updates as you go" rows="{{ COV }}" hint-size="100%,380px"></dc-import><span style="font:400 12px/1.5 var(--font-sans);color:var(--grey-700)">Measured: taken by a practitioner with a tool. Observed: seen on video or in person. Self reported: your answers and self tests.</span></div>
+      </div>
+    </main>
+  </sc-if>
+
+  <sc-if value="{{ is.module }}" hint-placeholder-val="{{ false }}">
+    <main style="width:100%;max-width:720px;margin:0 auto;padding:clamp(20px,4vw,40px) clamp(14px,3vw,32px) 120px;display:flex;flex-direction:column;gap:16px">
+      <button onClick="{{ goPlan }}" style="align-self:flex-start;border:0;background:none;padding:0;cursor:pointer;font-size:11px;text-transform:uppercase">← Assessment plan</button>
+      <span style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:10px;text-transform:uppercase;letter-spacing:.06em"><span style="color:var(--blue)">{{ MD.type }} · {{ MD.time }}</span><span style="color:var(--grey-600)">{{ MD.saved }}</span></span>
+      <h1 style="margin:0;font-family:var(--font-display);font-weight:400;font-size:clamp(28px,5vw,44px);line-height:.9;text-transform:uppercase">{{ MD.name }}</h1>
+      <span style="font:400 17px/1.5 var(--font-sans);color:var(--grey-700)">{{ MD.purpose }}</span>
+      <sc-if value="{{ MD.hasNote }}" hint-placeholder-val="{{ false }}"><div style="background:var(--ice);padding:12px 14px;display:flex;flex-direction:column;gap:4px"><span style="font-size:10px;text-transform:uppercase;color:var(--navy)">{{ MD.by }}</span><span style="font:400 15px/1.5 var(--font-sans)">“{{ MD.note }}”</span></div></sc-if>
+      <sc-if value="{{ MD.hasSafety }}" hint-placeholder-val="{{ false }}"><div style="border:1.5px solid var(--blue);padding:12px 14px;font:400 14px/1.5 var(--font-sans)">{{ MD.safety }}</div></sc-if>
+      <sc-for list="{{ MD.fields }}" as="f" hint-placeholder-count="3">
+        <div style="border:2px solid var(--ink);padding:16px;display:flex;flex-direction:column;gap:10px">
+          <span style="display:flex;justify-content:space-between;gap:8px"><b style="font:600 16px var(--font-sans)">{{ f.label }}</b><span style="font-size:10px;text-transform:uppercase;color:var(--grey-600)">{{ f.meta }}</span></span>
+          <sc-if value="{{ f.isVideo }}" hint-placeholder-val="{{ false }}"><button onClick="{{ MD.rec }}" style="border:0;cursor:pointer;aspect-ratio:16/9;background:{{ MD.vidBg }};color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font-size:11px;text-transform:uppercase"><span style="font-family:var(--font-display);font-size:22px">{{ MD.vidT }}</span><span>{{ MD.vidS }}</span></button></sc-if>
+          <sc-if value="{{ f.isChoice }}" hint-placeholder-val="{{ false }}"><div style="display:flex;flex-wrap:wrap;gap:6px"><sc-for list="{{ f.opts }}" as="o" hint-placeholder-count="3"><button onClick="{{ o.pick }}" style="min-height:44px;padding:0 14px;border:1.5px solid var(--ink);cursor:pointer;font-size:12px;background:{{ o.bg }};color:{{ o.fg }}">{{ o.label }}</button></sc-for></div></sc-if>
+          <sc-if value="{{ f.isUpload }}" hint-placeholder-val="{{ false }}"><button onClick="{{ MD.upload }}" style="min-height:120px;border:1.5px dashed var(--grey-400);background:{{ MD.upBg }};cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px"><b style="font:600 15px var(--font-sans)">{{ MD.upT }}</b><span style="font-size:11px;color:var(--grey-600)">{{ MD.upS }}</span></button></sc-if>
+          <sc-if value="{{ f.isText }}" hint-placeholder-val="{{ false }}"><span style="min-height:48px;border:1.5px solid var(--grey-400);padding:12px;font:400 15px var(--font-sans);color:var(--grey-600)">{{ f.ph }}</span></sc-if>
+        </div>
+      </sc-for>
+      <span style="display:flex;align-items:center;gap:6px;font-size:10px;text-transform:uppercase;color:var(--grey-700)">🔒︎ Seen only by you, Jayraj and your head coach</span>
+    </main>
+    <div style="position:sticky;bottom:0;z-index:15;background:rgba(255,255,255,.97);border-top:2px solid var(--ink);padding:12px clamp(14px,3vw,32px);display:flex;justify-content:center"><div style="width:100%;max-width:720px;display:flex;gap:8px"><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="blue" size="lg" full="{{ true }}" onClick="{{ MD.submit }}" hint-size="100%,58px">SUBMIT →</x-import></div></div>
+  </sc-if>
+
+  <sc-if value="{{ is.book }}" hint-placeholder-val="{{ false }}">
+    <main style="width:100%;max-width:820px;margin:0 auto;padding:clamp(20px,4vw,40px) clamp(14px,3vw,32px) 120px;display:flex;flex-direction:column;gap:18px">
+      <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:2px solid var(--ink)"><sc-for list="{{ BK.steps }}" as="s" hint-placeholder-count="4"><span style="padding:10px;font-size:10px;text-transform:uppercase;box-shadow:inset -1px 0 0 var(--grey-200);background:{{ s.bg }};color:{{ s.fg }}">{{ s.n }} {{ s.t }}</span></sc-for></div>
+      <h1 style="margin:0;font-family:var(--font-display);font-weight:400;font-size:clamp(28px,5vw,44px);line-height:.9;text-transform:uppercase">{{ BK.title }}</h1>
+      <sc-if value="{{ BK.isPay }}" hint-placeholder-val="{{ true }}">
+        <div style="border:2px solid var(--ink);display:flex;flex-direction:column"><sc-for list="{{ REC.inc }}" as="i" hint-placeholder-count="3"><div style="padding:12px 16px;border-bottom:1px solid var(--grey-200);display:flex;justify-content:space-between;gap:10px"><span style="font:500 15px var(--font-sans)">{{ i.k }}</span><span style="font-size:11px">{{ i.v }}</span></div></sc-for><div style="padding:14px 16px;display:flex;justify-content:space-between"><b style="font:600 16px var(--font-sans)">In person session</b><b style="font:600 18px var(--font-sans)">₹X,XXX</b></div></div>
+        <span style="font:400 14px/1.5 var(--font-sans);color:var(--grey-700)">You pay on Shopify, then come back here to pick a centre and a time.</span>
+      </sc-if>
+      <sc-if value="{{ BK.isCentre }}" hint-placeholder-val="{{ false }}"><div style="display:grid;grid-template-columns:{{ L.half }};gap:10px"><sc-for list="{{ BK.centres }}" as="c" hint-placeholder-count="2"><button onClick="{{ c.pick }}" style="text-align:left;border:2px solid var(--ink);cursor:pointer;padding:16px;display:flex;flex-direction:column;gap:4px;background:{{ c.bg }};color:{{ c.fg }}"><b style="font:600 17px var(--font-sans)">{{ c.name }}</b><span style="font-size:11px">{{ c.addr }}</span></button></sc-for></div></sc-if>
+      <sc-if value="{{ BK.isSlot }}" hint-placeholder-val="{{ false }}"><div style="display:flex;flex-direction:column;gap:12px"><sc-for list="{{ BK.days }}" as="d" hint-placeholder-count="3"><div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:11px;text-transform:uppercase">{{ d.day }}</span><div style="display:flex;flex-wrap:wrap;gap:6px"><sc-for list="{{ d.slots }}" as="t" hint-placeholder-count="3"><button onClick="{{ t.pick }}" style="height:44px;padding:0 14px;border:1.5px solid var(--ink);cursor:pointer;font-size:12px;background:{{ t.bg }};color:{{ t.fg }}">{{ t.time }}</button></sc-for></div></div></sc-for><span style="font-size:11px;color:var(--grey-600)">From Jayraj’s availability at {{ BK.centre }}.</span></div></sc-if>
+      <sc-if value="{{ BK.isDone }}" hint-placeholder-val="{{ false }}"><div style="border:2px solid var(--ink);display:flex;flex-direction:column"><sc-for list="{{ BK.summary }}" as="r" hint-placeholder-count="4"><div style="padding:12px 16px;border-bottom:1px solid var(--grey-200);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap"><span style="font-size:10px;text-transform:uppercase;color:var(--grey-600)">{{ r.k }}</span><span style="font:500 14px var(--font-sans);text-align:right">{{ r.v }}</span></div></sc-for></div></sc-if>
+    </main>
+    <div style="position:sticky;bottom:0;z-index:15;background:rgba(255,255,255,.97);border-top:2px solid var(--ink);padding:12px clamp(14px,3vw,32px);display:flex;justify-content:center"><div style="width:100%;max-width:820px;display:flex;gap:8px;flex-wrap:wrap"><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="outline" size="lg" onClick="{{ BK.back }}" hint-size="140px,58px">{{ BK.backL }}</x-import><div style="flex:1;min-width:200px"><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="blue" size="lg" full="{{ true }}" onClick="{{ BK.next }}" hint-size="100%,58px">{{ BK.nextL }}</x-import></div></div></div>
+  </sc-if>
+
+  <sc-if value="{{ is.report }}" hint-placeholder-val="{{ false }}">
+    <main style="width:100%;max-width:1080px;margin:0 auto;padding:clamp(20px,4vw,40px) clamp(14px,3vw,32px) 80px;display:grid;grid-template-columns:{{ L.two }};gap:clamp(20px,4vw,40px);align-items:start">
+      <div style="display:flex;flex-direction:column;gap:16px;min-width:0">
+        <span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--grey-600)">Report · released Mon 12 Oct · reviewed by Shimyu</span>
+        <h1 style="margin:0;font-family:var(--font-display);font-weight:400;font-size:clamp(30px,5vw,48px);line-height:.9;text-transform:uppercase">Recommended next assessment steps.</h1>
+        <span style="font:400 16px/1.5 var(--font-sans);color:var(--grey-700)">Your report is built from the steps you finished. These would fill the gaps. Each one is optional.</span>
+        <sc-for list="{{ RP.next }}" as="n" hint-placeholder-count="2"><div style="border:2px solid var(--ink);padding:16px;display:flex;flex-direction:column;gap:8px"><span style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><b style="font:600 18px var(--font-sans)">{{ n.name }}</b><span style="font-size:10px;text-transform:uppercase;color:var(--grey-600)">{{ n.price }}</span></span><span style="font:400 15px/1.5 var(--font-sans)">“{{ n.why }}”</span><span style="font-size:10px;text-transform:uppercase;color:var(--grey-600)">Attached by {{ n.by }}</span><div><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="outline" size="sm" onClick="{{ n.go }}" hint-size="160px,40px">{{ n.act }}</x-import></div></div></sc-for>
+        <a href="02 Client - Assessment Journey.dc.html" style="font-size:11px;text-transform:uppercase;text-decoration:none">Open the full report →</a>
+      </div>
+      <div style="position:sticky;top:157px"><dc-import name="21 Shared - Coverage Grid" title="What this report covers" legend="From finished steps" rows="{{ COV }}" hint-size="100%,380px"></dc-import></div>
+    </main>
+  </sc-if>
+
+  <sc-if value="{{ is.messages }}" hint-placeholder-val="{{ false }}">
+    <main style="width:100%;max-width:1080px;margin:0 auto;padding:clamp(20px,4vw,40px) clamp(14px,3vw,32px) 80px;display:grid;grid-template-columns:{{ L.half }};gap:16px;align-items:start">
+      <sc-for list="{{ MSG }}" as="m" hint-placeholder-count="3"><div style="border:2px solid var(--ink);display:flex;flex-direction:column"><span style="padding:10px 14px;border-bottom:1px solid var(--grey-200);display:flex;justify-content:space-between;gap:8px;font-size:10px;text-transform:uppercase"><b>{{ m.ch }}</b><span style="color:var(--grey-600)">{{ m.when }}</span></span><sc-if value="{{ m.hasSubj }}" hint-placeholder-val="{{ false }}"><b style="padding:12px 14px 0;font:600 15px var(--font-sans)">{{ m.subj }}</b></sc-if><span style="padding:12px 14px 14px;font:400 15px/1.5 var(--font-sans);white-space:pre-line">{{ m.body }}</span></div></sc-for>
+    </main>
+  </sc-if>
+
+  <sc-if value="{{ MB.show }}" hint-placeholder-val="{{ false }}"><div style="position:sticky;bottom:0;z-index:15;background:rgba(255,255,255,.97);border-top:2px solid var(--ink);padding:10px 14px"><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="ink" size="lg" full="{{ true }}" onClick="{{ NX.go }}" hint-size="100%,58px">{{ NX.act }}</x-import></div></sc-if>
+
+  <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}"><div style="position:fixed;top:150px;left:50%;transform:translateX(-50%);z-index:50;background:var(--ink);color:#fff;padding:12px 18px;font:500 14px var(--font-sans);max-width:90vw">{{ toastMsg }}</div></sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;clientState&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;aarav_submitted&quot;,&quot;options&quot;:[&quot;aarav_welcome&quot;,&quot;aarav_submitted&quot;,&quot;aarav_payment&quot;,&quot;aarav_booked&quot;,&quot;aarav_dismissed&quot;,&quot;ishaan_custom&quot;,&quot;ishaan_more&quot;,&quot;diya_progress&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Prototype&quot;},&quot;screen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;plan&quot;,&quot;options&quot;:[&quot;checkout&quot;,&quot;welcome&quot;,&quot;home&quot;,&quot;plan&quot;,&quot;module&quot;,&quot;book&quot;,&quot;report&quot;,&quot;messages&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Prototype&quot;}}">
+class Component extends DCLogic {
+  state = { st: null, screen: null, w: 1200, over: {}, bk: 0, centre: null, slot: null, addIP: true, vid: 0, up: false, pick: {}, toast: null };
+  componentDidMount() { this._r = () => this.setState({ w: window.innerWidth }); window.addEventListener('resize', this._r); this._r(); }
+  componentWillUnmount() { window.removeEventListener('resize', this._r); clearTimeout(this._t); clearTimeout(this._v); }
+  componentDidUpdate(pp) { if (pp.clientState !== this.props.clientState || pp.screen !== this.props.screen) this.setState({ st: null, screen: null, over: {}, bk: 0 }); }
+  flash(t) { this.setState({ toast: t }); clearTimeout(this._t); this._t = setTimeout(() => this.setState({ toast: null }), 3000); }
+  STATES = {
+    aarav_welcome: ['aarav', 'Aarav · welcome', { intake: 'Not started', capture: 'Not started' }, 'welcome'],
+    aarav_submitted: ['aarav', 'Aarav · recommendation', { intake: 'Done', capture: 'Submitted' }, 'plan'],
+    aarav_payment: ['aarav', 'Aarav · waiting for payment', { intake: 'Done', capture: 'Submitted', inperson: 'Waiting for payment' }, 'plan'],
+    aarav_booked: ['aarav', 'Aarav · booked + step added', { intake: 'Done', capture: 'Submitted', inperson: 'Booked', gait: 'Not started' }, 'plan'],
+    aarav_dismissed: ['aarav', 'Aarav · online only', { intake: 'Done', capture: 'Submitted' }, 'home'],
+    ishaan_custom: ['ishaan', 'Ishaan · MRI step added', { intake: 'Done', capture: 'Submitted', mri: 'Not started' }, 'plan'],
+    ishaan_more: ['ishaan', 'Ishaan · more needed', { intake: 'Done', capture: 'More needed', mri: 'Submitted' }, 'plan'],
+    diya_progress: ['diya', 'Diya · capture 70%', { intake: 'Done', capture: 'In progress' }, 'home']
+  };
+  PEOPLE = { aarav: { full: 'Aarav Mehta', first: 'Aarav', city: 'Kandivali, Mumbai', pin: '400067', mumbai: true }, ishaan: { full: 'Ishaan Rao', first: 'Ishaan', city: 'Bengaluru', pin: '560038', mumbai: false }, diya: { full: 'Diya Kapoor', first: 'Diya', city: 'Dubai', pin: '', mumbai: false } };
+  MODS = {
+    intake: { name: 'Intake', type: 'Form', short: 'Goals, history, safety check', purpose: 'Your goals, training history and a short safety check.', time: 'XX min', by: 'Part of every assessment' },
+    capture: { name: 'Online Capture', type: 'Capture', short: 'Photos, videos and self tests at home', purpose: 'Guided photos, movement videos and self tests at home. A practitioner reviews them.', time: 'XX min', by: 'Part of every assessment' },
+    inperson: { name: 'In person session', type: 'In person session', short: 'Hands on measures and a trial training', purpose: 'Movement Assessment, Breath Session and Trial Training with a practitioner at the centre.', time: 'XX min', by: 'Recommended for you · paid ₹X,XXX' },
+    gait: { name: 'Running gait video', type: 'Capture', short: 'A short side view of you running', purpose: 'A 20 second side view of you running, so we can see how your knee takes load.', time: 'XX min', by: 'Added for you by Jayraj', due: 'Fri 9 Oct', custom: true, note: 'You said running without knee pain is your main goal. I want to see your stride before I write the report.', safety: 'Run only if it feels fine today. Stop if your knee goes above 3 out of 10.' },
+    mri: { name: 'Upload your last MRI', type: 'Upload', short: 'Your knee MRI report', purpose: 'Your knee MRI report, so it is read before your report is written.', time: 'XX min', by: 'Added for you by Jayraj', due: 'Sat 10 Oct', custom: true, note: 'You mentioned a knee MRI from 2025 in your intake. The written report is enough. Images are optional.' }
+  };
+  COVM = { intake: { Recovery: [1, 'Self reported', 'Your intake answers on sleep and stress'] }, capture: { Movement: [1, 'Observed', 'Posture photos and movement videos'], Breath: [1, 'Self reported', 'Self timed breath hold and breathing video'], Recovery: [1, 'Self reported', 'Your answers plus any connected health app'], Performance: [1, 'Self reported', 'Bodyweight self tests at home'] }, inperson: { Movement: [2, 'Measured', 'Joint ranges measured by hand, left and right'], Breath: [2, 'Measured', 'Rib expansion measured with a tape'], Recovery: [2, 'Measured', 'Resting heart rate measured'], Performance: [2, 'Measured', 'Loaded and timed tests with a coach'] }, gait: { Movement: [1, 'Observed', 'Running video adds stride and knee load'] } };
+  renderVals() {
+    const s = this.state, w = s.w, wide = w >= 900;
+    const key = s.st || this.props.clientState || 'aarav_submitted';
+    const [pk, , base, defScr] = this.STATES[key];
+    const stat = { ...base, ...s.over };
+    const P0 = this.PEOPLE[pk], P = { ...P0, notMumbai: !P0.mumbai };
+    const SCR = [['checkout', 'Checkout'], ['welcome', 'Welcome'], ['home', 'Home'], ['plan', 'Assessment plan'], ['module', 'Module'], ['book', 'Add and book'], ['report', 'Report'], ['messages', 'Messages']];
+    const scr0 = s.screen || (s.st ? defScr : this.props.screen || defScr);
+    const scr = SCR.some(x => x[0] === scr0) ? scr0 : 'home';
+    const sel = on => ({ bg: on ? 'var(--ink)' : '#fff', fg: on ? '#fff' : 'var(--ink)' });
+    const go = (x, extra) => () => { this.setState({ screen: x, ...(extra || {}) }); window.scrollTo && window.scrollTo(0, 0); };
+    const setSt = k => () => { this.setState({ st: k, screen: null, over: {}, bk: 0 }); window.scrollTo && window.scrollTo(0, 0); };
+    const keys = Object.keys(this.MODS).filter(k => stat[k]);
+    const actionable = st => ['Not started', 'In progress', 'More needed', 'Waiting for payment'].includes(st);
+    const doneish = st => ['Done', 'Submitted'].includes(st);
+    const custMod = pk === 'aarav' ? 'gait' : 'mri';
+    const modGo = k => k === 'intake' ? () => { window.location.href = '03 Client - Intake and Booking.dc.html'; } : k === 'capture' ? (stat.capture === 'More needed' || stat.capture === 'In progress' ? () => { window.location.href = '02 Client - Assessment Journey.dc.html'; } : go('module')) : k === 'inperson' ? (stat.inperson === 'Waiting for payment' ? go('book', { bk: 0 }) : go('book', { bk: 3 })) : go('module');
+    const actL = (k, st) => ({ 'Not started': k === 'intake' ? 'START INTAKE →' : k === 'capture' ? 'START CAPTURE →' : k === 'mri' ? 'UPLOAD →' : 'RECORD →', 'In progress': 'CONTINUE →', 'More needed': 'SEE WHAT IS NEEDED →', 'Waiting for payment': 'COMPLETE PAYMENT →', 'Booked': 'VIEW BOOKING →' })[st];
+    const extra = k => k === 'capture' && stat.capture === 'In progress' ? '9 of 13 items done. Everything so far is saved.' : k === 'capture' && stat.capture === 'More needed' ? 'Jayraj needs two side view photos again. They were blurred. About 3 minutes.' : k === 'capture' && stat.capture === 'Submitted' ? 'Submitted Mon 5 Oct. Jayraj is reviewing it.' : k === 'inperson' && stat.inperson === 'Booked' ? 'Sat 10 Oct · 9:00 AM · TIC Kandivali · with Jayraj' : k === 'inperson' && stat.inperson === 'Waiting for payment' ? 'Your slot is not held until payment is done.' : '';
+    const chip = st => { const flag = st === 'More needed' || st === 'Waiting for payment'; const full = st === 'Done'; const soft = ['Submitted', 'Booked', 'In progress'].includes(st); return { chip: st, chipBg: full ? 'var(--blue)' : soft ? 'var(--ice)' : '#fff', chipFg: full ? '#fff' : flag ? 'var(--blue)' : 'var(--ink)', chipBd: flag ? 'inset 0 0 0 1.5px var(--blue)' : soft || full ? 'none' : 'inset 0 0 0 1px var(--grey-400)' }; };
+    const cards = keys.map((k, i) => { const M = this.MODS[k], st = stat[k], dn = doneish(st), act = actL(k, st); return { n: String(i + 1).padStart(2, '0'), mark: dn ? '✓' : String(i + 1), numBg: dn ? 'var(--blue)' : '#fff', numFg: dn ? '#fff' : 'var(--ink)', numBd: dn ? 'var(--blue)' : 'var(--ink)', name: M.name, short: M.short, purpose: M.purpose, type: M.type, time: M.time, due: M.due || '', hasDue: !!M.due && !dn, by: M.by, custom: !!M.custom, notCustom: !M.custom, note: M.note || '', hasNote: !!M.custom && !dn, extra: extra(k), hasExtra: !!extra(k), ...chip(st), act: act || '', hasAct: !!act, actV: actionable(st) ? 'ink' : 'outline', go: modGo(k), border: actionable(st) ? '2px solid var(--ink)' : '1px solid var(--grey-200)', rowBg: '#fff', nameFg: 'var(--ink)' }; });
+    const doneN = keys.filter(k => doneish(stat[k]) || stat[k] === 'Booked' && false).length;
+    const total = keys.length;
+    const PL = { cards, progress: doneN + ' of ' + total + ' steps done', pct: Math.round(doneN / total * 100) + '%', reopen: key === 'aarav_dismissed', sys: [['Practitioner review', 'Jayraj reviews everything, then Shimyu checks it.'], ['Your report', 'Released when every required step is done. Within XX hours of review.']].map(([name, line], i) => ({ n: String(total + i + 1).padStart(2, '0'), name, line })) };
+    const lv = ['Not covered', 'Partial', 'Full'], fill = ['0%', '50%', '100%'];
+    const COV = ['Movement', 'Breath', 'Recovery', 'Performance'].map(sys => { let now = 0, nxt = 0, why = 'Not covered yet', tags = new Set(), whyN = ''; keys.forEach(k => { const c = (this.COVM[k] || {})[sys]; if (!c) return; if (doneish(stat[k])) { if (c[0] >= now) { now = c[0]; why = c[2]; } tags.add(c[1]); } if (c[0] > nxt) { nxt = c[0]; whyN = c[2]; } }); if (nxt < now) nxt = now; return { sys, nowL: lv[now], nowFill: fill[now], nextL: lv[nxt], nextFill: fill[nxt], change: nxt > now, why: nxt > now && now === 0 ? 'Planned: ' + whyN : why, tags: tags.size ? [...tags].join(' · ') : 'Nothing captured yet' }; });
+    const firstAct = keys.find(k => actionable(stat[k]));
+    const recEligible = P0.mumbai && !stat.inperson && key !== 'aarav_dismissed';
+    const onlineDone = doneish(stat.capture || '');
+    const inc = [['Movement Assessment', 'XX min'], ['Breath Session', 'XX min'], ['Trial Training', 'XX min']].map(([k, v]) => ({ k, v }));
+    const REC = { show: recEligible && (scr === 'welcome' || (scr === 'plan' && onlineDone) || (scr === 'home' && onlineDone && !firstAct)), kicker: scr === 'welcome' ? 'Recommended for you · you live near our centres' : scr === 'home' ? 'Your next step' : 'Online Capture submitted', title: scr === 'welcome' ? 'We recommend adding an in person session.' : scr === 'home' ? 'Book an in person session.' : 'We recommend an in person session next.', why: ['Hands on measures: joint ranges and rib expansion, left and right.', 'What video cannot show: how your hip moves under load.', 'A trial training with your coach, so you know how sessions feel.'], hasNote: onlineDone, note: 'Your videos show the right hip turning less than the left. I would like to measure it by hand before writing your report.', inc, add: go('book', { bk: 0 }), skip: () => { this.flash('Saved. You can reopen this from your assessment plan.'); setSt('aarav_dismissed')(); } };
+    const M1 = firstAct ? this.MODS[firstAct] : null;
+    const NX = { show: !REC.show || scr !== 'home', title: M1 ? (stat[firstAct] === 'More needed' ? 'Retake two photos.' : stat[firstAct] === 'Waiting for payment' ? 'Complete your payment.' : stat[firstAct] === 'In progress' ? 'Pick up where you left off.' : M1.name + '.') : stat.inperson === 'Booked' ? 'Your in person session, Sat 10 Oct.' : 'Nothing to do right now.', line: M1 ? (extra(firstAct) || M1.purpose) : stat.inperson === 'Booked' ? '9:00 AM at TIC Kandivali with Jayraj. Arrive 10 minutes early.' : 'Jayraj is reviewing your capture. Your report is ready within XX hours of review.', note: M1 && M1.custom ? M1.note : '', hasNote: !!(M1 && M1.custom), act: firstAct ? actL(firstAct, stat[firstAct]) : stat.inperson === 'Booked' ? 'VIEW BOOKING →' : '', hasAct: !!firstAct || stat.inperson === 'Booked', go: firstAct ? modGo(firstAct) : go('book', { bk: 3 }), hasReopen: key === 'aarav_dismissed', reopen: setSt('aarav_submitted') };
+    const MDk = pk === 'diya' ? 'capture' : custMod, MM = this.MODS[MDk];
+    const vid = s.vid;
+    const MD = { name: MM.name, type: MM.type, time: MM.time, purpose: MM.purpose, by: MM.by, note: MM.note || '', hasNote: !!MM.note, safety: MM.safety || '', hasSafety: !!MM.safety, saved: 'Saved · 7:42 PM',
+      fields: MDk === 'gait' ? [{ label: 'Side view, running', meta: 'Video · up to 20 s', isVideo: true }, { label: 'Where did you record?', meta: 'Choice', isChoice: true, opts: ['Treadmill', 'Road or track', 'Indoors'].map(o => ({ label: o, ...sel(s.pick.g === o), pick: () => this.setState({ pick: { ...s.pick, g: o } }) })) }, { label: 'Anything Jayraj should know?', meta: 'Optional', isText: true, ph: 'For example: knee felt fine, shoes were new' }] : [{ label: 'MRI report', meta: 'PDF or photo', isUpload: true }, { label: 'Test date', meta: 'Month and year', isText: true, ph: 'Mar 2025' }, { label: 'Which side?', meta: 'Choice', isChoice: true, opts: ['Left', 'Right', 'Both'].map(o => ({ label: o, ...sel(s.pick.m === o), pick: () => this.setState({ pick: { ...s.pick, m: o } }) })) }],
+      vidBg: vid === 2 ? 'var(--blue)' : 'var(--ink)', vidT: vid === 0 ? '● RECORD' : vid === 1 ? 'RECORDING…' : '✓ 0:18 RECORDED', vidS: vid === 0 ? 'Phone on its side, 3 metres away, at hip height' : vid === 1 ? 'Run past the phone twice' : 'Tap to retake',
+      rec: () => { if (vid === 1) return; this.setState({ vid: 1 }); clearTimeout(this._v); this._v = setTimeout(() => this.setState({ vid: 2 }), 1600); },
+      upBg: s.up ? 'var(--ice)' : '#fff', upT: s.up ? '✓ knee-mri-report.pdf' : 'Drop a file or tap to choose', upS: s.up ? '1.2 MB · tap to replace' : 'PDF, JPG or PNG · up to 20 MB', upload: () => this.setState({ up: true }),
+      submit: () => { this.setState({ over: { ...s.over, [MDk]: 'Submitted' }, screen: 'plan' }); this.flash('Submitted. Jayraj has been told.'); window.scrollTo && window.scrollTo(0, 0); } };
+    const bk = s.bk, centres = [['TIC Kandivali', 'Thakur Village, Kandivali East'], ['Samyah Borivali', 'IC Colony, Borivali West']];
+    const centre = s.centre || 'TIC Kandivali';
+    const BK = { steps: ['Pay', 'Centre', 'Time', 'Booked'].map((t, i) => ({ n: String(i + 1).padStart(2, '0'), t, bg: i === bk ? 'var(--ink)' : i < bk ? 'var(--ice)' : '#fff', fg: i === bk ? '#fff' : 'var(--ink)' })), title: ['Add an in person session.', 'Pick a centre.', 'Pick a time.', 'You’re booked.'][bk], isPay: bk === 0, isCentre: bk === 1, isSlot: bk === 2, isDone: bk === 3, centre,
+      centres: centres.map(([name, addr]) => ({ name, addr, ...sel(centre === name), pick: () => this.setState({ centre: name }) })),
+      days: [['Fri 9 Oct', ['7:00 AM', '5:30 PM']], ['Sat 10 Oct', ['9:00 AM', '11:00 AM']], ['Mon 12 Oct', ['7:30 AM', '6:00 PM']]].map(([day, ts]) => ({ day, slots: ts.map(t => ({ time: t, ...sel(s.slot === day + ' · ' + t), pick: () => this.setState({ slot: day + ' · ' + t }) })) })),
+      summary: [['When', s.slot || 'Sat 10 Oct · 9:00 AM'], ['Where', centre + ' · directions →'], ['With', 'Jayraj'], ['Covers', 'Movement Assessment, Breath Session, Trial Training'], ['Wear', 'Clothes you can move in. Bare feet are fine.'], ['Changes', '24 hours notice to reschedule']].map(([k, v]) => ({ k, v })),
+      backL: bk === 0 ? 'LATER' : bk === 3 ? 'PLAN' : '← BACK', back: () => bk === 0 ? setSt('aarav_payment')() : bk === 3 ? go('plan')() : this.setState({ bk: bk - 1 }),
+      nextL: ['PAY ON SHOPIFY →', 'NEXT →', 'CONFIRM BOOKING →', 'ADD TO GOOGLE OR APPLE CALENDAR'][bk],
+      next: () => { if (bk === 0) { this.flash('Shopify checkout · paid ₹X,XXX'); this.setState({ bk: 1 }); } else if (bk === 1) this.setState({ bk: 2 }); else if (bk === 2) { this.setState({ bk: 3, st: 'aarav_booked', over: {} }); this.flash('Booked. Jayraj has been told.'); } else this.flash('Added to your calendar.'); } };
+    const RP = { next: pk === 'aarav' ? [['In person session', 'Paid · ₹X,XXX', 'We could not measure hip rotation online. An in person session measures it by hand, left and right.', 'Jayraj', 'ADD AND BOOK →', go('book', { bk: 0 })], ['Follow up photos', 'Included', 'Retake your posture photos in 6 weeks so we can see what changed.', 'Jayraj', 'REMIND ME', () => this.flash('We will remind you on Mon 23 Nov.')]] : [['Live video session', 'Included', 'Talk through your MRI report and watch your squat live with a practitioner.', 'Jayraj', 'BOOK A TIME →', () => this.flash('Opening booking.')]] };
+    RP.next = RP.next.map(([name, price, why, by, act, g]) => ({ name, price, why, by, act, go: g }));
+    const MSG = [['WhatsApp', 'Today · 6:10 PM', '', 'Hi ' + P.first + ', Jayraj added a step to your assessment: ' + this.MODS[custMod].name + '.\n\n“' + this.MODS[custMod].note + '”\n\nIt takes about XX min. Open it here: aditus.in/a/' + pk], ['Email', 'Today · 6:10 PM', 'Jayraj added a step to your assessment', 'Hi ' + P.first + ',\n\nJayraj added ' + this.MODS[custMod].name + ' to your assessment plan. Due ' + this.MODS[custMod].due + '.\n\nYour report is written once every required step is done.\n\nOpen your plan →']].concat(P0.mumbai ? [['WhatsApp', 'Mon 5 Oct · 8:30 PM', '', 'Hi Aarav, thanks for sending your capture. Since you are near TIC Kandivali, we recommend an in person session next. It is paid and optional. See why: aditus.in/a/aarav']] : []).map(([ch, when, subj, body]) => ({ ch, when, subj, hasSubj: !!subj, body }));
+    const CO = { addL: s.addIP ? '✓ ADDED' : '+ ADD TO ORDER', toggle: () => this.setState({ addIP: !s.addIP }), noop: e => { e && e.preventDefault && e.preventDefault(); this.flash('Opening WhatsApp: +91 98200 41700'); }, lines: [['Online Assessment', '₹X,XXX']].concat(P0.mumbai && s.addIP ? [['In person session', '₹X,XXX']] : []).concat([['Total', '₹XX,XXX']]).map(([k, v]) => ({ k, v })), pay: () => { this.flash('Shopify checkout · paid'); setSt('aarav_welcome')(); } };
+    return {
+      P, COV, PL, REC, NX, MD, BK, RP, MSG, CO,
+      W: { lines: ['There is no fixed program at ADITUS. The assessment finds your starting point.', 'Your plan is a short list of steps. Some are the same for everyone, some get added for you.', 'At the end you get a report, 3 to 5 priorities and a recommended path.'], start: () => { window.location.href = '03 Client - Intake and Booking.dc.html'; } },
+      goPlan: go('plan'),
+      states: Object.keys(this.STATES).map(k => ({ label: this.STATES[k][1], ...sel(k === key), pick: setSt(k) })),
+      screens: SCR.map(([k, l]) => ({ label: l, fg: scr === k ? 'var(--blue)' : 'var(--ink)', bar: scr === k ? 'inset 0 -3px 0 #006DE0' : 'none', pick: go(k) })),
+      nav: [['home', 'Home'], ['plan', 'Assessment']].map(([k, l]) => ({ label: l, fg: scr === k ? 'var(--blue)' : 'var(--ink)', bar: scr === k ? 'inset 0 -3px 0 #006DE0' : 'none', pick: go(k) })),
+      is: Object.fromEntries(SCR.map(([k]) => [k, scr === k])),
+      MB: { show: !wide && (scr === 'home' || scr === 'plan') && NX.hasAct && !REC.show },
+      L: { wide, two: wide ? 'minmax(0,1.6fr) minmax(300px,1fr)' : 'minmax(0,1fr)', half: w >= 700 ? '1fr 1fr' : '1fr', rec: w >= 820 ? 'minmax(0,1.4fr) minmax(280px,1fr)' : 'minmax(0,1fr)' },
+      toast: !!s.toast, toastMsg: s.toast || ''
+    };
+  }
+}
+</script>
+</body>
+</html>

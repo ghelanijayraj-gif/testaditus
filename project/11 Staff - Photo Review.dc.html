@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/colors.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/typography.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/effects.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/base.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/styles.css">
+<script src="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/_ds_bundle.js"></script>
+<style>body{margin:0;background:#fff}a{color:var(--ink)}a:hover{color:var(--blue)}button,input,textarea{font:inherit;color:inherit}*{box-sizing:border-box}</style>
+</helmet>
+<div style="min-height:100vh;font-family:var(--font-mono);color:var(--ink);display:flex;flex-direction:column">
+  <header style="position:sticky;top:0;z-index:20;background:rgba(255,255,255,.97);border-bottom:2px solid var(--ink);height:60px;display:flex;align-items:center;gap:14px;padding:0 clamp(14px,2.5vw,28px)">
+    <div style="display:flex;align-items:center;gap:8px;flex:none"><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.AditusMark" size="{{ 26 }}" hint-size="26px,26px"></x-import><span style="font-family:var(--font-display);font-size:17px">ADITUS</span><span style="font-size:9px;text-transform:uppercase;padding:3px 6px;background:var(--ink);color:#fff">Staff</span></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;border:2px solid var(--ink)"><sc-for list="{{ roles }}" as="r" hint-placeholder-count="2"><button onClick="{{ r.pick }}" style="height:34px;padding:0 12px;border:0;box-shadow:inset -1px 0 0 var(--ink);cursor:pointer;font-family:var(--font-display);font-size:11px;text-transform:uppercase;white-space:nowrap;background:{{ r.bg }};color:{{ r.fg }}">{{ r.label }}</button></sc-for></div>
+    <nav style="display:flex;gap:2px;overflow-x:auto"><sc-for list="{{ tabs }}" as="t" hint-placeholder-count="2"><button onClick="{{ t.pick }}" style="flex:none;height:36px;padding:0 12px;border:0;cursor:pointer;font-size:11px;text-transform:uppercase;background:{{ t.bg }};box-shadow:{{ t.bar }}">{{ t.label }}</button></sc-for></nav>
+    <a href="10 Staff - Practitioner Console.dc.html" style="margin-left:auto;flex:none;font-size:10px;text-transform:uppercase;text-decoration:none">Live and in person console →</a>
+  </header>
+
+  <sc-if value="{{ is.queue }}" hint-placeholder-val="{{ true }}">
+    <div style="position:sticky;top:60px;z-index:15;background:rgba(255,255,255,.97);border-bottom:1px solid var(--grey-200);padding:10px clamp(14px,2.5vw,28px);display:flex;gap:6px;overflow-x:auto;align-items:center"><span style="flex:none;font-size:10px;text-transform:uppercase;color:var(--grey-600);margin-right:4px">Version</span><sc-for list="{{ Q.filters }}" as="f" hint-placeholder-count="4"><button onClick="{{ f.pick }}" style="flex:none;height:34px;padding:0 12px;border:1.5px solid var(--ink);cursor:pointer;font-size:11px;text-transform:uppercase;white-space:nowrap;background:{{ f.bg }};color:{{ f.fg }}">{{ f.label }}</button></sc-for></div>
+    <main style="width:100%;max-width:1280px;margin:0 auto;padding:clamp(18px,3vw,28px) clamp(14px,2.5vw,28px) 60px;display:flex;flex-direction:column;gap:16px">
+      <h1 style="margin:0;font-family:var(--font-display);font-weight:400;font-size:clamp(26px,3.6vw,42px);line-height:.9;text-transform:uppercase">{{ Q.title }}</h1>
+      <div style="border:2px solid var(--ink);display:flex;flex-direction:column">
+        <div style="position:sticky;top:115px;z-index:3;background:#fff;display:grid;grid-template-columns:{{ L.qCols }};gap:12px;padding:10px 18px;border-bottom:2px solid var(--ink);font-size:10px;text-transform:uppercase;color:var(--grey-600)"><span>Client</span><span>Version</span><span>Status</span><span>Due</span></div>
+        <sc-for list="{{ Q.rows }}" as="q" hint-placeholder-count="6"><button onClick="{{ q.open }}" style="text-align:left;border:0;border-bottom:1px solid var(--grey-200);background:#fff;cursor:pointer;padding:14px 18px;display:grid;grid-template-columns:{{ L.qCols }};gap:6px 12px;align-items:center" style-hover="background:var(--mist)"><span style="display:flex;flex-direction:column;gap:2px"><b style="font:600 15px var(--font-sans)">{{ q.client }}</b><span style="font-size:10px;text-transform:uppercase;color:var(--grey-600)">{{ q.city }} · {{ q.coach }}</span></span><span style="font-size:12px">{{ q.ver }}</span><span style="justify-self:start;font-size:10px;text-transform:uppercase;padding:3px 7px;background:{{ q.bg }};color:{{ q.fg }};box-shadow:inset 0 0 0 1.5px {{ q.ring }}">{{ q.st }}</span><b style="font-size:12px">{{ q.due }}</b></button></sc-for>
+      </div>
+    </main>
+  </sc-if>
+
+  <sc-if value="{{ is.review }}" hint-placeholder-val="{{ false }}">
+    <div style="position:sticky;top:60px;z-index:15;background:rgba(255,255,255,.97);border-bottom:1px solid var(--grey-200);padding:8px clamp(14px,2.5vw,28px);display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+      <span style="display:flex;flex-direction:column;gap:1px;margin-right:8px"><b style="font:600 15px var(--font-sans)">Diya Kapoor · Photo Assessment</b><span style="font-size:10px;text-transform:uppercase;color:var(--grey-600)">{{ R.dueLine }}</span></span>
+      <div style="display:flex;gap:4px;flex-wrap:wrap"><sc-for list="{{ R.tools }}" as="t" hint-placeholder-count="4"><button onClick="{{ t.pick }}" style="height:36px;padding:0 12px;border:1.5px solid var(--ink);cursor:pointer;font-size:10px;text-transform:uppercase;background:{{ t.bg }};color:{{ t.fg }}">{{ t.label }}</button></sc-for></div>
+      <div style="margin-left:auto;display:flex;gap:6px"><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="outline" size="sm" onClick="{{ R.openRetake }}" hint-size="150px,40px">REQUEST RETAKE</x-import><a href="10 Staff - Practitioner Console.dc.html" style="text-decoration:none"><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="ink" size="sm" hint-size="140px,40px">WRAP UP →</x-import></a></div>
+    </div>
+    <main style="width:100%;max-width:1400px;margin:0 auto;padding:clamp(16px,2.5vw,24px) clamp(14px,2.5vw,28px) 60px;display:grid;grid-template-columns:{{ L.rCols }};gap:16px;align-items:start">
+      <div style="display:flex;flex-direction:column;gap:16px;min-width:0">
+        <sc-if value="{{ R.retakeOpen }}" hint-placeholder-val="{{ false }}"><div style="border:2px solid var(--ink);padding:14px 16px;display:flex;flex-direction:column;gap:10px;background:var(--grey-50)"><span style="font-size:10px;text-transform:uppercase;letter-spacing:.06em">Request retake · {{ R.selPhoto }}</span><div style="display:flex;flex-wrap:wrap;gap:6px"><sc-for list="{{ R.reasons }}" as="o" hint-placeholder-count="4"><button onClick="{{ o.pick }}" style="min-height:40px;padding:0 12px;border:1.5px solid var(--ink);cursor:pointer;font:500 13px var(--font-sans);background:{{ o.bg }};color:{{ o.fg }}">{{ o.label }}</button></sc-for></div><input value="{{ R.msg }}" style="height:44px;border:1.5px solid var(--grey-300);padding:0 10px;font:400 14px var(--font-sans);border-radius:0"><span style="font-size:11px;color:var(--grey-700)">Sends Diya a WhatsApp with a link to just this step. Status becomes More photos needed and the due time pauses.</span><div><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.Button" variant="blue" size="sm" onClick="{{ R.sendRetake }}" hint-size="160px,40px">SEND TO DIYA</x-import></div></div></sc-if>
+        <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px">
+          <sc-for list="{{ R.photos }}" as="p" hint-placeholder-count="4">
+            <div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+              <div onClick="{{ p.click }}" style="position:relative;aspect-ratio:3/5;border:2px solid {{ p.ring }};cursor:{{ R.cursor }};overflow:hidden">
+                <x-import component-from-global-scope="ADITUSDesignSystem_884a4c.ImageSlot" caption="{{ p.cap }}" hint-size="100%,100%"></x-import>
+                <span style="position:absolute;top:0;bottom:0;left:50%;width:2px;background:var(--blue);pointer-events:none;display:{{ R.plumb }}"></span>
+                <span style="position:absolute;left:0;right:0;top:22%;height:2px;background:var(--sky);pointer-events:none;display:{{ R.level }}"></span>
+                <span style="position:absolute;left:0;right:0;top:{{ p.hipY }};height:2px;background:var(--sky);pointer-events:none;display:{{ R.level }}"></span>
+                <span style="position:absolute;left:30%;top:46%;width:40%;height:2px;background:var(--navy);transform:rotate({{ p.ang }}deg);transform-origin:left;pointer-events:none;display:{{ R.angle }}"></span>
+                <span style="position:absolute;left:30%;top:46%;width:40%;height:2px;background:var(--navy);pointer-events:none;display:{{ R.angle }}"></span>
+                <span style="position:absolute;left:72%;top:41%;font-size:10px;font-weight:700;background:#fff;padding:1px 4px;pointer-events:none;display:{{ R.angle }}">{{ p.angL }}</span>
+                <sc-for list="{{ p.pins }}" as="pin" hint-placeholder-count="0"><span style="position:absolute;left:{{ pin.x }};top:{{ pin.y }};transform:translate(-50%,-50%);width:22px;height:22px;border-radius:50%;background:var(--blue);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;pointer-events:none">{{ pin.n }}</span></sc-for>
+              </div>
+              <span style="display:flex;justify-content:space-between;gap:4px;font-size:10px;text-transform:uppercase"><b>{{ p.label }}</b><span style="color:var(--grey-600)">{{ p.st }}</span></span>
+            </div>
+          </sc-for>
+        </div>
+        <sc-if value="{{ R.hasNotes }}" hint-placeholder-val="{{ false }}"><div style="border:2px solid var(--ink)"><sc-for list="{{ R.notes }}" as="n" hint-placeholder-count="2"><div style="padding:8px 14px;border-bottom:1px solid var(--grey-200);display:grid;grid-template-columns:28px minmax(0,1fr);gap:8px;align-items:center"><span style="width:22px;height:22px;border-radius:50%;background:var(--blue);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center">{{ n.n }}</span><input placeholder="{{ n.ph }}" style="height:36px;border:0;font:400 14px var(--font-sans)"></div></sc-for></div></sc-if>
+        <div style="border:2px solid var(--ink);display:flex;flex-direction:column">
+          <div style="padding:10px 14px;border-bottom:1px solid var(--grey-200);display:flex;gap:6px;overflow-x:auto"><sc-for list="{{ R.vids }}" as="v" hint-placeholder-count="4"><button onClick="{{ v.pick }}" style="flex:none;height:34px;padding:0 10px;border:1.5px solid var(--ink);cursor:pointer;font-size:10px;text-transform:uppercase;background:{{ v.bg }};color:{{ v.fg }}">{{ v.label }}</button></sc-for></div>
+          <div style="display:grid;grid-template-columns:{{ R.vidCols }};gap:2px;background:var(--ink)"><sc-for list="{{ R.vidPanes }}" as="vp" hint-placeholder-count="1"><div style="position:relative;aspect-ratio:16/10"><x-import component-from-global-scope="ADITUSDesignSystem_884a4c.ImageSlot" caption="{{ vp }}" tone="dark" hint-size="100%,100%"></x-import></div></sc-for></div>
+          <div style="padding:10px 14px;display:flex;flex-wrap:wrap;gap:6px;align-items:center">
+            <button onClick="{{ R.stepBack }}" style="height:40px;width:48px;border:1.5px solid var(--ink);background:#fff;cursor:pointer;font-size:14px">⟨</button>
+            <button onClick="{{ R.play }}" style="height:40px;padding:0 14px;border:0;background:var(--ink);color:#fff;cursor:pointer;font-size:11px;text-transform:uppercase">{{ R.playL }}</button>
+            <button onClick="{{ R.stepFwd }}" style="height:40px;width:48px;border:1.5px solid var(--ink);background:#fff;cursor:pointer;font-size:14px">⟩</button>
+            <span style="font-size:11px;min-width:90px">Frame {{ R.frame }} of 240</span>
+            <div style="display:grid;grid-template-columns:repeat(3,auto);border:1.5px solid var(--ink)"><sc-for list="{{ R.speeds }}" as="sp" hint-placeholder-count="3"><button onClick="{{ sp.pick }}" style="height:37px;padding:0 10px;border:0;cursor:pointer;font-size:10px;background:{{ sp.bg }};color:{{ sp.fg }}">{{ sp.label }}</button></sc-for></div>
+            <button onClick="{{ R.toggleLR }}" style="margin-left:auto;height:40px;padding:0 12px;border:1.5px solid var(--ink);cursor:pointer;font-size:10px;text-transform:uppercase;background:{{ R.lrBg }};color:{{ R.lrFg }}">Left and right side by side</button>
+          </div>
+        </div>
+      </div>
+      <aside style="position:sticky;top:122px;max-height:calc(100vh - 138px);overflow:auto;display:flex;flex-direction:column;gap:12px;min-width:0">
+        <div style="box-shadow:inset 0 0 0 2px var(--blue);padding:12px 14px;display:flex;flex-direction:column;gap:3px"><span style="font-size:9px;text-transform:uppercase;color:var(--blue)">Discuss before testing</span><span style="font:600 13px/1.4 var(--font-sans)">Lower back pain after long flights. Self tests done unsupervised.</span></div>
+        <div style="border:2px solid var(--ink)"><div style="padding:10px 14px;border-bottom:2px solid var(--ink);font-size:10px;text-transform:uppercase;letter-spacing:.06em">Self tests · Self reported</div><sc-for list="{{ R.tests }}" as="t" hint-placeholder-count="5"><div style="padding:8px 14px;border-bottom:1px solid var(--grey-200);display:flex;justify-content:space-between;gap:8px;font-size:12px"><span>{{ t.k }}</span><b>{{ t.v }}</b></div></sc-for></div>
+        <div style="border:2px solid var(--ink);display:flex;flex-direction:column">
+          <div style="padding:10px 14px;border-bottom:2px solid var(--ink);display:flex;justify-content:space-between;gap:8px"><span style="font-size:10px;text-transform:uppercase;letter-spacing:.06em">Deep squat quality · Observed</span><b style="font-size:11px">{{ R.score }}</b></div>
+          <sc-for list="{{ R.scores }}" as="o" hint-placeholder-count="4"><button onClick="{{ o.pick }}" style="text-align:left;border:0;border-bottom:1px solid var(--grey-200);cursor:pointer;min-height:48px;padding:8px 14px;display:grid;grid-template-columns:28px 1fr;gap:8px;align-items:center;background:{{ o.bg }};color:{{ o.fg }}"><b style="font-family:var(--font-display);font-weight:400;font-size:18px">{{ o.n }}</b><span style="font:400 12px/1.35 var(--font-sans)">{{ o.c }}</span></button></sc-for>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:10px;text-transform:uppercase;letter-spacing:.06em">Observations</span><div style="display:flex;flex-wrap:wrap;gap:6px"><sc-for list="{{ R.obs }}" as="o" hint-placeholder-count="6"><button onClick="{{ o.pick }}" style="min-height:36px;padding:0 10px;border:1.5px solid var(--ink);cursor:pointer;font:500 12px var(--font-sans);background:{{ o.bg }};color:{{ o.fg }}">{{ o.label }}</button></sc-for></div></div>
+        <button onClick="{{ R.flag }}" style="min-height:48px;padding:0 14px;border:0;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:11px;text-transform:uppercase;background:{{ R.flagBg }};box-shadow:inset 0 0 0 2px var(--blue)">Flag squat as priority <b>{{ R.flagL }}</b></button>
+      </aside>
+    </main>
+  </sc-if>
+  <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}"><div style="position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:30;background:var(--ink);color:#fff;padding:14px 18px;box-shadow:6px 6px 0 #006DE0;font:600 14px var(--font-sans);max-width:calc(100vw - 32px)">✓ {{ toastMsg }}</div></sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { role: 'prac', tab: 'queue', vf: 'all', tool: null, pins: [], selP: 2, retake: false, reason: 'Feet not in frame', sent: false, vid: 0, playing: false, frame: 96, speed: '0.25×', lr: false, score: 1, obs: ['Knees drift in', 'Heels lift'], flag: true, toast: null, w: 1280 };
+  componentDidMount() { this._r = () => this.setState({ w: window.innerWidth }); window.addEventListener('resize', this._r); this._r(); }
+  componentWillUnmount() { window.removeEventListener('resize', this._r); clearInterval(this._pl); }
+  flash(t) { this.setState({ toast: t }); clearTimeout(this._t); this._t = setTimeout(() => this.setState({ toast: null }), 3000); }
+  renderVals() {
+    const s = this.state, w = s.w, sel = on => ({ bg: on ? 'var(--ink)' : '#fff', fg: on ? '#fff' : 'var(--ink)' });
+    const head = s.role === 'head';
+    const tab = head ? 'queue' : s.tab;
+    const ROWS = [['Diya Kapoor', 'Dubai', 'Jayraj', 'photo', s.sent ? 'More photos needed' : 'Ready to review', s.sent ? 'Paused · waiting on Diya' : 'Wed 7 Oct · 9:00 PM', true], ['Neha Kulkarni', 'Pune', 'Shimyu', 'photo', 'Ready to review', 'Thu 8 Oct · 11:00 AM'], ['Ishaan Rao', 'Bengaluru', 'Jayraj', 'video', 'Session booked', 'Thu 8 Oct · 6:30 PM live'], ['Kabir Singh', 'Delhi', 'Jayraj', 'video', 'Writing report', 'Fri 9 Oct · 6:00 PM'], ['Aarav Mehta', 'Mumbai', 'Jayraj', 'inperson', 'Submitted for review', 'Sat 5 Sep · 11:00 AM'], ['Meera Iyer', 'Mumbai', 'Shimyu', 'inperson', 'Submitted for review', 'Sat 10 Oct · 9:00 AM']];
+    const VN = { photo: 'Photo', video: 'Video', inperson: 'In Person' };
+    const rows = ROWS.filter(r => (s.vf === 'all' || r[3] === s.vf) && (!head || r[4] === 'Submitted for review' || r[4] === 'Writing report'));
+    const PH = [['Front', '50%', 0], ['Left side', '47%', -4], ['Right side', '49%', -9], ['Back', '51%', 2]];
+    const addPin = i => e => { if (s.tool !== 'pin') { this.setState({ selP: i }); return; } const r = e.currentTarget.getBoundingClientRect(); const x = ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%', y = ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%'; this.setState({ pins: s.pins.concat({ p: i, x, y }), selP: i }); };
+    const VIDS = ['Overhead squat', 'Balance, left', 'Balance, right', 'Bend forward'];
+    const isBal = s.vid === 1 || s.vid === 2;
+    const showLR = s.lr && isBal;
+    const play = () => { if (s.playing) { clearInterval(this._pl); this.setState({ playing: false }); } else { this.setState({ playing: true }); this._pl = setInterval(() => this.setState(st => ({ frame: st.frame >= 240 ? 1 : st.frame + 1 })), s.speed === '1×' ? 40 : s.speed === '0.5×' ? 80 : 160); } };
+    return {
+      roles: [['prac', 'Practitioner'], ['head', 'Head coach']].map(([k, l]) => ({ label: l, ...sel(s.role === k), pick: () => this.setState({ role: k, tab: 'queue' }) })),
+      tabs: (head ? [['queue', 'Review queue']] : [['queue', 'My queue'], ['review', 'Photo review']]).map(([k, l]) => ({ label: l, bg: tab === k ? 'var(--ice)' : 'transparent', bar: tab === k ? 'inset 0 -3px 0 #006DE0' : 'none', pick: () => this.setState({ tab: k }) })),
+      is: { queue: tab === 'queue', review: tab === 'review' },
+      L: { qCols: w >= 760 ? 'minmax(0,1.4fr) minmax(0,.7fr) minmax(0,1fr) minmax(0,1fr)' : '1fr 1fr', rCols: w >= 1080 ? 'minmax(0,1fr) 320px' : 'minmax(0,1fr)' },
+      Q: { title: head ? 'Waiting for your review.' : 'Assessments to review.', filters: [['all', 'All'], ['photo', 'Photo'], ['video', 'Video'], ['inperson', 'In Person']].map(([k, l]) => ({ label: l, ...sel(s.vf === k), pick: () => this.setState({ vf: k }) })),
+        rows: rows.map(r => ({ client: r[0], city: r[1], coach: r[2], ver: VN[r[3]], st: r[4], due: r[5], bg: r[4] === 'More photos needed' ? 'var(--ice)' : r[4] === 'Ready to review' || r[4] === 'Submitted for review' ? 'var(--ink)' : '#fff', fg: r[4] === 'Ready to review' || r[4] === 'Submitted for review' ? '#fff' : 'var(--ink)', ring: r[4] === 'More photos needed' ? 'var(--blue)' : 'var(--ink)', open: r[6] && !head ? () => this.setState({ tab: 'review' }) : head && r[0] === 'Aarav Mehta' ? () => { window.location.href = '10 Staff - Practitioner Console.dc.html'; } : () => {} })) },
+      R: { dueLine: s.sent ? 'More photos needed · due time paused' : 'Due Wed 7 Oct, 9:00 PM · 26 h left', cursor: s.tool === 'pin' ? 'crosshair' : 'pointer',
+        tools: [['plumb', 'Plumb line'], ['level', 'Level lines'], ['angle', 'Angle'], ['pin', 'Pin a note']].map(([k, l]) => ({ label: l, ...sel(s.tool === k || (k === 'plumb' && s.tool === 'all')), pick: () => this.setState({ tool: s.tool === k ? null : k }) })),
+        plumb: s.tool === 'plumb' ? 'block' : 'none', level: s.tool === 'level' ? 'block' : 'none', angle: s.tool === 'angle' ? 'block' : 'none',
+        photos: PH.map(([label, hipY, ang], i) => ({ label, hipY, ang, angL: Math.abs(ang) + '°', cap: 'PHOTO: ' + label.toUpperCase(), st: i === 2 && s.sent ? 'Retake asked' : '5 Oct', ring: s.selP === i ? 'var(--blue)' : 'var(--ink)', click: addPin(i), pins: s.pins.map((p, n) => ({ ...p, n: n + 1 })).filter(p => p.p === i) })),
+        hasNotes: s.pins.length > 0, notes: s.pins.map((p, n) => ({ n: n + 1, ph: 'Note for pin ' + (n + 1) + ' on ' + PH[p.p][0].toLowerCase() })),
+        retakeOpen: s.retake, selPhoto: PH[s.selP][0], openRetake: () => this.setState({ retake: !s.retake }),
+        reasons: ['Feet not in frame', 'Too dark', 'Wrong angle', 'Clothing hides the joints'].map(o => ({ label: o, ...sel(s.reason === o), pick: () => this.setState({ reason: o }) })),
+        msg: PH[s.selP][0] + ': ' + s.reason.toLowerCase() + '. ' + (s.reason === 'Feet not in frame' ? 'Step back half a metre.' : s.reason === 'Too dark' ? 'Face a window or turn on a light.' : s.reason === 'Wrong angle' ? 'Turn a little more to the side.' : 'Shorts and a fitted top, please.'),
+        sendRetake: () => { this.setState({ sent: true, retake: false }); this.flash('Sent to Diya on WhatsApp. Due time paused.'); },
+        vids: VIDS.map((l, i) => ({ label: l, ...sel(s.vid === i), pick: () => this.setState({ vid: i }) })),
+        vidCols: showLR ? '1fr 1fr' : '1fr', vidPanes: showLR ? ['BALANCE, LEFT · FRAME ' + s.frame, 'BALANCE, RIGHT · FRAME ' + s.frame] : ['VIDEO: ' + VIDS[s.vid].toUpperCase() + ' · FRAME ' + s.frame],
+        play, playL: s.playing ? 'Pause' : 'Play', frame: s.frame, stepBack: () => this.setState({ frame: Math.max(1, s.frame - 1) }), stepFwd: () => this.setState({ frame: Math.min(240, s.frame + 1) }),
+        speeds: ['0.25×', '0.5×', '1×'].map(o => ({ label: o, ...sel(s.speed === o), pick: () => this.setState({ speed: o }) })),
+        toggleLR: () => this.setState({ lr: !s.lr, vid: isBal ? s.vid : 1 }), lrBg: showLR ? 'var(--ink)' : '#fff', lrFg: showLR ? '#fff' : 'var(--ink)',
+        tests: [['Breath hold after exhale', '18 s'], ['Breaths per minute', '16'], ['Nasal breathing on stairs', 'Partly'], ['Single leg balance', 'L 24 s · R 11 s'], ['Plank hold', 'Skipped']].map(([k, v]) => ({ k, v })),
+        score: s.score + ' of 3', scores: [[3, 'Heels down, hips below knees, trunk upright, knees over toes'], [2, 'One change: heels lift, knees drift in, or trunk tips'], [1, 'Two or more changes'], [0, 'Pain stops the movement']].map(([n, c]) => ({ n, c, ...sel(s.score === n), pick: () => this.setState({ score: n }) })),
+        obs: ['Knees drift in', 'Heels lift', 'Shifts left', 'Trunk tips', 'Arch drops right', 'Holds breath'].map(o => { const on = s.obs.includes(o); return { label: o, ...sel(on), pick: () => this.setState({ obs: on ? s.obs.filter(x => x !== o) : s.obs.concat(o) }) }; }),
+        flag: () => this.setState({ flag: !s.flag }), flagBg: s.flag ? 'var(--ice)' : '#fff', flagL: s.flag ? 'ON' : 'OFF' },
+      toast: !!s.toast, toastMsg: s.toast || ''
+    };
+  }
+}
+</script>
+</body>
+</html>

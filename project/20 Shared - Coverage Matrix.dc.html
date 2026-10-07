@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/colors.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/typography.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/tokens/base.css">
+<link rel="stylesheet" href="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/styles.css">
+<script src="_ds/aditus-design-system-884a4cc3-44e6-40f6-9d27-3b04687e10d9/_ds_bundle.js"></script>
+</helmet>
+<div style="font-family:var(--font-mono);color:var(--ink);display:flex;flex-direction:column;gap:10px;width:100%">
+  <div style="border:2px solid var(--ink);display:flex;flex-direction:column;background:#fff">
+    <div style="position:sticky;top:{{ top }};z-index:2;display:grid;grid-template-columns:minmax(84px,.8fr) repeat(3,minmax(0,1fr));background:#fff;border-bottom:2px solid var(--ink)">
+      <span style="padding:10px 12px;font-size:10px;text-transform:uppercase;color:var(--grey-600)">Covers</span>
+      <sc-for list="{{ cols }}" as="c" hint-placeholder-count="3"><span style="padding:10px 10px;font-family:var(--font-display);font-size:12px;line-height:1;text-transform:uppercase;box-shadow:inset 1px 0 0 var(--grey-200);background:{{ c.bg }};color:{{ c.fg }};opacity:{{ c.op }}">{{ c.name }}</span></sc-for>
+    </div>
+    <sc-for list="{{ rows }}" as="r" hint-placeholder-count="5">
+      <div style="display:grid;grid-template-columns:minmax(84px,.8fr) repeat(3,minmax(0,1fr));border-bottom:1px solid var(--grey-200)">
+        <span style="padding:12px;font-family:var(--font-display);font-size:12px;line-height:1.05;text-transform:uppercase">{{ r.name }}</span>
+        <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="3">
+          <div style="padding:10px;display:flex;flex-direction:column;gap:6px;box-shadow:inset 1px 0 0 var(--grey-200);background:{{ c.bg }};opacity:{{ c.op }}">
+            <span style="display:flex;align-items:center;gap:6px"><span style="width:14px;height:14px;flex:none;display:flex;box-shadow:inset 0 0 0 2px {{ c.ring }}"><i style="width:{{ c.fill }};height:100%;background:var(--blue);display:block"></i></span><b style="font-size:10px;text-transform:uppercase;letter-spacing:.04em">{{ c.level }}</b></span>
+            <sc-if value="{{ showReasons }}" hint-placeholder-val="{{ true }}"><span style="font:400 12px/1.35 var(--font-sans);color:var(--grey-700)">{{ c.why }}</span></sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </sc-for>
+  </div>
+  <span style="font:400 13px/1.5 var(--font-sans);color:var(--grey-700)">How results are tagged: Photo is mostly Observed and Self reported. Video is Observed with some Self reported. In Person is Measured.</span>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:720,&quot;height&quot;:560},&quot;highlight&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;video&quot;,&quot;options&quot;:[&quot;photo&quot;,&quot;video&quot;,&quot;inperson&quot;],&quot;tsType&quot;:&quot;'photo'|'video'|'inperson'|null&quot;},&quot;inPersonDisabled&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;compact&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;stickyTop&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;0px&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const hl = this.props.highlight || null, noIP = !!this.props.inPersonDisabled;
+    const C = [['photo', 'Photo'], ['video', 'Video'], ['inperson', 'In Person']];
+    const M = [['Movement', [['P', 'Posture from photos, movement from short videos'], ['P', 'Live observation and guided tests'], ['F', 'Joint ranges measured left and right, hands on']]], ['Breath', [['P', 'Self timed breath hold, pattern from video'], ['P', 'Live observation, no rib measurement'], ['F', 'Rib expansion measured with a tape']]], ['Recovery', [['P', 'Self reported, plus connected health data'], ['P', 'Self reported, plus connected health data'], ['F', 'Resting heart rate measured']]], ['Performance', [['N', 'Needs a practitioner watching'], ['P', 'Guided bodyweight tests'], ['F', 'Loaded and timed tests']]], ['Trial Training', [['N', 'In person only'], ['N', 'In person only'], ['F', 'A real session with a coach']]]];
+    const LV = { F: ['Full', '100%', 'var(--blue)'], P: ['Partial', '50%', 'var(--blue)'], N: ['Not covered', '0%', 'var(--grey-300)'] };
+    const op = k => noIP && k === 'inperson' ? .45 : 1;
+    return {
+      top: this.props.stickyTop || '0px', showReasons: this.props.compact ? false : true,
+      cols: C.map(([k, name]) => ({ name, bg: hl === k ? 'var(--ink)' : '#fff', fg: hl === k ? '#fff' : 'var(--ink)', op: op(k) })),
+      rows: M.map(([name, cells]) => ({ name, cells: cells.map(([l, why], i) => ({ level: LV[l][0], fill: LV[l][1], ring: LV[l][2], why, bg: hl === C[i][0] ? 'var(--ice)' : '#fff', op: op(C[i][0]) })) }))
+    };
+  }
+}
+</script>
+</body>
+</html>

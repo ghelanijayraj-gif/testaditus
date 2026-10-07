@@ -1,0 +1,7 @@
+:root{
+--gutter:clamp(20px,4vw,64px);/* @kind spacing */--section-y:clamp(56px,7vw,112px);/* @kind spacing */--section-y-lg:clamp(72px,9vw,140px);/* @kind spacing */
+--card-pad:16px 18px 20px;/* @kind spacing */--page-max:1480px;/* @kind spacing */--nav-h:60px;/* @kind spacing */
+--space-1:4px;--space-2:6px;--space-3:8px;--space-4:10px;--space-5:12px;--space-6:14px;--space-7:18px;--space-8:22px;--space-9:26px;--space-10:32px;
+/* Control heights */
+--h-tag:26px;--h-chip:34px;--h-sm:40px;--h-md:50px;--h-lg:58px;--h-xl:60px;
+}
