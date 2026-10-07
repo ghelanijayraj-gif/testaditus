@@ -1,0 +1,18 @@
+// Access (01) and Intake (03) area models. Core rows are referenced by plain string ids.
+
+/// Links a scheduled outbox row (OutboxMessage with sendAt) to what it reminds about,
+/// so it can be cancelled or recreated: intake unfinished (24 h / 72 h after setup)
+/// and session reminders (24 h / 2 h before).
+model ScheduledReminder {
+  id              String   @id @default(cuid())
+  outboxMessageId String   @unique
+  clientId        String
+  /// intake_24h | intake_72h | session_24h_whatsapp | session_24h_email | session_2h
+  kind            String
+  /// Session id for session reminders; null for intake reminders.
+  refId           String?
+  createdAt       DateTime @default(now())
+
+  @@index([clientId, kind])
+  @@index([refId])
+}

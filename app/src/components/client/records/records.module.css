@@ -1,0 +1,116 @@
+/* Records area (05 §2.5 to §2.11). Container queries stand in for the prototype's content width `cw`. */
+.page{display:flex;flex-direction:column;gap:20px;width:100%;container-type:inline-size;font-family:var(--font-mono);color:var(--ink)}
+.head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:14px}
+.titleCol{display:flex;flex-direction:column;gap:10px}
+.kicker{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--grey-600)}
+.h1{margin:0;font-family:var(--font-display);font-weight:400;font-size:clamp(30px,4.4vw,56px);line-height:.88;text-transform:uppercase}
+.who{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--grey-700)}
+.label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:700}
+.meta{font-size:10px;text-transform:uppercase;color:var(--grey-600)}
+.body{font:400 16px/1.45 var(--font-sans);color:var(--grey-700)}
+.display24{font-family:var(--font-display);font-size:24px;line-height:.92;text-transform:uppercase}
+.card{border:2px solid var(--ink);display:flex;flex-direction:column;background:#fff}
+.rowLine{border-bottom:1px solid var(--grey-200)}
+.link{font-size:11px;text-transform:uppercase;font-weight:700;text-decoration:none;color:var(--ink);background:none;border:0;padding:0;cursor:pointer;font-family:var(--font-mono)}
+.link:hover{color:var(--blue)}
+.blueLink{font-size:11px;text-transform:uppercase;text-decoration:none;color:var(--blue);background:none;border:0;padding:0;cursor:pointer;font-family:var(--font-mono)}
+
+/* Segmented tabs (My plan, Documents) */
+.tabs{display:grid;grid-auto-flow:column;grid-auto-columns:auto;border:2px solid var(--ink);align-self:flex-start}
+.tab{height:44px;padding:0 18px;border:0;box-shadow:inset -1px 0 0 var(--ink);cursor:pointer;font-family:var(--font-display);font-size:12px;text-transform:uppercase;background:#fff;color:var(--ink);display:flex;align-items:center;text-decoration:none}
+.tab:hover{background:var(--mist);color:var(--ink)}
+.tabOn,.tabOn:hover{background:var(--ink);color:#fff}
+
+/* Small segmented switch (range, layout) */
+.seg{display:grid;grid-auto-flow:column;border:1.5px solid var(--ink)}
+.segBtn{height:32px;padding:0 12px;border:0;cursor:pointer;font-size:10px;text-transform:uppercase;background:#fff;color:var(--ink);display:flex;align-items:center;justify-content:center;text-decoration:none;font-family:var(--font-mono)}
+.segBtn:hover{background:var(--mist);color:var(--ink)}
+.segOn,.segOn:hover{background:var(--ink);color:#fff}
+
+/* Chips */
+.chip{font-size:10px;text-transform:uppercase;padding:4px 8px;box-shadow:inset 0 0 0 1.5px var(--ink);white-space:nowrap;height:fit-content}
+.chipInk{background:var(--ink);color:#fff}
+.chipIce{background:var(--ice);color:var(--ink)}
+.chipWhite{background:#fff;color:var(--ink)}
+.chipBlue{background:var(--blue);color:#fff;box-shadow:none}
+
+/* Toggles (05 tgl) */
+.tgl{flex:none;width:52px;height:28px;border:2px solid var(--ink);background:#fff;position:relative;transition:background .2s}
+.tgl i{position:absolute;top:2px;left:2px;width:20px;height:20px;background:var(--ink);transition:left .2s}
+.tglOn{background:var(--blue)}
+.tglOn i{left:26px;background:#fff}
+.tglSm{width:44px;height:24px}
+.tglSm i{width:16px;height:16px}
+.tglSm.tglOn i{left:22px}
+.toggleRow{border:0;border-bottom:1px solid var(--grey-200);background:#fff;cursor:pointer;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;gap:16px;text-align:left;width:100%;font-family:var(--font-mono);color:var(--ink)}
+.toggleRow:hover{background:var(--mist)}
+.toggleRow:disabled{cursor:default}
+.toggleTitle{font:600 15px var(--font-sans)}
+
+/* Segments bar (12 sessions) */
+.segs{display:grid;gap:3px}
+.segs i{display:block;background:var(--grey-200)}
+.segs i.used{background:var(--blue)}
+
+/* Focus area buttons */
+.focusBtn{border:1.5px solid var(--ink);background:#fff;cursor:pointer;height:28px;padding:0 8px;font-size:10px;text-transform:uppercase;white-space:nowrap;display:inline-flex;align-items:center;text-decoration:none;color:var(--ink)}
+.focusBtn:hover{background:var(--mist);color:var(--ink)}
+
+/* Lists */
+.list{display:grid;gap:4px 12px;padding:14px 18px;border-bottom:1px solid var(--grey-200);align-items:center}
+.rowBtn{text-align:left;border:0;background:#fff;cursor:pointer;color:var(--ink);text-decoration:none;font-family:var(--font-mono)}
+.rowBtn:hover{background:var(--mist);color:var(--ink)}
+
+/* Tables with a header row only when the content is wide (cw >= 900) */
+.thead{display:none}
+@container (min-width:900px){.thead{display:grid}}
+
+/* Overlays */
+.scrim{position:fixed;inset:0;background:rgba(16,24,40,.4);z-index:8;display:flex;justify-content:flex-end}
+.drawer{width:min(460px,100%);height:100%;overflow:auto;background:#fff;border-left:2px solid var(--ink);display:flex;flex-direction:column}
+.drawerHead{position:sticky;top:0;z-index:1;background:#fff;padding:16px 18px;border-bottom:2px solid var(--ink);display:flex;justify-content:space-between;align-items:center}
+.close{border:0;background:none;font-size:22px;cursor:pointer;width:44px;height:40px;color:var(--ink);display:flex;align-items:center;justify-content:center;text-decoration:none}
+.modalScrim{position:fixed;inset:0;background:rgba(16,24,40,.4);z-index:9;display:flex;align-items:center;justify-content:center;padding:16px}
+.modal{width:min(500px,100%);max-height:calc(100vh - 32px);overflow:auto;background:#fff;border:2px solid var(--ink);display:flex;flex-direction:column}
+.modalHead{padding:16px 18px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--ink)}
+
+.input{height:48px;border:2px solid var(--ink);padding:0 12px;font-size:14px;border-radius:0;background:#fff;font-family:var(--font-mono);color:var(--ink);width:100%}
+.input:disabled{background:var(--grey-50);color:var(--grey-600);border-color:var(--grey-300)}
+.field{display:flex;flex-direction:column;gap:8px}
+.fieldLabel{font-size:11px;text-transform:uppercase;letter-spacing:.06em}
+.select{height:36px;border:1.5px solid var(--ink);background:#fff;padding:0 10px;font-size:11px;text-transform:uppercase;border-radius:0;font-family:var(--font-mono);color:var(--ink)}
+.errorLine{font:600 14px/1.4 var(--font-sans);color:var(--ink);background:var(--ice);padding:12px 14px;box-shadow:inset 4px 0 0 var(--ink)}
+
+@media print{.noPrint{display:none!important}}
+
+/* Health data */
+.healthGrid{display:grid;grid-template-columns:minmax(0,1fr);gap:20px;align-items:start}
+@container (min-width:1000px){.healthGrid{grid-template-columns:minmax(0,1fr) 340px}}
+.sysTab{flex:1;min-width:140px;padding:10px 14px;display:flex;align-items:center;gap:10px;text-decoration:none}
+.sysTab:hover{opacity:.92}
+.tile{text-align:left;padding:14px 16px;display:flex;flex-direction:column;gap:6px;background:#fff;color:var(--ink);text-decoration:none}
+.tile:hover{background:var(--mist);color:var(--ink)}
+
+/* Documents */
+.drop{border:2px dashed var(--ink);background:var(--grey-50);padding:clamp(18px,3vw,28px);display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px;text-align:left;font-family:var(--font-mono);color:var(--ink);width:100%}
+.drop:not(:disabled):hover{background:var(--mist)}
+.docRow{display:grid;grid-template-columns:minmax(0,1fr);gap:6px 16px;align-items:center;padding:14px 18px;border-bottom:1px solid var(--grey-200)}
+@container (min-width:760px){.docRow{grid-template-columns:minmax(0,1.6fr) 120px 150px minmax(0,1fr)}}
+.sentCols{grid-template-columns:120px 1.6fr 1fr 90px}
+.sentRow{display:grid;grid-template-columns:minmax(0,1fr);gap:6px 12px;padding:14px 18px;border-bottom:1px solid var(--grey-200);align-items:center}
+@container (min-width:900px){.sentRow{grid-template-columns:120px 1.6fr 1fr 90px}}
+.dlBtn{display:inline-flex;align-items:center;justify-content:center;height:40px;padding:0 14px;font-family:var(--font-display);font-size:12px;border:2px solid var(--ink);color:var(--ink);text-decoration:none;background:transparent;transition:background-color .2s}
+.dlBtn:hover{background:var(--ice);color:var(--ink)}
+
+/* Orders */
+.orderCols{grid-template-columns:1.2fr 1.6fr .9fr .9fr .8fr .8fr 90px}
+.orderRow{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 12px;padding:14px 18px;border-bottom:1px solid var(--grey-200);align-items:center}
+@container (min-width:900px){.orderRow{grid-template-columns:1.2fr 1.6fr .9fr .9fr .8fr .8fr 90px}}
+.whiteBtn{display:inline-flex;align-self:flex-start;align-items:center;height:40px;padding:0 14px;background:#fff;color:var(--ink);font-family:var(--font-display);font-size:12px;text-decoration:none;white-space:nowrap}
+.whiteBtn:hover{background:var(--ice);color:var(--ink)}
+
+/* Access ended (05 §2.11, full screen, outside the portal shell) */
+.ended{position:fixed;inset:0;z-index:30;background:#fff;display:grid;grid-template-columns:1fr;overflow:auto;font-family:var(--font-mono);color:var(--ink)}
+.endedSide{display:none;background:var(--ink);color:#fff;padding:40px;flex-direction:column;justify-content:space-between;overflow:hidden}
+@media (min-width:760px){.ended{grid-template-columns:minmax(280px,38%) 1fr}.endedSide{display:flex}}
+.endedMain{padding:clamp(28px,6vw,72px) clamp(20px,5vw,64px);display:flex;flex-direction:column;justify-content:center;gap:18px;max-width:640px}

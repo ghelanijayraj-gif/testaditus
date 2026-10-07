@@ -80,6 +80,22 @@ export function makeAuth(kind: Kind) {
     );
   }
 
+  if (kind === "client") {
+    // Account setup link (48 h, from the Shopify paid email): signs the client in until setup is done.
+    providers.push(
+      Credentials({
+        id: "setup-token",
+        name: "Setup link",
+        credentials: { token: {} },
+        async authorize(raw) {
+          const { findSetupToken } = await import("@/server/onboarding/setup");
+          const hit = await findSetupToken(String(raw?.token ?? ""));
+          return hit ? { id: hit.user.id, email: hit.user.email, name: hit.user.name } : null;
+        },
+      }),
+    );
+  }
+
   if (kind === "staff" && process.env.AUTH_GOOGLE_ID) {
     providers.push(
       Google({
@@ -139,8 +155,14 @@ export function makeAuth(kind: Kind) {
           token.kind = db.kind;
           token.role = db.staff?.role ?? null;
           token.sid = randomUUID();
+          token.issuedAt = Date.now();
           // Dev quick sign in skips the second step; every real provider must pass it.
           token.mfa = kind === "client" || account?.provider === "dev";
+        }
+        // "Sign out of all devices" (Account): drop client tokens issued before the policy time.
+        if (kind === "client" && token.uid) {
+          const policy = await prisma.clientSessionPolicy.findUnique({ where: { userId: String(token.uid) } });
+          if (policy && Number(token.issuedAt ?? 0) < policy.sessionsValidAfter.getTime()) return null;
         }
         // Staff second step: only flip mfa when the server recorded a TOTP check for this sid.
         if (trigger === "update" && kind === "staff" && token.sid) {

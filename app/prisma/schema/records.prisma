@@ -1,0 +1,57 @@
+// Records area (My plan, Health data, Documents, Orders, Account, Export).
+// New models only; core rows are referenced by plain String ids.
+
+/// Consent history: every toggle in Account appends a row. `Consent` (core) keeps the
+/// current value; the date shown is the latest `granted = true` row.
+model ConsentEvent {
+  id        String      @id @default(cuid())
+  clientId  String
+  kind      ConsentKind
+  granted   Boolean
+  /// setup | intake | account | health_connect | seed
+  source    String      @default("account")
+  createdAt DateTime    @default(now())
+
+  @@index([clientId, kind, createdAt])
+}
+
+/// "Sign out of all devices". Client sessions are JWTs, so they cannot be revoked one by one:
+/// any session issued before `sessionsValidAfter` must be treated as signed out.
+/// Enforcement belongs in the client Auth.js jwt/session callback (Shell/auth lead).
+model ClientSessionPolicy {
+  userId             String   @id
+  sessionsValidAfter DateTime
+  updatedAt          DateTime @updatedAt
+}
+
+/// Extra fields for ProductSuggestion (core has name, reason, dismissed only).
+model SuggestionDetail {
+  suggestionId String    @id
+  /// "Online or at TIC · 45 minutes each"
+  meta         String
+  /// Measure the suggestion is tied to (TestDefinition.key), e.g. "hold".
+  testKey      String?
+  /// Finding (report priority) it is tied to.
+  findingId    String?
+  productSlug  String?
+  order        Int       @default(0)
+  dismissedAt  DateTime?
+}
+
+/// Links an OutboxMessage ("Sent to you") to the document it delivered.
+model OutboxDocument {
+  messageId  String @id
+  documentId String
+  /// Client facing title in "Sent to you", e.g. "Baseline assessment report".
+  title      String
+}
+
+/// The client opening their own file (staff views go to the core AccessLog).
+model DocumentView {
+  id         String   @id @default(cuid())
+  clientId   String
+  documentId String
+  createdAt  DateTime @default(now())
+
+  @@index([documentId, createdAt])
+}

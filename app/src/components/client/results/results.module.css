@@ -1,0 +1,258 @@
+/* Results area (05 Assessment, Reports; 04 reveal). Breakpoints follow the prototype:
+   mobile < 760px viewport; three columns when the content width is 1180px or more. */
+
+.root {
+  container-type: inline-size;
+  container-name: ares;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+}
+
+.kicker {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--grey-600);
+}
+
+.h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(30px, 4.4vw, 56px);
+  line-height: 0.88;
+  text-transform: uppercase;
+}
+
+.who {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--grey-700);
+}
+
+.rowBtn {
+  text-align: left;
+  border: 0;
+  background: #fff;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--ink);
+}
+.rowBtn:hover {
+  background: var(--mist) !important;
+  color: var(--ink);
+}
+
+.seg {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  border: 2px solid var(--ink);
+}
+.segBtn {
+  height: 44px;
+  padding: 0 clamp(12px, 1.6vw, 20px);
+  border: 0;
+  box-shadow: inset -1px 0 0 var(--ink);
+  font-family: var(--font-display);
+  font-size: 13px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+/* System tabs: one row, swipeable on phones. */
+.tabs {
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  border-bottom: 2px solid var(--ink);
+  scrollbar-width: none;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+}
+.tabs::-webkit-scrollbar {
+  display: none;
+}
+.tab {
+  flex: 1;
+  min-width: 150px;
+  border: 0;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  scroll-snap-align: start;
+}
+.tab:hover {
+  color: inherit;
+}
+
+.body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+.detail {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+.centre {
+  container-type: inline-size;
+  container-name: centre;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+@media (max-width: 759px) {
+  .tab {
+    flex: none;
+  }
+}
+@media (min-width: 760px) {
+  .body {
+    grid-template-columns: 240px minmax(0, 1fr);
+  }
+  .detail {
+    grid-column: 1 / -1;
+  }
+}
+@container ares (min-width: 1180px) {
+  .body {
+    grid-template-columns: 260px minmax(0, 1fr) 380px;
+  }
+  .detail {
+    grid-column: auto;
+  }
+}
+
+/* Movement and Breath cards: two columns when the centre column is 560px or wider. */
+.split {
+  border: 2px solid var(--ink);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  min-width: 0;
+}
+.bodyBox {
+  position: relative;
+  width: 100%;
+  max-width: 200px;
+  aspect-ratio: 400 / 720;
+}
+@container centre (min-width: 560px) {
+  .split {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  }
+  .bodyBox {
+    max-width: 240px;
+  }
+}
+
+/* Recovery: strip beside resting heart rate when the centre column is 620px or wider. */
+.rec {
+  border: 2px solid var(--ink);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  min-width: 0;
+}
+.recSide {
+  border-top: 1px solid var(--grey-200);
+}
+@container centre (min-width: 620px) {
+  .rec {
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  }
+  .recSide {
+    border-top: 0;
+    border-left: 1px solid var(--grey-200);
+  }
+}
+
+.flip {
+  height: 40px;
+  padding: 0 16px;
+  border: 2px solid var(--ink);
+  background: #fff;
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-size: 12px;
+  text-transform: uppercase;
+}
+.flip:hover {
+  background: var(--ice);
+}
+
+.link {
+  font-size: 12px;
+  text-transform: uppercase;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* Report view: body highlights grid (3 columns when content is 760px or wider). */
+.rep {
+  container-type: inline-size;
+  container-name: rep;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 1100px;
+  min-width: 0;
+}
+.bodyGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+.bodyGrid > :nth-child(3) {
+  grid-column: 1 / -1;
+  border-top: 1px solid var(--grey-200);
+}
+@container rep (min-width: 760px) {
+  .bodyGrid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.3fr);
+  }
+  .bodyGrid > :nth-child(3) {
+    grid-column: auto;
+    border-top: 0;
+  }
+}
+
+.focusHeader {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: rgba(255, 255, 255, 0.97);
+  border-bottom: 1px solid var(--grey-200);
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 clamp(16px, 3vw, 32px);
+}
+.focusMain {
+  flex: 1;
+  width: 100%;
+  max-width: 620px;
+  margin: 0 auto;
+  padding: clamp(20px, 4vw, 40px) clamp(16px, 3vw, 32px) 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+@media print {
+  .noPrint {
+    display: none !important;
+  }
+}

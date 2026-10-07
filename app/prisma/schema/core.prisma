@@ -516,6 +516,7 @@ enum Direction {
 enum Side {
   LEFT
   RIGHT
+  BOTH
   NONE
 }
 
@@ -923,6 +924,7 @@ model SessionRating {
 model IssueReport {
   id        String        @id @default(cuid())
   clientId  String
+  sessionId String?
   kind      String
   body      String
   createdAt DateTime      @default(now())
@@ -1297,11 +1299,15 @@ model SetupToken {
 /// Live online assessment: instructions and timers the practitioner pushes to the client's screen
 /// ("Stand on your right leg, eyes open"). Written by the practitioner console, read by the client live page.
 model LiveCue {
-  id           String   @id @default(cuid())
-  assessmentId String
-  text         String
-  timerSeconds Int?
-  createdAt    DateTime @default(now())
+  id             String    @id @default(cuid())
+  assessmentId   String
+  text           String
+  timerSeconds   Int?
+  /// Short label, e.g. "Single leg balance · right".
+  label          String?
+  timerStartedAt DateTime?
+  timerStoppedAt DateTime?
+  createdAt      DateTime  @default(now())
 
   @@index([assessmentId, createdAt])
 }

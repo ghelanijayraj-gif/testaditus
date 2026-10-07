@@ -1,0 +1,35 @@
+// Consoles area (10 Practitioner Console, head coach review, 11 Photo Review).
+// New models only; core rows are referenced by plain String ids.
+
+/// Wrap up: the practitioner's draft text for every candidate priority, picked or not,
+/// so un-picking a priority does not lose what was written. Picked drafts are mirrored
+/// into core `Finding` rows (the canonical priorities the report renders).
+model ConsoleFindingDraft {
+  id           String   @id @default(cuid())
+  reportId     String
+  testKey      String
+  picked       Boolean  @default(false)
+  order        Int      @default(0)
+  observed     String   @default("")
+  whyItMatters String   @default("")
+  workOn       String   @default("")
+  related      String[]
+  updatedAt    DateTime @updatedAt
+
+  @@unique([reportId, testKey])
+  @@index([reportId])
+}
+
+/// Photo review state per client capture module (11): when the review was finished
+/// and the review SLA pause while waiting on a retake.
+model CaptureReview {
+  id           String    @id @default(cuid())
+  clientId     String
+  moduleKey    String
+  reviewerName String?
+  finishedAt   DateTime?
+  pausedAt     DateTime?
+  updatedAt    DateTime  @updatedAt
+
+  @@unique([clientId, moduleKey])
+}

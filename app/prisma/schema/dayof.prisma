@@ -1,0 +1,21 @@
+// Day area (04 assessment day, 02 live video session): client side session checks.
+// References core rows by plain string ids.
+
+/// Per session client side state for the live online session (setup check, join) and
+/// the in person day. One row per session.
+model DayCheck {
+  id           String    @id @default(cuid())
+  sessionId    String    @unique
+  clientId     String
+  cameraOk     Boolean?
+  micOk        Boolean?
+  /// "strong" | "slow" after the join link test
+  connection   String?
+  linkTestedAt DateTime?
+  joinedAt     DateTime?
+  lastSeenAt   DateTime?
+  reconnects   Int       @default(0)
+  updatedAt    DateTime  @updatedAt
+
+  @@index([clientId])
+}

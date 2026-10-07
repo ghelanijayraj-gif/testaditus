@@ -1,0 +1,17 @@
+// Results area (05 Assessment and Reports, 04 report reveal). New models only.
+
+/// Report opened and walkthrough progress per client (04 "ReportViewProgress").
+/// `openedAt` marks the report as seen (05 phase report_ready → plan_options).
+model ReportView {
+  id                String    @id @default(cuid())
+  reportId          String
+  clientId          String
+  /// Last walkthrough step reached (1 to 6), 0 when only the report was opened.
+  step              Int       @default(0)
+  openedAt          DateTime  @default(now())
+  walkthroughDoneAt DateTime?
+  updatedAt         DateTime  @updatedAt
+
+  @@unique([reportId, clientId])
+  @@index([clientId])
+}

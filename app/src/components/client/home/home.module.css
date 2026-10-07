@@ -1,0 +1,428 @@
+/* 05 §2.1 Home. Two columns when the content width is ≥ 1040 (container query on the portal <main>). */
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+.left {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+}
+.right {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 16px;
+  min-width: 0;
+  align-items: start;
+}
+@container portal (min-width: 1040px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr) 340px;
+  }
+  .right {
+    display: flex;
+    flex-direction: column;
+  }
+}
+@media (max-width: 759px) {
+  .left,
+  .right {
+    display: contents;
+  }
+}
+.o1 { order: 1; }
+.o2 { order: 2; }
+.o3 { order: 3; }
+.o4 { order: 4; }
+.o5 { order: 5; }
+.o6 { order: 6; }
+.o7 { order: 7; }
+@media (min-width: 760px) {
+  .o1, .o2, .o3, .o4, .o5, .o6, .o7 { order: 0; }
+}
+
+.h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(30px, 4.2vw, 56px);
+  line-height: 0.88;
+  text-transform: uppercase;
+}
+.stepWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.step {
+  background: var(--blue);
+  color: #fff;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px 24px;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: clamp(18px, 2.4vw, 28px);
+}
+.stepL {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1 1 300px;
+  min-width: 0;
+}
+.stepK {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ice);
+}
+.stepT {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 2.8vw, 38px);
+  line-height: 0.92;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+.stepLine {
+  font: 400 clamp(15px, 1.3vw, 17px) / 1.4 var(--font-sans);
+  max-width: 560px;
+  text-wrap: pretty;
+}
+.stepR {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 0 1 230px;
+  min-width: 190px;
+}
+
+.endHead {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.kicker {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--grey-600);
+}
+.endH1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(28px, 3.8vw, 48px);
+  line-height: 0.88;
+  text-transform: uppercase;
+}
+.body16 {
+  font: 400 16px/1.45 var(--font-sans);
+  color: var(--grey-700);
+  max-width: 620px;
+}
+.endCards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 16px;
+}
+.endCard {
+  border: 2px solid var(--ink);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+}
+.endCard > b {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+.k10 {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.body15 {
+  font: 400 15px/1.45 var(--font-sans);
+  color: var(--grey-700);
+}
+
+.plan {
+  border: 2px solid var(--ink);
+  padding: 16px 18px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 130px), 1fr));
+  gap: 14px;
+  align-items: end;
+}
+.planFirst {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  grid-column: span 2;
+  min-width: 0;
+}
+@media (max-width: 420px) {
+  .planFirst {
+    grid-column: 1 / -1;
+  }
+}
+.planTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.segs {
+  display: grid;
+  gap: 3px;
+}
+.segs i {
+  height: 10px;
+  display: block;
+}
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.stat > span {
+  font-size: 10px;
+  text-transform: uppercase;
+  color: var(--grey-600);
+}
+.stat > b {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 24px;
+}
+.stat > b.small {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 13px;
+  padding-bottom: 4px;
+}
+
+.card {
+  border: 2px solid var(--ink);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.journey {
+  composes: card;
+  padding: clamp(16px, 2vw, 22px);
+  gap: 14px;
+}
+.cardHead {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 6px 16px;
+}
+.cardTitle {
+  font-family: var(--font-display);
+  font-size: clamp(18px, 2vw, 24px);
+  text-transform: uppercase;
+}
+.jStatus {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--grey-700);
+}
+.jScroll {
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+.jGrid {
+  min-width: 620px;
+  display: grid;
+  grid-template-columns: 96px repeat(12, minmax(0, 1fr)) 96px;
+  gap: 3px;
+}
+.jLab {
+  font-size: 10px;
+  text-transform: uppercase;
+  padding-bottom: 6px;
+}
+.jCell {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+.wk {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+}
+.wk_now {
+  background: var(--ink);
+  color: #fff;
+}
+.wk_past {
+  background: var(--blue);
+  color: #fff;
+}
+.wk_window {
+  background: var(--mist);
+  box-shadow: inset 0 -4px 0 #006de0;
+}
+.wk_future {
+  background: var(--grey-50);
+  box-shadow: inset 0 0 0 1px var(--grey-200);
+}
+.jFoot {
+  font-size: 10px;
+  color: var(--grey-600);
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  border: 2px solid var(--ink);
+}
+.tile {
+  text-align: left;
+  border: 0;
+  background: #fff;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: inset -1px 0 0 var(--grey-200), inset 0 -1px 0 var(--grey-200);
+  text-decoration: none;
+  color: var(--ink);
+}
+.tile:hover {
+  background: var(--mist);
+  color: var(--ink);
+}
+.tileTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+.meta10 {
+  font-size: 10px;
+  text-transform: uppercase;
+  color: var(--grey-600);
+}
+.tileName {
+  font-family: var(--font-display);
+  font-size: 20px;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+.tileTopLine {
+  font: 400 14px/1.4 var(--font-sans);
+  color: var(--grey-700);
+  flex: 1;
+}
+.open11 {
+  font-size: 11px;
+  text-transform: uppercase;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.hsHead {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--grey-200);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+.hsTitle {
+  font-family: var(--font-display);
+  font-size: clamp(18px, 2vw, 22px);
+  text-transform: uppercase;
+}
+.hsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
+}
+.hsCell {
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: inset -1px 0 0 var(--grey-200);
+}
+.hsK {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.hsV {
+  font-family: var(--font-display);
+  font-size: 28px;
+  line-height: 0.9;
+}
+.hsFoot {
+  padding: 10px 18px;
+  border-top: 1px solid var(--grey-200);
+  font-size: 10px;
+  text-transform: uppercase;
+  color: var(--grey-600);
+}
+.hsEmpty {
+  padding: 16px 18px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.side {
+  border: 2px solid var(--ink);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.latest {
+  composes: side;
+  padding: 14px 16px;
+  gap: 6px;
+}
+.docHead {
+  padding: 14px 16px 10px;
+  display: flex;
+  justify-content: space-between;
+}
+.docRow {
+  text-align: left;
+  border-top: 1px solid var(--grey-200);
+  background: #fff;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  text-decoration: none;
+  color: var(--ink);
+}
+.docRow:hover {
+  background: var(--mist);
+  color: var(--ink);
+}

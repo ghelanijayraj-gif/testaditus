@@ -64,5 +64,8 @@ export async function seedRoster(db: PrismaClient, base: Base) {
   for (const c of training) {
     await db.clientCoach.createMany({ data: [{ clientId: c.id, staffId: base.jayraj.id, role: "ASSESSMENT" }, { clientId: c.id, staffId: base.shimyu.id, role: "PERSONAL_TRAINING" }] });
   }
+  // Vikram's returned report demo: in Shimyu's segment so the head coach can act on it.
+  const vikram = await db.clientProfile.findFirst({ where: { user: { email: "vikram@example.com" } } });
+  if (vikram) await db.clientCoach.create({ data: { clientId: vikram.id, staffId: base.shimyu.id, role: "PERSONAL_TRAINING" } });
   void d;
 }

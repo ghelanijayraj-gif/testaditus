@@ -1,7 +1,8 @@
 import { TZ } from "./clock";
 
 // Copy rules: dates read "Thu 8 Oct", times "7:30 AM", middot separators, no dashes.
-const fmt = (d: Date, o: Intl.DateTimeFormatOptions) => new Intl.DateTimeFormat("en-GB", { timeZone: TZ, ...o }).format(d);
+// en-GB ICU prints "Sept"; the designs use three letter months.
+const fmt = (d: Date, o: Intl.DateTimeFormatOptions) => new Intl.DateTimeFormat("en-GB", { timeZone: TZ, ...o }).format(d).replace("Sept", "Sep");
 
 /** "Thu 8 Oct" */
 export const dayLabel = (d: Date) => fmt(d, { weekday: "short", day: "numeric", month: "short" }).replace(",", "");

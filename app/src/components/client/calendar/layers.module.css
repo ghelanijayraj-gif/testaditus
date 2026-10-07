@@ -1,0 +1,258 @@
+/* 05 §1.7 right drawer and centre modal, §2.4 session drawer, list drawer, booking modal. */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(16, 24, 40, 0.4);
+  z-index: 8;
+  display: flex;
+  justify-content: flex-end;
+}
+.modalBackdrop {
+  composes: backdrop;
+  z-index: 9;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.panel {
+  width: min(460px, 100%);
+  height: 100%;
+  overflow: auto;
+  background: #fff;
+  border-left: 2px solid var(--ink);
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-mono);
+  color: var(--ink);
+}
+.modal {
+  width: min(520px, 100%);
+  max-height: calc(100vh - 32px);
+  overflow: auto;
+  background: #fff;
+  border: 2px solid var(--ink);
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-mono);
+  color: var(--ink);
+}
+.head {
+  padding: 16px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--ink);
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 1;
+}
+.kicker {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.mTitle {
+  font-family: var(--font-display);
+  font-size: 20px;
+  text-transform: uppercase;
+}
+.close {
+  border: 0;
+  background: none;
+  font-size: 22px;
+  cursor: pointer;
+  width: 44px;
+  height: 40px;
+  color: var(--ink);
+}
+.close:focus-visible,
+.rowBtn:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: -2px;
+}
+.top {
+  padding: 20px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-bottom: 2px solid var(--ink);
+}
+.typeRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+.sw {
+  width: 12px;
+  height: 12px;
+  display: block;
+  box-shadow: inset 0 0 0 1px rgba(16, 24, 40, 0.15);
+}
+.small11 {
+  font-size: 11px;
+  text-transform: uppercase;
+}
+.stChip {
+  font-size: 10px;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  box-shadow: inset 0 0 0 1.5px var(--ink);
+}
+.bigTitle {
+  font-family: var(--font-display);
+  font-size: 26px;
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+.actions {
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-bottom: 1px solid var(--grey-200);
+  background: var(--grey-50);
+}
+.two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.statusLine {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--grey-200);
+  background: var(--grey-50);
+  font: 400 14px/1.45 var(--font-sans);
+}
+.sec {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--grey-200);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.secTitle {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--blue);
+}
+.kv {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+}
+.kv > span:first-child {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--grey-600);
+}
+.kv > span:last-child {
+  font-size: 13px;
+  text-align: right;
+}
+.text {
+  font: 400 14px/1.5 var(--font-sans);
+}
+.link {
+  font-size: 12px;
+  text-transform: uppercase;
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--ink);
+}
+.rule {
+  padding: 14px 18px;
+  background: var(--ice);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.rule b {
+  font-size: 11px;
+  text-transform: uppercase;
+}
+.rule span {
+  font: 400 14px/1.45 var(--font-sans);
+}
+.subhead {
+  padding: 14px 18px 6px;
+  font-size: 10px;
+  text-transform: uppercase;
+  color: var(--grey-600);
+}
+.foot {
+  padding: 16px 18px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px;
+}
+.footOne {
+  padding: 16px 18px;
+}
+.listHead {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-bottom: 2px solid var(--ink);
+}
+.listHead b {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+.listRow {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--grey-200);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px 12px;
+  align-items: center;
+}
+.rowBtn {
+  text-align: left;
+  border: 0;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-family: var(--font-mono);
+  color: var(--ink);
+}
+.ctx {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--grey-200);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.ctx span:first-child {
+  font-size: 10px;
+  text-transform: uppercase;
+  color: var(--grey-600);
+}
+.ctx span:last-child {
+  font: 600 15px var(--font-sans);
+}
+.blocked {
+  opacity: 0.55;
+  pointer-events: none;
+}
+.sent {
+  padding: 20px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.loading {
+  padding: 24px 18px;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--grey-600);
+}
