@@ -22,13 +22,12 @@ export async function signOutStaff() {
 /** Dev only: the prototype's role switch. Signs in as the seeded person for that role. */
 export async function devSwitchRole(key: string) {
   if (!devAuthEnabled()) return;
-  const email = { FOUNDER: "jayraj@aditus.in", PRACTITIONER: "jayraj@aditus.in", HOD: "shimyu@aditus.in", OPS: "sahil@aditus.in", FINANCE: "arjun@aditus.in" }[key];
+  const email = { FOUNDER: "jayraj@aditus.in", PRACTITIONER: "rohit@aditus.in", HOD: "shimyu@aditus.in", OPS: "sahil@aditus.in", FINANCE: "arjun@aditus.in" }[key];
   if (!email) return;
   const u = await prisma.user.findUnique({ where: { email } });
   if (!u) return;
   const jar = await cookies();
-  if (key === "PRACTITIONER") jar.set(DEV_VIEW_AS, "PRACTITIONER", { path: "/", sameSite: "lax" });
-  else jar.delete(DEV_VIEW_AS);
+  jar.delete(DEV_VIEW_AS);
   await staffSignIn("dev", { userId: u.id, redirect: false });
   redirect("/staff");
 }

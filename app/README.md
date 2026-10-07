@@ -36,9 +36,10 @@ run on the real clock.
 - **Clients**: `/signin` lists every demo client grouped by journey stage (setup, intake, uploads, waiting for
   evaluation, in person, report, training, plan ended). Pick one, or use password `aditus-demo-1`. In the portal,
   **Switch demo client** (under Sign out) goes back to the list.
-- **Staff**: `/staff/signin` lists Jayraj (Founder), Shimyu (Head of department), Sahil (Ops admin) and Arjun (Finance).
+- **Staff**: `/staff/signin` lists Jayraj (Founder), Shimyu (Head coach, assessment), Rohit and Neha (coaches), Sahil
+  (Ops admin) and Arjun (Finance).
   The second step screen shows the current TOTP code in development. In the console, the top bar's role switch signs you in as
-  that role (Practitioner = Jayraj viewing his own clients).
+  that role (Practitioner = Rohit).
 - Scripts: `node scripts/crawl.mjs` (signs in as every demo account and loads the main routes), `GET /api/dev/login?kind=client|staff&email=…&to=/path`, `node scripts/shot.mjs` (screenshots).
 
 ### Demo clients (one per lifecycle state)
@@ -119,10 +120,14 @@ prisma/
 Phase one is assessment only: clients upload photos and videos (Online Capture), a coach evaluates them, the head coach
 approves, and the client gets the report. There are no live video sessions.
 
-- **Evaluate** (`/staff/evaluate/[clientId]`, from Assessments, Today and the client file): uploads on the left, the
-  evaluation on the right, section by section. Every parameter can take a note, attach the photo or video on screen as
-  evidence, and be marked as a priority. Autosaves. **Summary and submit** writes the top of the report and sends it to
-  the head coach.
+- **Assign** (head of department, Assessments): three lanes. *Ready to assign* (uploads are in) → Assign → pick a coach
+  (each shows how many evaluations they have open). *Waiting for your approval* → Review. *With coaches* shows progress,
+  with Change coach folded behind a link.
+- **My evaluations** (coaches, Today and Assessments): only what is assigned to them, returned ones first. A coach
+  cannot open an evaluation that is not theirs.
+- **Evaluate** (`/staff/evaluate/[clientId]`, from Assessments, Today and the client file): uploads on the left, one step (section) at a time
+  on the right. Each parameter shows only its answer; a note, the photo or video on screen as evidence, and Mark as
+  priority open from one link. Autosaves. The last step writes the summary and is the only place to submit.
 - **Head coach review** (`/staff/review/[reportId]`): the report as the client will see it, plus internal items, with
   Approve and release, Return with comment, or Edit evaluation.
 - **Client report** (`/reports/[id]`): scores, summary, priorities, each section, recommended next step, Save as PDF.

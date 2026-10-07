@@ -3,7 +3,7 @@
 import { PrismaClient } from "@prisma/client";
 import { spawnSync } from "node:child_process";
 
-const SEED_VERSION = "2026-10-07 evaluation, no live sessions";
+const SEED_VERSION = "2026-10-07 coach assignment";
 
 if (process.env.DEMO_MODE !== "1") {
   console.log("seed-if-empty: DEMO_MODE is not 1, skipping.");

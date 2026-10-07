@@ -25,8 +25,11 @@ export async function seedBase(db: PrismaClient) {
     return u.staff!;
   };
   const jayraj = await staff("jayraj@aditus.in", "Jayraj", "FOUNDER", { title: "Founder · Practitioner", segment: "Assessment", availability: "Mon to Sat · 7 to 11 AM, 5 to 8 PM", yearsCoaching: "XX years", credentials: "Certifications placeholder", specialities: "Assessment, movement", shownToClients: true }, [tic.id]);
-  const shimyu = await staff("shimyu@aditus.in", "Shimyu", "HOD", { title: "Head of Personal Training", segment: "Personal Training", availability: "Mon to Fri · 6:30 to 10 AM", yearsCoaching: "XX years", credentials: "Strength and conditioning", specialities: "Strength, return to running", shownToClients: true }, [tic.id, samyah.id]);
+  const shimyu = await staff("shimyu@aditus.in", "Shimyu", "HOD", { title: "Head coach · Assessment", segment: "Assessment", availability: "Mon to Fri · 6:30 to 10 AM", yearsCoaching: "XX years", credentials: "Strength and conditioning", specialities: "Strength, return to running", shownToClients: true }, [tic.id, samyah.id]);
   const sahil = await staff("sahil@aditus.in", "Sahil", "OPS", { title: "Ops admin", availability: "Mon to Sat", shownToClients: false }, [tic.id, samyah.id]);
+  // Assessment coaches: the head of department assigns evaluations to them.
+  const rohit = await staff("rohit@aditus.in", "Rohit", "PRACTITIONER", { title: "Coach · Assessment", segment: "Assessment", availability: "Mon to Sat", yearsCoaching: "XX years", credentials: "Certifications placeholder", specialities: "Posture, movement", shownToClients: true }, [tic.id]);
+  const neha = await staff("neha@aditus.in", "Neha", "PRACTITIONER", { title: "Coach · Assessment", segment: "Assessment", availability: "Mon to Fri", yearsCoaching: "XX years", credentials: "Certifications placeholder", specialities: "Mobility, running", shownToClients: true }, [samyah.id]);
   const arjun = await staff("arjun@aditus.in", "Arjun", "FINANCE", { title: "Finance", availability: "Mon to Fri", shownToClients: false }, [tic.id, samyah.id]);
 
   // ── Test bank (practitioner editable) ──
@@ -151,7 +154,7 @@ export async function seedBase(db: PrismaClient) {
 
   // Shared bcrypt for sample client passwords (dev only).
   const pw = await bcrypt.hash("aditus-demo-1", 10);
-  return { tic, samyah, jayraj, shimyu, sahil, arjun, pw };
+  return { tic, samyah, jayraj, shimyu, rohit, neha, sahil, arjun, pw };
 }
 
 export type Base = Awaited<ReturnType<typeof seedBase>>;

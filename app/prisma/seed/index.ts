@@ -12,7 +12,7 @@ import { seedRoster } from "./roster";
  */
 const db = new PrismaClient();
 
-const AREAS = ["lifecycle", "results", "records", "onboarding", "plan", "dayof", "staffwork", "consoles"] as const;
+const AREAS = ["lifecycle", "results", "records", "onboarding", "plan", "dayof", "staffwork", "consoles", "assign"] as const;
 
 async function wipe() {
   const tables = await db.$queryRaw<{ tablename: string }[]>`SELECT tablename FROM pg_tables WHERE schemaname = 'public' AND tablename <> '_prisma_migrations'`;

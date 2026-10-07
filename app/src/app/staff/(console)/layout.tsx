@@ -18,7 +18,7 @@ export default async function ConsoleLayout({ children }: { children: React.Reac
     ? (["FOUNDER", "HOD", "PRACTITIONER", "OPS", "FINANCE"] as const).map((k) => ({
         key: k,
         label: ROLE_LABEL[k],
-        title: { FOUNDER: "Jayraj", HOD: "Shimyu", PRACTITIONER: "Jayraj", OPS: "Sahil", FINANCE: "Arjun" }[k],
+        title: { FOUNDER: "Jayraj", HOD: "Shimyu", PRACTITIONER: "Rohit", OPS: "Sahil", FINANCE: "Arjun" }[k],
         on: ctx.role === k,
       }))
     : undefined;

@@ -116,6 +116,7 @@ model StaffProfile {
   notes           InternalNote[]
   reportsWritten  Report[]        @relation("ReportAuthor")
   reportsApproved Report[]        @relation("ReportApprover")
+  reportsAssigned Report[]        @relation("ReportAssignee")
   reviewComments  ReviewComment[]
   savedViews      SavedView[]
 }
@@ -675,6 +676,11 @@ model Report {
   assessment       Assessment?      @relation(fields: [assessmentId], references: [id])
   author           StaffProfile?    @relation("ReportAuthor", fields: [authorId], references: [id])
   approver         StaffProfile?    @relation("ReportApprover", fields: [approverId], references: [id])
+  /// Coach the head of department assigned this evaluation to.
+  assignedToId     String?
+  assignedById     String?
+  assignedAt       DateTime?
+  assignedTo       StaffProfile?    @relation("ReportAssignee", fields: [assignedToId], references: [id])
   findings         Finding[]
   comments         ReviewComment[]
 }

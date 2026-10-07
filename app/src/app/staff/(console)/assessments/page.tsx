@@ -4,6 +4,10 @@ import { prisma } from "@/server/db";
 import { dayLabel } from "@/lib/format";
 import { hoursLeft, hoursSince, liveModules, loadClients, REVIEW_SLA_H, reviewed, staffName, STALLED_H } from "@/server/staff/common";
 import { STATUS_LABEL } from "@/lib/assessment/plan";
+import { canAssign, loadAssignBoard, loadMyEvaluations } from "@/server/evaluation/assign";
+import { AssignBoard } from "@/components/evaluation/AssignBoard";
+import { MyEvaluations } from "@/components/evaluation/MyEvaluations";
+import fl from "@/components/evaluation/flow.module.css";
 
 export const metadata = { title: "Assessments" };
 
@@ -12,9 +16,10 @@ type Q = { key: string; client: string; module: string; status: string; flag: bo
 const GROUPS = ["All", "Needs review", "Waiting on client", "Booked", "Reports"] as const;
 
 /** 12 Assessments: queue of active assessments by module and status. OPEN goes to the consoles. */
-export default async function Assessments({ searchParams }: { searchParams: Promise<{ status?: string }> }) {
+export default async function Assessments({ searchParams }: { searchParams: Promise<{ status?: string; all?: string }> }) {
   const ctx = await requireStaff({ section: "assessments" });
-  const st = (await searchParams).status;
+  const sp = await searchParams;
+  const st = sp.status;
   const f = GROUPS.find((g) => g === st) ?? "All";
   const clients = await loadClients(ctx, { stage: { in: ["ASSESSMENT_PURCHASED", "ONBOARDING", "ASSESSMENT_DAY", "REPORT"] } });
   const latestAssessment = await prisma.assessment.findMany({ where: { clientId: { in: clients.map((c) => c.id) } }, orderBy: { date: "desc" }, select: { id: true, clientId: true } });
@@ -55,11 +60,23 @@ export default async function Assessments({ searchParams }: { searchParams: Prom
     href: q.href,
     cells: [{ v: q.client, sans: true, b: true }, q.module, { v: q.status, chip: true, flag: q.flag }, q.who, q.due, q.href ? { v: "OPEN →", link: true } : ""],
   }));
+  const table = (
+    <>
+      <Filters items={GROUPS.map((g) => ({ label: g, href: g === "All" ? "/staff/assessments?all=1" : `/staff/assessments?all=1&status=${encodeURIComponent(g)}`, on: g === f }))} />
+      <Block title="Queue by module" head={["Client", "Module", "Status", "Practitioner", "Due", ""]} cols="1.2fr 1.3fr 1.1fr .9fr 1fr .8fr" rows={rows} minW="760px" empty="Clear. Nothing waiting." />
+    </>
+  );
+  const head = canAssign(ctx);
   return (
     <>
-      <PageHead kicker={ctx.role === "PRACTITIONER" ? "Own clients · active assessments" : "All active assessments"} title="Assessments" />
-      <Filters items={GROUPS.map((g) => ({ label: g, href: g === "All" ? "/staff/assessments" : `/staff/assessments?status=${encodeURIComponent(g)}`, on: g === f }))} />
-      <Block title="Queue by module" head={["Client", "Module", "Status", "Practitioner", "Due", ""]} cols="1.2fr 1.3fr 1.1fr .9fr 1fr .8fr" rows={rows} minW="760px" empty="Clear. Nothing waiting." />
+      <PageHead kicker={head ? "Assign, then approve" : `${ctx.name} · your evaluations`} title={head ? "Assessments" : "My evaluations"} />
+      {head ? <AssignBoard b={await loadAssignBoard(ctx)} /> : <MyEvaluations d={await loadMyEvaluations(ctx)} />}
+      <details className={fl.more} open={sp.all === "1"} style={{ maxWidth: 980 }}>
+        <summary>
+          <span>Every step, by client · {Qs.length}</span>
+        </summary>
+        <div style={{ padding: 12, display: "flex", flexDirection: "column", gap: 10 }}>{table}</div>
+      </details>
     </>
   );
 }

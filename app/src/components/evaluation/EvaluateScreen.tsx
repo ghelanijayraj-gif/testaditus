@@ -65,24 +65,19 @@ export function EvaluateScreen({ d }: { d: EvaluationScreenData }) {
       <div className={s.bar}>
         <div className={s.status}>
           <span className={s.chip + (d.report?.status === "PENDING_APPROVAL" || d.report?.status === "RELEASED" ? " " + s.chipInk : d.report?.status === "RETURNED" ? " " + s.chipBlue : "")}>{STATUS[d.report?.status ?? "DRAFT"]}</span>
-          <span>
-            {prog.done} of {prog.total} answered
+          <span className={s.prog} aria-label={`${prog.done} of ${prog.total} answered`}>
+            <span className={s.progFill} style={{ width: `${Math.round((prog.done / Math.max(1, prog.total)) * 100)}%` }} />
           </span>
           <span>
-            {priorities} of {REPORT.maxPriorities} priorities
+            {prog.done} of {prog.total}
           </span>
           {!ro && <span aria-live="polite">{save === "saving" ? "Saving…" : save === "saved" ? "Saved" : save === "error" ? "Not saved" : ""}</span>}
           {ro && <span>View only</span>}
         </div>
         <div className={s.actions}>
-          <Button variant="outline" size="sm" onClick={() => setPreview(true)}>
-            PREVIEW REPORT
-          </Button>
-          {!ro && (
-            <Button variant="blue" size="sm" disabled={pending || d.report?.status === "PENDING_APPROVAL"} onClick={() => run(() => submitEvaluation(d.client.id, data))}>
-              SUBMIT FOR REVIEW
-            </Button>
-          )}
+          <button type="button" className={s.textBtn} onClick={() => setPreview(true)}>
+            Preview report
+          </button>
           {d.report && d.canApprove && d.report.status !== "DRAFT" && (
             <Button variant="ink" size="sm" href={`/staff/review/${d.report.id}`}>
               HEAD COACH REVIEW
@@ -100,12 +95,14 @@ export function EvaluateScreen({ d }: { d: EvaluationScreenData }) {
         </div>
       )}
       {d.flags.length > 0 && (
-        <div className={s.notice}>
-          <span style={{ fontSize: 10, textTransform: "uppercase", color: "var(--blue)", fontFamily: "var(--font-mono)" }}>Safety flags · staff only</span>
+        <details className={s.flags}>
+          <summary>
+            {d.flags.length} safety flag{d.flags.length > 1 ? "s" : ""} · staff only
+          </summary>
           {d.flags.map((f) => (
             <span key={f}>{f}</span>
           ))}
-        </div>
+        </details>
       )}
 
       <div className={s.grid}>
@@ -123,11 +120,8 @@ export function EvaluateScreen({ d }: { d: EvaluationScreenData }) {
           </div>
           {!isSummary && sec?.media?.length ? (
             <div className={s.mFilter}>
-              <button type="button" className={s.mini + (!all ? " " + s.miniOn : "")} onClick={() => setAll(false)}>
-                For this section
-              </button>
-              <button type="button" className={s.mini + (all ? " " + s.miniOn : "")} onClick={() => setAll(true)}>
-                All uploads · {d.media.length}
+              <button type="button" className={s.textBtn} onClick={() => setAll(!all)}>
+                {all ? "Only this section’s uploads" : `Show all ${d.media.length} uploads`}
               </button>
             </div>
           ) : null}
@@ -142,19 +136,15 @@ export function EvaluateScreen({ d }: { d: EvaluationScreenData }) {
         </aside>
 
         <div className={s.col}>
-          <nav className={s.tabs} aria-label="Evaluation sections">
-            {EVALUATION.map((sc, i) => (
-              <button key={sc.key} type="button" className={s.tab + (i === tab ? " " + s.tabOn : "")} onClick={() => setTab(i)} aria-current={i === tab ? "step" : undefined}>
-                <span>{sc.title}</span>
-                <span className={s.tabN}>
-                  {doneIn(sc)} of {sc.params.length}
-                </span>
+          <nav className={s.steps} aria-label="Evaluation steps">
+            {[...EVALUATION.map((sc) => ({ key: sc.key, title: sc.title, done: doneIn(sc) === sc.params.length, some: doneIn(sc) > 0 })), { key: "summary", title: "Summary and submit", done: false, some: false }].map((st, i) => (
+              <button key={st.key} type="button" title={st.title} className={s.step + (i === tab ? " " + s.stepOn : st.done ? " " + s.stepDone : st.some ? " " + s.stepSome : "")} onClick={() => setTab(i)} aria-current={i === tab ? "step" : undefined} aria-label={`Step ${i + 1}: ${st.title}`}>
+                {st.done && i !== tab ? "✓" : i + 1}
               </button>
             ))}
-            <button type="button" className={s.tab + (isSummary ? " " + s.tabOn : "")} onClick={() => setTab(EVALUATION.length)} aria-current={isSummary ? "step" : undefined}>
-              <span>Summary and submit</span>
-              <span className={s.tabN}>{REPORT.summary.filter((f) => data.summary[f.key]?.trim()).length} of {REPORT.summary.length} written</span>
-            </button>
+            <span className={s.stepOf}>
+              Step {tab + 1} of {EVALUATION.length + 1}
+            </span>
           </nav>
 
           {sec && !isSummary && (
@@ -178,12 +168,12 @@ export function EvaluateScreen({ d }: { d: EvaluationScreenData }) {
               </fieldset>
               <div className={s.actions}>
                 {tab > 0 && (
-                  <Button variant="outline" size="sm" onClick={() => setTab(tab - 1)}>
+                  <Button variant="outline" size="md" onClick={() => setTab(tab - 1)}>
                     ← BACK
                   </Button>
                 )}
-                <Button variant="ink" size="sm" onClick={() => setTab(tab + 1)}>
-                  {tab === EVALUATION.length - 1 ? "SUMMARY →" : "NEXT SECTION →"}
+                <Button variant="ink" size="md" onClick={() => setTab(tab + 1)}>
+                  {tab === EVALUATION.length - 1 ? "SUMMARY →" : "NEXT →"}
                 </Button>
               </div>
             </>
@@ -245,12 +235,15 @@ export function EvaluateScreen({ d }: { d: EvaluationScreenData }) {
               </div>
               {!ro && (
                 <div className={s.actions}>
-                  <Button variant="outline" size="sm" onClick={() => setPreview(true)}>
-                    PREVIEW REPORT
+                  <Button variant="outline" size="md" onClick={() => setTab(tab - 1)}>
+                    ← BACK
                   </Button>
-                  <Button variant="blue" size="sm" disabled={pending || d.report?.status === "PENDING_APPROVAL"} onClick={() => run(() => submitEvaluation(d.client.id, data))}>
-                    SUBMIT FOR REVIEW
+                  <Button variant="blue" size="md" disabled={pending || d.report?.status === "PENDING_APPROVAL" || prog.missing.length > 0} onClick={() => run(() => submitEvaluation(d.client.id, data))}>
+                    {d.report?.status === "PENDING_APPROVAL" ? "SUBMITTED" : "SUBMIT TO HEAD COACH"}
                   </Button>
+                  <button type="button" className={s.textBtn} onClick={() => setPreview(true)}>
+                    Preview report first
+                  </button>
                 </div>
               )}
             </fieldset>
@@ -278,7 +271,7 @@ export function EvaluateScreen({ d }: { d: EvaluationScreenData }) {
 }
 
 function ParamCard({ p, x, onChange, shown, mediaLabel, canPrioritise }: { p: EvalParam; x?: ParamValue; onChange: (patch: Partial<ParamValue>) => void; shown: EvalMedia | null; mediaLabel: (id: string) => string; canPrioritise: boolean }) {
-  const [noteOpen, setNoteOpen] = useState(!!x?.note);
+  const [extras, setExtras] = useState(!!(x?.note || x?.media?.length || x?.priority));
   const [view, setView] = useState<"front" | "back">("front");
   const ev = x?.media ?? [];
   const opt = (on: boolean, multi = false) => s.opt + (multi ? " " + s.optMulti : "") + (on ? " " + s.optOn : "");
@@ -409,31 +402,38 @@ function ParamCard({ p, x, onChange, shown, mediaLabel, canPrioritise }: { p: Ev
         {p.help && <span className={s.help}>{p.help}</span>}
       </div>
       <div className={s.input}>{input}</div>
-      {noteOpen && (
-        <div className={s.noteBox}>
-          <textarea className={s.text} rows={2} value={x?.note ?? ""} placeholder="Note for the report" onChange={(e) => onChange({ note: e.target.value })} aria-label={`Note for ${p.label}`} />
+      {/* Extras stay folded until the coach asks for them, or one is already set. */}
+      {!extras ? (
+        <div className={s.foot}>
+          <button type="button" className={s.textBtn} onClick={() => setExtras(true)}>
+            + Note, photo or priority
+          </button>
+          {isAnswered(p, x) && <span className={s.done}>✓ Answered</span>}
         </div>
-      )}
-      <div className={s.foot}>
-        <button type="button" className={s.mini + (noteOpen ? " " + s.miniOn : "")} onClick={() => setNoteOpen(!noteOpen)}>
-          {noteOpen ? "Note" : "+ Note"}
-        </button>
-        <button type="button" className={s.mini} disabled={!shown || ev.includes(shown.id)} onClick={() => shown && onChange({ media: [...ev, shown.id] })} title="Attach the photo or video on screen as evidence">
-          + Attach {shown?.kind === "VIDEO" ? "video" : "photo"} shown
-        </button>
-        {ev.map((id) => (
-          <span key={id} className={s.ev}>
-            {mediaLabel(id)}
-            <button type="button" aria-label={`Remove ${mediaLabel(id)}`} onClick={() => onChange({ media: ev.filter((e) => e !== id) })}>
-              ×
+      ) : (
+        <>
+          <div className={s.noteBox}>
+            <textarea className={s.text} rows={2} value={x?.note ?? ""} placeholder="Note for the report (optional)" onChange={(e) => onChange({ note: e.target.value })} aria-label={`Note for ${p.label}`} />
+          </div>
+          <div className={s.foot}>
+            <button type="button" className={s.mini} disabled={!shown || ev.includes(shown.id)} onClick={() => shown && onChange({ media: [...ev, shown.id] })} title="Attach the photo or video on screen as evidence">
+              + Attach {shown?.kind === "VIDEO" ? "video" : "photo"} on screen
             </button>
-          </span>
-        ))}
-        <button type="button" className={s.mini + (x?.priority ? " " + s.miniOn : "")} disabled={!x?.priority && !canPrioritise} onClick={() => onChange({ priority: !x?.priority })} title={!x?.priority && !canPrioritise ? `Up to ${REPORT.maxPriorities} priorities` : undefined}>
-          {x?.priority ? "✓ Priority" : "+ Priority"}
-        </button>
-        <span className={s.done}>{isAnswered(p, x) ? "Answered" : "Not answered"}</span>
-      </div>
+            {ev.map((id) => (
+              <span key={id} className={s.ev}>
+                {mediaLabel(id)}
+                <button type="button" aria-label={`Remove ${mediaLabel(id)}`} onClick={() => onChange({ media: ev.filter((e) => e !== id) })}>
+                  ×
+                </button>
+              </span>
+            ))}
+            <button type="button" className={s.mini + (x?.priority ? " " + s.miniOn : "")} disabled={!x?.priority && !canPrioritise} onClick={() => onChange({ priority: !x?.priority })} title={!x?.priority && !canPrioritise ? `Up to ${REPORT.maxPriorities} priorities` : undefined}>
+              {x?.priority ? "✓ Priority" : "+ Mark as priority"}
+            </button>
+            {isAnswered(p, x) && <span className={s.done}>✓ Answered</span>}
+          </div>
+        </>
+      )}
     </div>
   );
 }

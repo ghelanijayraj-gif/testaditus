@@ -7,6 +7,9 @@ import { nudgeClients } from "@/server/staff/actions/clients";
 import { dayLabel } from "@/lib/format";
 import { now } from "@/lib/clock";
 import { linkBtn } from "@/components/staff/admin/styles";
+import { canAssign, loadAssignBoard, loadMyEvaluations } from "@/server/evaluation/assign";
+import { MyEvaluations } from "@/components/evaluation/MyEvaluations";
+import Link from "next/link";
 import d from "./today.module.css";
 
 export const metadata = { title: "Today" };
@@ -37,7 +40,16 @@ const STAT: Record<string, string> = {
 
 export default async function Today() {
   const ctx = await requireStaff({ section: "today" });
+  // Coaches: just their own evaluations.
+  if (ctx.role === "PRACTITIONER")
+    return (
+      <>
+        <PageHead kicker={`${dayLabel(now())} · ${ctx.name}`} title="Today" />
+        <MyEvaluations d={await loadMyEvaluations(ctx)} />
+      </>
+    );
   const widgets = await loadToday(ctx);
+  const board = canAssign(ctx) ? await loadAssignBoard(ctx) : null;
   const byKey = new Map(widgets.map((w) => [w.key, w]));
   const pick = (keys: string[]) => keys.map((k) => byKey.get(k)).filter((w): w is Widget => !!w);
   const main = pick(MAIN);
@@ -48,6 +60,14 @@ export default async function Today() {
   return (
     <>
       <PageHead kicker={`${dayLabel(now())} · ${scopeLabel(ctx)}`} title="Today" />
+      {board && (board.ready.length > 0 || board.approval.length > 0) && (
+        <Link href="/staff/assessments" className={d.callout}>
+          <span>
+            {[board.ready.length ? `${board.ready.length} ready to assign` : null, board.approval.length ? `${board.approval.length} waiting for your approval` : null].filter(Boolean).join(" · ")}
+          </span>
+          <b>Open →</b>
+        </Link>
+      )}
       <nav className={d.stats} aria-label="Summary">
         {ordered.map((w) => (
           <a key={w.key} href={`#w-${w.key}`} className={d.stat + (w.rows.length === 0 ? " " + d.statZero : "")}>

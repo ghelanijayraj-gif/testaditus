@@ -21,10 +21,13 @@ export async function loadEvaluation(ctx: ConsoleCtx, clientId: string) {
   const [media, comments, author] = await Promise.all([
     clientMedia(clientId),
     r ? prisma.reviewComment.findMany({ where: { reportId: r.id }, include: { author: { include: { user: true } } }, orderBy: { createdAt: "desc" } }) : [],
-    r?.authorId ? prisma.staffProfile.findUnique({ where: { id: r.authorId }, include: { user: true } }) : null,
+    r?.assignedToId || r?.authorId ? prisma.staffProfile.findUnique({ where: { id: (r.assignedToId ?? r.authorId)! }, include: { user: true } }) : null,
   ]);
   const status = r?.status ?? "DRAFT";
-  const canEdit = status === "DRAFT" || status === "RETURNED" || (status === "PENDING_APPROVAL" && ctx.canApprove);
+  const assigneeId = r?.assignedToId ?? r?.authorId ?? null;
+  const mine = assigneeId === ctx.staff.id;
+  // Coaches work only on evaluations assigned to them; heads of department and the founder can open any in scope.
+  const canEdit = (mine || ctx.canApprove) && (status === "DRAFT" || status === "RETURNED" || (status === "PENDING_APPROVAL" && ctx.canApprove));
   return {
     client: { id: client.id, first: client.firstName, name: `${client.firstName} ${client.lastName}`, city: client.city ?? "" },
     flags: client.safetyFlags.map((f) => [f.item, f.note].filter(Boolean).join(". ")),
@@ -35,6 +38,8 @@ export async function loadEvaluation(ctx: ConsoleCtx, clientId: string) {
     media: media.map((m): EvalMedia => ({ id: m.id, kind: m.kind, view: m.view, label: m.label, src: m.src, capturedAt: whenLabel(m.capturedAt) })),
     canEdit,
     canApprove: ctx.canApprove,
+    assigneeId,
+    blocked: !ctx.canApprove && !mine,
   };
 }
 export type EvaluationScreenData = NonNullable<Awaited<ReturnType<typeof loadEvaluation>>>;
