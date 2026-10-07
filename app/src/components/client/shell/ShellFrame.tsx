@@ -42,7 +42,7 @@ function activeKey(path: string) {
 
 const RAIL_KEY = "aditus_rail_collapsed";
 
-export function ShellFrame({ m, preview = false, children }: { m: ShellModel; preview?: boolean; children: ReactNode }) {
+export function ShellFrame({ m, preview = false, demoSwitch = false, children }: { m: ShellModel; preview?: boolean; demoSwitch?: boolean; children: ReactNode }) {
   const pathname = usePathname() ?? "/";
   const [collapsed, setCollapsed] = useState(false);
   const [reach, setReach] = useState(false);
@@ -153,6 +153,11 @@ export function ShellFrame({ m, preview = false, children }: { m: ShellModel; pr
                   </button>
                 </form>
               )}
+              {demoSwitch && (
+                <a href="/signin#dev-0" className={s.signOut} style={{ textDecoration: "none" }}>
+                  Switch demo client →
+                </a>
+              )}
             </div>
             <button type="button" className={`${s.reBtn} ${s.closedOnly}`} title="Reach us" onClick={() => setReach((r) => !r)} disabled={preview}>
               RE
@@ -220,6 +225,11 @@ export function ShellFrame({ m, preview = false, children }: { m: ShellModel; pr
                   Sign out<span>→</span>
                 </button>
               </form>
+              {demoSwitch && (
+                <a href="/signin#dev-0" className={s.sheetRow} role="menuitem" style={{ textDecoration: "none" }}>
+                  Switch demo client<span>→</span>
+                </a>
+              )}
             </div>
           </div>
         )}

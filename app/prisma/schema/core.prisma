@@ -665,6 +665,8 @@ model Report {
   pathReason       String?
   /// Recommended next assessment steps attached by a practitioner: [{ name, reason }]
   nextSteps        Json             @default("[]")
+  /// Coach evaluation of the client's photos and videos (src/config/evaluation.ts); the report is built from it.
+  evaluation       Json             @default("{}")
   dueAt            DateTime?
   submittedAt      DateTime?
   releasedAt       DateTime?

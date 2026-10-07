@@ -1,0 +1,5 @@
+/// Small key/value store for app level markers, e.g. the demo seed version.
+model AppMeta {
+  key   String @id
+  value String
+}

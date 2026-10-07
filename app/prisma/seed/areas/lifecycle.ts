@@ -162,13 +162,10 @@ export default async function seedLifecycle(db: PrismaClient, base: Base) {
     await sessions(sana.id, null, [{ on: "2026-10-03 09:00", type: "IN_PERSON_ASSESSMENT", title: "In person session", status: "DONE", coach: "jayraj", min: 120 }]);
   }
 
-  // ─────────── Nikhil Bose: live video session today 8:30 PM (the Day area adds the LIVE_ONLINE assessment and links it) ───────────
+  // ─────────── Nikhil Bose: capture submitted, waiting for the coach evaluation ───────────
   const nikhil = await byEmail("nikhil@example.com");
   if (nikhil) {
     await db.clientCoach.createMany({ data: [{ clientId: nikhil.id, staffId: jayraj.id, role: "ASSESSMENT" }], skipDuplicates: true });
-    await sessions(nikhil.id, null, [
-      { on: "2026-10-07 20:30", type: "LIVE_VIDEO", title: "Live video session", status: "CONFIRMED", coach: "jayraj", online: true, min: 30, extra: { joinUrl: "https://meet.aditus.in/nikhil-bose" }, events: [["Confirmed by you", "CONFIRMED", "Nikhil Bose", "2026-10-06 09:20"]] },
-    ]);
   }
 
   // ─────────── Dhruv Malhotra: in person today 8:30 PM at TIC Kandivali with Jayraj, not checked in (Day adds the assessment) ───────────

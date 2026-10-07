@@ -8,6 +8,8 @@ import { counts, dLong, f1, pctOf, pick, status, vt, type MeasureDef } from "@/l
 import { reportCoverage, hasTrainingPlan, type ReportData, type ResultsData } from "@/server/client/results";
 import { Kicker, NightStrip, WhoCanSee } from "./bits";
 import { PlanCards } from "./PlanCards";
+import { EvaluationReport } from "@/components/evaluation/EvaluationReport";
+import { REPORT } from "@/config/evaluation";
 import s from "./results.module.css";
 
 const card = { border: "2px solid var(--ink)", padding: 20, display: "flex", flexDirection: "column" as const, gap: 10 };
@@ -26,6 +28,25 @@ export async function reportUrl(id: string) {
  * "Recommended next assessment steps". `print` drops the actions for the print route.
  */
 export async function ReportView({ data, report, print = false }: { data: ResultsData; report: ReportData; print?: boolean }) {
+  // Reports built from a coach evaluation of photos and videos (src/config/evaluation.ts).
+  if (report.evaluation) {
+    const kicker = [REPORT.title, report.releasedAt ? dLong(report.releasedAt) : null, report.practitioner, report.approver ? "approved by the head coach" : null].filter(Boolean).join(" · ");
+    return (
+      <div className={s.rep} id="report-print" style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+        <EvaluationReport data={report.evaluation} media={report.evalMedia} head={{ kicker, title: `${data.client.first}’s report` }} />
+        {!print && (
+          <div data-noprint style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            <Button variant="ink" size="md" href={`/reports/${report.id}/print`}>
+              SAVE AS PDF
+            </Button>
+            <Button variant="outline" size="md" href="/reports">
+              ALL REPORTS
+            </Button>
+          </div>
+        )}
+      </div>
+    );
+  }
   const base = data.baseline;
   const isRe = report.kind === "REASSESSMENT";
   const snap = isRe ? data.reassessments.find((r) => r.assessmentId === report.assessmentId) ?? null : base;

@@ -17,7 +17,6 @@ const TYPES: [string, string][] = [
   ["CAPTURE", "Capture"],
   ["SELF_TESTS", "Self tests"],
   ["UPLOAD", "Upload"],
-  ["LIVE_VIDEO", "Live video session"],
   ["IN_PERSON", "In person session"],
   ["REVIEW_CALL", "Review call"],
   ["CONNECT_HEALTH", "Connect health data"],

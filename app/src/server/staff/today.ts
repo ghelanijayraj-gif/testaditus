@@ -36,7 +36,7 @@ export async function loadToday(ctx: Ctx): Promise<Widget[]> {
       for (const m of liveModules(c)) {
         if (m.status !== "SUBMITTED" || reviewed(m) || m.type === "FORM") continue;
         const dueAt = (m.key === "capture" && draft?.dueAt) || (m.submittedAt ? new Date(m.submittedAt.getTime() + REVIEW_SLA_H * 3_600_000) : null);
-        r.push({ key: m.id, at: dueAt?.getTime() ?? Infinity, href: "/staff/assessments", cells: [{ v: `${c.firstName} ${c.lastName}`, sans: true, b: true }, { v: m.name }, { v: dueAt ? hoursLeft(dueAt) : "·", chip: true, flag: true }] });
+        r.push({ key: m.id, at: dueAt?.getTime() ?? Infinity, href: m.type === "CAPTURE" ? `/staff/evaluate/${c.id}` : file(c.id), cells: [{ v: `${c.firstName} ${c.lastName}`, sans: true, b: true }, { v: m.name }, { v: dueAt ? hoursLeft(dueAt) : "·", chip: true, flag: true }] });
       }
     }
     W.push({ key: "review", title: "Needs review", rows: r.sort((a, b) => a.at - b.at) });

@@ -357,7 +357,7 @@ export async function loadPhotoQueue(ctx: ConsoleCtx) {
         key: m.id, clientId: c.id, client: name, city, coach: coachP, version: m.key === "gait" ? "video" : "photo",
         status: more ? "More photos needed" : "Ready to review",
         due: more ? `Paused · waiting on ${c.firstName}` : due ? fmtDue(due) : "·",
-        href: `/staff/photo-review/${c.id}?module=${m.key}`,
+        href: `/staff/evaluate/${c.id}`,
         dueAt: more ? Number.MAX_SAFE_INTEGER - 1 : due?.getTime() ?? Number.MAX_SAFE_INTEGER,
       });
     }
@@ -374,7 +374,7 @@ export async function loadPhotoQueue(ctx: ConsoleCtx) {
       const a = r.assessment ?? c.assessments[0];
       const version = a?.format === "IN_PERSON" ? "inperson" : a?.format === "LIVE_ONLINE" ? "video" : "photo";
       const status = r.status === "PENDING_APPROVAL" ? "Submitted for review" : r.status === "RETURNED" ? "Returned" : "Writing report";
-      const href = r.status === "PENDING_APPROVAL" ? `/staff/review/${r.id}` : a ? `/staff/practitioner/${a.id}?tab=wrap` : null;
+      const href = r.status === "PENDING_APPROVAL" ? `/staff/review/${r.id}` : `/staff/evaluate/${c.id}`;
       rows.push({ key: r.id, clientId: c.id, client: name, city, coach: r.author?.user.name ?? coachP, version, status, due: r.dueAt ? fmtDue(r.dueAt) : "·", href, dueAt: r.dueAt?.getTime() ?? Number.MAX_SAFE_INTEGER });
     }
   }

@@ -11,7 +11,7 @@ export const QUICK: { k: QuickKey; label: string; family: string | null; name: s
 ];
 
 /** Ops admin may add payment and booking modules only. */
-export const OPS_TYPES = ["IN_PERSON", "LIVE_VIDEO"] as const;
+export const OPS_TYPES = ["IN_PERSON"] as const;
 
 export type Pending = { required?: boolean; paid?: boolean; priceLabel?: string | null; replacesCapture?: boolean; dueAt?: string | null; note?: string | null; remove?: boolean };
 export type ModuleData = { pending?: Pending; paymentUrl?: string | null; checkoutId?: string | null; reviewedAt?: string; [k: string]: unknown };

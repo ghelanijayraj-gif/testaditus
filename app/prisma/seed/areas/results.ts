@@ -334,7 +334,6 @@ export default async function seedResults(db: PrismaClient, base: Base) {
       where: { id: rep.id },
       data: {
         nextSteps: [
-          { name: "Live video session", family: "live", priceLabel: "Included", why: "Talk through your results and watch your squat live with a practitioner.", by: "Jayraj", action: "book" },
           { name: "Follow up photos", family: "photos", priceLabel: "Included", why: "Retake your posture photos in 6 weeks so we can see what changed.", by: "Jayraj", action: "remind" },
         ],
       },

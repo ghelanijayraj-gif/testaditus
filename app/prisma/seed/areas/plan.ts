@@ -9,7 +9,7 @@ import { d, type Base } from "../base";
  *   Tara   → aarav_payment   (in person module Waiting for payment)
  *   Vikram → aarav_dismissed (continue online only on Tue 6 Oct)
  *   Kavya  → intake in progress (answers are the Access area's)
- *   Dhruv  → in person Booked today · Nikhil → live video session Booked today
+ *   Dhruv  → in person Booked today · Nikhil → capture submitted, waiting for evaluation
  */
 export default async function seedPlan(db: PrismaClient, base: Base) {
   const { jayraj, tic, samyah } = base;
@@ -118,14 +118,12 @@ export default async function seedPlan(db: PrismaClient, base: Base) {
     await db.clientProfile.update({ where: { id: dhruv.id }, data: { ...intakeDone, recommendation: "BOOKED", recommendationAt: d("2026-10-03 20:00") } });
   }
 
-  // ── Nikhil (Delhi): intake Done, capture Submitted, live video session Booked today ──
+  // ── Nikhil (Delhi): intake Done, capture Submitted, waiting for the coach evaluation ──
   const nikhil = await byEmail("nikhil@example.com");
   if (nikhil) {
     const p = await ensurePlan(nikhil.id);
     await mod(p.id, "intake", "DONE");
     await mod(p.id, "capture", "SUBMITTED", { submittedAt: d("2026-10-04 21:00"), progressDone: 12, progressTotal: 12 });
-    const live = await mod(p.id, "live", "BOOKED", { addedBy: "PRACTITIONER", addedByName: "Jayraj", order: 2, dueAt: d("2026-10-07 20:30"), dueLabel: "Today · 8:30 PM", note: "Your squat video was hard to read from one angle. I want to watch it live and talk through your knee.", extraLine: "Wed 7 Oct · 8:30 PM · Live video · with Jayraj" });
-    if (live) await db.session.updateMany({ where: { clientId: nikhil.id, type: "LIVE_VIDEO", planModuleId: null }, data: { planModuleId: live.id } });
     await db.clientProfile.update({ where: { id: nikhil.id }, data: { ...intakeDone } });
   }
 

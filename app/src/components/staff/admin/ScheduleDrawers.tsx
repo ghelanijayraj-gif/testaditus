@@ -120,7 +120,6 @@ export function SessionDrawer({ title, rows, extraInfo, late, slots, closeHref, 
 const TYPES: [string, string][] = [
   ["PERSONAL_TRAINING", "Personal Training"],
   ["IN_PERSON_ASSESSMENT", "In person session"],
-  ["LIVE_VIDEO", "Live video session"],
   ["BREATH_SESSION", "Breath Session"],
   ["TRIAL_TRAINING", "Trial Training"],
   ["REVIEW_CALL", "Review call"],

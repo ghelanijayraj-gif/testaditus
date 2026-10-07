@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { getShellModel } from "@/server/client/shell/model";
+import { devAuthEnabled } from "@/server/auth/factory";
 import { ShellFrame } from "./ShellFrame";
 
 // CONTRACT (owned by the Shell area): the client portal chrome (05 §1): rail, top bar
@@ -8,7 +9,7 @@ import { ShellFrame } from "./ShellFrame";
 export async function ClientShell({ clientId, preview, children }: { clientId: string; preview?: boolean; children: ReactNode }) {
   const m = await getShellModel(clientId);
   return (
-    <ShellFrame m={m} preview={!!preview}>
+    <ShellFrame m={m} preview={!!preview} demoSwitch={!preview && devAuthEnabled()}>
       {children}
     </ShellFrame>
   );

@@ -47,7 +47,7 @@ export default async function ClientFilePage({ params, searchParams }: { params:
 
   return (
     <>
-      <PageHead kicker={`Client file · ${c.code}`} title={name} actions={<Button variant="outline" size="sm" href={`/staff/clients/${c.id}/preview?tab=${tab === "plan" ? "plan" : "home"}`}>PREVIEW AS CLIENT</Button>} />
+      <PageHead kicker={`Client file · ${c.code}`} title={name} actions={<><Button variant="blue" size="sm" href={`/staff/evaluate/${c.id}`}>EVALUATE</Button><Button variant="outline" size="sm" href={`/staff/clients/${c.id}/preview?tab=${tab === "plan" ? "plan" : "home"}`}>PREVIEW AS CLIENT</Button></>} />
       <div className={a.fileHead}>
         <div className={a.facts}>
           {F.map(([k, v]) => (

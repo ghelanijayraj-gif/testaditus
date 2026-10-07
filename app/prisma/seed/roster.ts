@@ -15,9 +15,9 @@ export const ROSTER = [
   { email: "rhea@example.com", first: "Rhea", last: "Kulkarni", city: "Borivali, Mumbai", pin: "400092", mumbai: true, devLabel: "Capture submitted · recommendation shown", stage: "ASSESSMENT_DAY", status: "PRACTITIONER_REVIEW" },
   { email: "tara@example.com", first: "Tara", last: "Fernandes", city: "Goregaon, Mumbai", pin: "400063", mumbai: true, devLabel: "In person added · waiting for payment", stage: "ASSESSMENT_DAY", status: "SESSION_BOOKED" },
   { email: "vikram@example.com", first: "Vikram", last: "Joshi", city: "Malad, Mumbai", pin: "400064", mumbai: true, devLabel: "Recommendation dismissed · online only", stage: "ASSESSMENT_DAY", status: "PRACTITIONER_REVIEW" },
-  // Assessment day (04, 02 live)
+  // Assessment day (04) and online capture
   { email: "dhruv@example.com", first: "Dhruv", last: "Malhotra", city: "Kandivali, Mumbai", pin: "400101", mumbai: true, devLabel: "In person today 8:30 PM · I am here", stage: "ASSESSMENT_DAY", status: "SESSION_BOOKED" },
-  { email: "nikhil@example.com", first: "Nikhil", last: "Bose", city: "Delhi", pin: "110017", mumbai: false, devLabel: "Live video session today 8:30 PM", stage: "ASSESSMENT_DAY", status: "SESSION_BOOKED" },
+  { email: "nikhil@example.com", first: "Nikhil", last: "Bose", city: "Delhi", pin: "110017", mumbai: false, devLabel: "Capture submitted · waiting for coach evaluation", stage: "ASSESSMENT_DAY", status: "PRACTITIONER_REVIEW" },
   // Report (04 released + reveal, 05 report ready)
   { email: "sana@example.com", first: "Sana", last: "Patel", city: "Thane", pin: "400607", mumbai: true, devLabel: "Report released · walkthrough · choose your path", stage: "REPORT", status: "REPORT_READY" },
   // Training (05)
@@ -69,3 +69,15 @@ export async function seedRoster(db: PrismaClient, base: Base) {
   if (vikram) await db.clientCoach.create({ data: { clientId: vikram.id, staffId: base.shimyu.id, role: "PERSONAL_TRAINING" } });
   void d;
 }
+
+/** Dev quick sign in groups, in journey order. Clients not listed fall under "Other". */
+export const DEV_GROUPS: { title: string; emails: string[] }[] = [
+  { title: "Purchase and account setup", emails: ["zara@example.com"] },
+  { title: "Onboarding and intake", emails: ["neel@example.com", "kavya@example.com"] },
+  { title: "Uploading photos and videos", emails: ["diya@example.com", "ishaan@example.com"] },
+  { title: "Waiting for coach evaluation", emails: ["rhea@example.com", "vikram@example.com", "nikhil@example.com"] },
+  { title: "In person booking", emails: ["tara@example.com", "aarav@example.com", "dhruv@example.com", "meera@example.com"] },
+  { title: "Report", emails: ["kabir@example.com", "sana@example.com"] },
+  { title: "Training", emails: ["ananya@example.com", "rohan@example.com", "ishita@example.com"] },
+  { title: "Plan ended", emails: ["farah@example.com", "omar@example.com"] },
+];

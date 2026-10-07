@@ -27,7 +27,7 @@ export default async function Assessments({ searchParams }: { searchParams: Prom
       const base = { key: m.id, client: name, module: m.name, who };
       if (m.status === "SUBMITTED" && !reviewed(m) && m.type !== "FORM") {
         const dueAt = (m.key === "capture" && draft?.dueAt) || (m.submittedAt ? new Date(m.submittedAt.getTime() + REVIEW_SLA_H * 3_600_000) : null);
-        Qs.push({ ...base, status: "Ready to review", flag: true, due: dueAt ? hoursLeft(dueAt) : "·", href: m.type === "CAPTURE" ? `/staff/photo-review/${c.id}` : `/staff/clients/${c.id}?tab=${m.type === "UPLOAD" ? "documents" : "plan"}`, group: "Needs review", sort: dueAt?.getTime() ?? 0 });
+        Qs.push({ ...base, status: "Ready to review", flag: true, due: dueAt ? hoursLeft(dueAt) : "·", href: m.type === "CAPTURE" ? `/staff/evaluate/${c.id}` : `/staff/clients/${c.id}?tab=${m.type === "UPLOAD" ? "documents" : "plan"}`, group: "Needs review", sort: dueAt?.getTime() ?? 0 });
       } else if (m.status === "MORE_NEEDED") {
         Qs.push({ ...base, status: "More needed", flag: true, due: "Waiting on client", group: "Waiting on client", sort: 2e13 });
       } else if (m.status === "IN_PROGRESS") {
@@ -46,7 +46,7 @@ export default async function Assessments({ searchParams }: { searchParams: Prom
   const reports = await prisma.report.findMany({ where: { status: { in: ["PENDING_APPROVAL", "DRAFT", "RETURNED"] }, clientId: { in: clients.map((c) => c.id) } }, include: { client: true, author: { include: { user: true } } } });
   for (const r of reports) {
     const pending = r.status === "PENDING_APPROVAL";
-    Qs.push({ key: r.id, client: `${r.client.firstName} ${r.client.lastName}`, module: "Report", status: pending ? "Pending approval" : r.status === "RETURNED" ? "Returned" : "Draft", flag: pending, who: staffName(r.author), due: r.dueAt ? hoursLeft(r.dueAt) : "·", href: pending ? `/staff/review/${r.id}` : undefined, group: "Reports", sort: r.dueAt?.getTime() ?? 0 });
+    Qs.push({ key: r.id, client: `${r.client.firstName} ${r.client.lastName}`, module: "Report", status: pending ? "Pending approval" : r.status === "RETURNED" ? "Returned" : "Draft", flag: pending, who: staffName(r.author), due: r.dueAt ? hoursLeft(r.dueAt) : "·", href: pending ? `/staff/review/${r.id}` : `/staff/evaluate/${r.clientId}`, group: "Reports", sort: r.dueAt?.getTime() ?? 0 });
   }
   const order = (g: string) => ["Needs review", "Reports", "Waiting on client", "Booked"].indexOf(g);
   const list = Qs.filter((q) => f === "All" || q.group === f).sort((a, b) => order(a.group) - order(b.group) || a.sort - b.sort);

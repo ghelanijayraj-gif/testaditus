@@ -6,7 +6,7 @@ import { defaultPhases, type Phase } from "../../../src/components/client/day/ph
  * Day area (04 assessment day + 02 live video session).
  * Meera: in person today 5:30 PM, checked in 5:22 PM, Movement in progress, 9 of 24 captured.
  * Dhruv: in person today 8:30 PM, not checked in, photo consent off.
- * Nikhil: live online today 8:30 PM, photo consent on, two pushed cues.
+ * Nikhil: online only, photo consent on.
  * Ishaan: a missed live video session yesterday (missed state).
  */
 export default async function seedDayof(db: PrismaClient, base: Base) {
@@ -81,24 +81,8 @@ export default async function seedDayof(db: PrismaClient, base: Base) {
     await consent(dhruv.id, { PHOTOS_VIDEOS: false, ASSESSMENT_MEDIA: false });
   }
 
-  // ── Nikhil Bose: live online today 8:30 PM ──
+  // ── Nikhil Bose: online only, photo consent on (no live session) ──
   const nikhil = await byEmail("nikhil@example.com");
-  if (nikhil) {
-    const s = await sessionToday(nikhil.id, { OR: [{ online: true }, { type: "LIVE_VIDEO" }] }, { type: "LIVE_VIDEO", title: "Live video session", startsAt: d("2026-10-07 20:30"), durationMin: 60, status: "CONFIRMED", coachId: jayraj.id, online: true, joinUrl: "https://meet.aditus.in/nikhil-bose" });
-    const a = await db.assessment.create({ data: { clientId: nikhil.id, kind: "BASELINE", format: "LIVE_ONLINE", online: true, date: s.startsAt, practitionerId: s.coachId ?? jayraj.id, measuresTotal: 24 } });
-    await db.session.update({ where: { id: s.id }, data: { assessmentId: a.id, online: true, joinUrl: "https://meet.aditus.in/nikhil-bose", checkedInAt: null } });
-    await db.liveCue.createMany({
-      data: [
-        { assessmentId: a.id, text: "Single leg balance · right", timerSeconds: 30, createdAt: d("2026-10-07 19:40") },
-        { assessmentId: a.id, text: "Stand on your right leg, eyes open. Hands on hips.", createdAt: d("2026-10-07 19:41") },
-      ],
-    });
-    await consent(nikhil.id, { PHOTOS_VIDEOS: true, ASSESSMENT_MEDIA: true });
-  }
+  if (nikhil) await consent(nikhil.id, { PHOTOS_VIDEOS: true, ASSESSMENT_MEDIA: true });
 
-  // ── Ishaan Rao: a live video session he missed yesterday (missed state) ──
-  const ishaan = await byEmail("ishaan@example.com");
-  if (ishaan) {
-    await db.session.create({ data: { clientId: ishaan.id, type: "LIVE_VIDEO", title: "Live video session", startsAt: d("2026-10-06 18:30"), durationMin: 60, status: "MISSED", coachId: jayraj.id, online: true, joinUrl: "https://meet.aditus.in/ishaan-rao" } });
-  }
 }

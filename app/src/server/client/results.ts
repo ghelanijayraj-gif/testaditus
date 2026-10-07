@@ -1,3 +1,4 @@
+import { hasEvaluation, readEvaluation } from "@/config/evaluation";
 import "server-only";
 import type { MeasureTag, SystemKey, TestDefinition } from "@prisma/client";
 import { prisma } from "@/server/db";
@@ -236,7 +237,15 @@ export async function getReport(clientId: string, reportId: string) {
     pathReason: r.pathReason,
     sections,
     findings,
+    evaluation: hasEvaluation(r.evaluation) ? readEvaluation(r.evaluation) : null,
+    evalMedia: hasEvaluation(r.evaluation) ? await evaluationMedia(clientId) : {},
   };
+}
+
+/** Uploads a client can see in their evaluation report (served by /api/files, own files only). */
+async function evaluationMedia(clientId: string) {
+  const rows = await prisma.mediaAsset.findMany({ where: { clientId, supersededById: null } });
+  return Object.fromEntries(rows.map((m) => [m.id, { src: m.storageKey ? `/api/files/${m.id}` : null, kind: m.kind, label: m.label, view: m.view }]));
 }
 export type ReportData = NonNullable<Awaited<ReturnType<typeof getReport>>>;
 

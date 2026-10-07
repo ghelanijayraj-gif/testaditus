@@ -33,8 +33,9 @@ run on the real clock.
 
 ### Demo sign in (development only, `DEV_AUTH=1`)
 
-- **Clients**: `/signin` lists every demo client with the state it demonstrates. Pick one, or use password
-  `aditus-demo-1`.
+- **Clients**: `/signin` lists every demo client grouped by journey stage (setup, intake, uploads, waiting for
+  evaluation, in person, report, training, plan ended). Pick one, or use password `aditus-demo-1`. In the portal,
+  **Switch demo client** (under Sign out) goes back to the list.
 - **Staff**: `/staff/signin` lists Jayraj (Founder), Shimyu (Head of department), Sahil (Ops admin) and Arjun (Finance).
   The second step screen shows the current TOTP code in development. In the console, the top bar's role switch signs you in as
   that role (Practitioner = Jayraj viewing his own clients).
@@ -55,7 +56,7 @@ run on the real clock.
 | vikram@example.com | Recommendation dismissed, online only |
 | dhruv@example.com | In person session today, "I am here" |
 | meera@example.com | In person assessment in progress (phase tracker) |
-| nikhil@example.com | Live online session today |
+| nikhil@example.com | Capture submitted, waiting for coach evaluation |
 | kabir@example.com | Report waiting for head coach approval |
 | sana@example.com | Report released today: walkthrough, choose your path |
 | ananya@example.com | Training: session tomorrow unconfirmed (warning), full dashboard |
@@ -112,6 +113,26 @@ prisma/
 | `storage` (`server/integrations/storage.ts`) | local `.uploads/` | S3 or GCS with signed URLs |
 | Health apps | connect flow records consent and seeds sample data | Apple Health, Health Connect, Garmin, Whoop, Oura |
 | Live video | camera self view + join link | a video provider (pluggable) |
+
+### Coach evaluation and the report
+
+Phase one is assessment only: clients upload photos and videos (Online Capture), a coach evaluates them, the head coach
+approves, and the client gets the report. There are no live video sessions.
+
+- **Evaluate** (`/staff/evaluate/[clientId]`, from Assessments, Today and the client file): uploads on the left, the
+  evaluation on the right, section by section. Every parameter can take a note, attach the photo or video on screen as
+  evidence, and be marked as a priority. Autosaves. **Summary and submit** writes the top of the report and sends it to
+  the head coach.
+- **Head coach review** (`/staff/review/[reportId]`): the report as the client will see it, plus internal items, with
+  Approve and release, Return with comment, or Edit evaluation.
+- **Client report** (`/reports/[id]`): scores, summary, priorities, each section, recommended next step, Save as PDF.
+
+All parameters, options and report wording live in **`src/config/evaluation.ts`**. The current ones are placeholders that
+show every input type (scale, grade, choice, multi select, number with left and right, yes or no, body areas, text).
+Replace them there; the screens follow. Keep a parameter's `key` stable once real evaluations exist.
+
+The console also hides training sections for now (Modules, Plans and billing, Team, Settings, and the Program, Health
+data and Billing tabs). Set `FULL_CONSOLE=1` to show them.
 
 ### Copy and design rules
 
