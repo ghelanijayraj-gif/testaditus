@@ -1,5 +1,5 @@
 /* Today dashboard: summary strip, then two independent stacks so blocks never leave gaps. */
-.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));border:2px solid var(--ink)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));border:2px solid var(--ink)}
 .stat{display:flex;flex-direction:column;gap:6px;padding:10px 12px;color:var(--ink);box-shadow:inset -1px -1px 0 var(--grey-200);background:#fff}
 .stat:hover{background:var(--mist);color:var(--ink)}
 .statN{font-family:var(--font-display);font-size:28px;line-height:1}

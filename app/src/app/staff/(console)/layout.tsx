@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import { StaffChrome } from "@/components/staff/StaffChrome";
 import { requireStaff } from "@/server/auth/guards";
 import { devAuthEnabled } from "@/server/auth/factory";
-import { ROLE_LABEL, STAFF_NAV } from "@/lib/permissions";
+import { ACTIVE_NAV, ROLE_LABEL } from "@/lib/permissions";
 import { devSwitchRole, signOutStaff, toggleDensity } from "./actions";
 
 const DENSITY_COOKIE = "aditus.staff.density";
@@ -13,7 +13,7 @@ export const metadata: Metadata = { title: { default: "ADITUS Staff", template: 
 export default async function ConsoleLayout({ children }: { children: React.ReactNode }) {
   const ctx = await requireStaff();
   const dense = (await cookies()).get(DENSITY_COOKIE)?.value === "compact";
-  const nav = STAFF_NAV.filter((n) => n.roles.includes(ctx.role)).map(({ key, label, href }) => ({ key, label, href }));
+  const nav = ACTIVE_NAV().filter((n) => n.roles.includes(ctx.role)).map(({ key, label, href }) => ({ key, label, href }));
   const devRoles = devAuthEnabled()
     ? (["FOUNDER", "HOD", "PRACTITIONER", "OPS", "FINANCE"] as const).map((k) => ({
         key: k,

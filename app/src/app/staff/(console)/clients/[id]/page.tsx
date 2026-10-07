@@ -7,7 +7,7 @@ import { NoteForm } from "@/components/staff/admin/NoteForm";
 import { PlanEditor } from "@/components/staff/admin/PlanEditor";
 import a from "@/components/staff/admin/admin.module.css";
 import { canOnClient, logAccess, requireStaff } from "@/server/auth/guards";
-import { facts, loadClientFile, primeCentres, tabRows, TABS, type TabKey } from "@/server/staff/file";
+import { facts, loadClientFile, primeCentres, tabRows, visibleTabs, type TabKey } from "@/server/staff/file";
 import { loadPlanEditor } from "@/server/staff/plan";
 import { addNote, askAccess } from "@/server/staff/actions/clients";
 import { addPlanModule, movePlanModule, removePlanModule, reorderPlan, sendPlan, updatePlanModule } from "@/server/staff/actions/plan";
@@ -27,6 +27,7 @@ export default async function ClientFilePage({ params, searchParams }: { params:
   const sp = await searchParams;
   const [c] = await Promise.all([loadClientFile(ctx, id), primeCentres()]);
   if (!c) notFound();
+  const TABS = visibleTabs();
   const tab: TabKey = (TABS.find(([k]) => k === sp.tab)?.[0] ?? "overview") as TabKey;
   const label = TABS.find(([k]) => k === tab)![1];
   const name = `${c.firstName} ${c.lastName}`;

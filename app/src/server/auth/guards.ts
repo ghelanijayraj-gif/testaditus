@@ -6,7 +6,7 @@ import { prisma } from "@/server/db";
 import { clientAuth } from "./client";
 import { devAuthEnabled } from "./factory";
 import { staffAuth } from "./staff";
-import { can, scopeOf, STAFF_NAV, type Permission } from "@/lib/permissions";
+import { can, scopeOf, STAFF_NAV, isParked, type Permission } from "@/lib/permissions";
 import { now } from "@/lib/clock";
 
 /** Hosted demo: no sign in wall; visitors without a session enter as a demo account. */
@@ -35,7 +35,7 @@ export async function requireStaff(opts: { section?: string; allowNoMfa?: boolea
   if (devAuthEnabled() && staff.role === "FOUNDER" && (await cookies()).get(DEV_VIEW_AS)?.value === "PRACTITIONER") role = "PRACTITIONER";
   if (opts.section) {
     const nav = STAFF_NAV.find((n) => n.key === opts.section);
-    if (nav && !nav.roles.includes(role)) redirect("/staff");
+    if ((nav && !nav.roles.includes(role)) || isParked(opts.section)) redirect("/staff");
   }
   return { session, staff, role, name: staff.user.name ?? staff.user.email, userId: staff.userId };
 }

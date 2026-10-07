@@ -48,6 +48,9 @@ export const TABS = [
   ["activity", "Activity log"],
 ] as const;
 export type TabKey = (typeof TABS)[number][0];
+/** Tabs that belong to training and billing, hidden while the console covers assessments only. */
+const PARKED_TABS: TabKey[] = ["program", "health", "billing"];
+export const visibleTabs = () => TABS.filter(([k]) => process.env.FULL_CONSOLE === "1" || !PARKED_TABS.includes(k));
 
 const REC: Record<string, string> = { NOT_ELIGIBLE: "Not eligible · outside Mumbai", NOT_SHOWN: "Not shown yet", SHOWN: "Shown", DISMISSED: "Dismissed · online only", WAITING_FOR_PAYMENT: "Waiting for payment", ADDED: "Added", BOOKED: "Added and booked" };
 

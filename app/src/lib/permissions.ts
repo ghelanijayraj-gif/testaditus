@@ -53,6 +53,14 @@ export const STAFF_NAV: { key: string; label: string; href: string; roles: Staff
   { key: "settings", label: "Settings", href: "/staff/settings", roles: ["FOUNDER"] },
 ];
 
+/**
+ * Phase one: the console covers assessments, documents and booking only. These sections stay built but hidden
+ * until the operations OS connects. Set FULL_CONSOLE=1 to bring them back.
+ */
+export const PARKED_SECTIONS = ["modules", "billing", "team", "settings"];
+export const isParked = (key: string) => process.env.FULL_CONSOLE !== "1" && PARKED_SECTIONS.includes(key);
+export const ACTIVE_NAV = () => STAFF_NAV.filter((n) => !isParked(n.key));
+
 export const ROLE_LABEL: Record<StaffRole, string> = {
   FOUNDER: "Founder",
   HOD: "Head of department",

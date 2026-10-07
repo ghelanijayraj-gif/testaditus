@@ -11,9 +11,11 @@ import d from "./today.module.css";
 
 export const metadata = { title: "Today" };
 
-// Work queues on the left, the day's agenda and money on the right.
+// Assessment queues on the left, new assessment purchases on the right. Training widgets (sessions, plans,
+// renewals) are parked with the rest of the training console until FULL_CONSOLE=1.
+const FULL = process.env.FULL_CONSOLE === "1";
 const MAIN = ["review", "approval", "more", "stalled"];
-const SIDE = ["sessions", "purchases", "expiring", "renewals"];
+const SIDE = FULL ? ["sessions", "purchases", "expiring", "renewals"] : ["purchases"];
 
 const COLS: Record<string, string> = {
   sessions: "84px minmax(0,1.2fr) minmax(0,1fr)",
@@ -40,7 +42,7 @@ export default async function Today() {
   const pick = (keys: string[]) => keys.map((k) => byKey.get(k)).filter((w): w is Widget => !!w);
   const main = pick(MAIN);
   const side = pick(SIDE);
-  const rest = widgets.filter((w) => !MAIN.includes(w.key) && !SIDE.includes(w.key));
+  const rest = FULL ? widgets.filter((w) => !MAIN.includes(w.key) && !SIDE.includes(w.key)) : [];
   const ordered = [...main, ...side, ...rest];
 
   return (
