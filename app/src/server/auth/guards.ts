@@ -9,9 +9,14 @@ import { staffAuth } from "./staff";
 import { can, scopeOf, STAFF_NAV, type Permission } from "@/lib/permissions";
 import { now } from "@/lib/clock";
 
+/** Hosted demo: no sign in wall; visitors without a session enter as a demo account. */
+const demoAutoLogin = () => process.env.DEMO_MODE === "1" && devAuthEnabled();
+const DEMO_CLIENT = "/api/dev/login?kind=client&email=ananya%40example.com&to=%2F";
+const DEMO_STAFF = "/api/dev/login?kind=staff&email=jayraj%40aditus.in&to=%2Fstaff";
+
 export async function requireClient() {
   const session = await clientAuth();
-  if (!session?.user?.id || session.user.kind !== "CLIENT") redirect("/signin");
+  if (!session?.user?.id || session.user.kind !== "CLIENT") redirect(demoAutoLogin() ? DEMO_CLIENT : "/signin");
   const client = await prisma.clientProfile.findUnique({ where: { userId: session.user.id }, include: { user: true } });
   if (!client) redirect("/signin");
   return { session, client, user: client.user };
@@ -21,7 +26,7 @@ export const DEV_VIEW_AS = "aditus.dev.viewAs";
 
 export async function requireStaff(opts: { section?: string; allowNoMfa?: boolean } = {}) {
   const session = await staffAuth();
-  if (!session?.user?.id || session.user.kind !== "STAFF") redirect("/staff/signin");
+  if (!session?.user?.id || session.user.kind !== "STAFF") redirect(demoAutoLogin() ? DEMO_STAFF : "/staff/signin");
   if (!session.user.mfa && !opts.allowNoMfa) redirect("/staff/signin/verify");
   const staff = await prisma.staffProfile.findUnique({ where: { userId: session.user.id }, include: { user: true } });
   if (!staff) redirect("/staff/signin");
