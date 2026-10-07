@@ -1,0 +1,28 @@
+.wrap{min-height:100vh;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;padding:24px;font-family:var(--font-mono)}
+.col{width:100%;max-width:420px;display:flex;flex-direction:column;gap:18px}
+.brand{display:flex;align-items:center;gap:10px}
+.word{font-family:var(--font-display);font-size:18px}
+.badge{padding:3px 8px;background:var(--sky);color:var(--ink);font-size:10px;text-transform:uppercase;font-weight:700}
+.addr{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--sky)}
+.title{font-family:var(--font-display);font-size:34px;line-height:.9;text-transform:uppercase;margin:0;font-weight:400}
+.stack{display:flex;flex-direction:column;gap:8px}
+.white{height:52px;border:2px solid #fff;background:#fff;color:var(--ink);cursor:pointer;font-size:12px;text-transform:uppercase;font-weight:700;width:100%}
+.white:hover{background:var(--ice)}
+.ghost{height:52px;border:2px solid #fff;background:transparent;color:#fff;cursor:pointer;font-size:12px;text-transform:uppercase;width:100%}
+.ghost:hover{background:var(--navy)}
+.blue{height:52px;border:0;background:var(--blue);color:#fff;cursor:pointer;font-size:12px;text-transform:uppercase;font-weight:700;width:100%;display:flex;align-items:center;justify-content:center}
+.blue:hover{background:var(--navy);color:#fff}
+.input{height:52px;border:2px solid rgba(255,255,255,.4);background:transparent;color:#fff;padding:0 14px;font:400 15px var(--font-sans);width:100%}
+.input::placeholder{color:rgba(255,255,255,.5)}
+.input:focus{border-color:#fff;outline:0}
+.note{font-size:11px;color:rgba(255,255,255,.7)}
+.lead{font:400 15px/1.5 var(--font-sans);color:rgba(255,255,255,.8)}
+.code{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.digit{height:52px;border:2px solid #fff;background:transparent;color:#fff;text-align:center;font:400 20px var(--font-mono);width:100%;min-width:0}
+.card{border:1px solid rgba(255,255,255,.3);padding:14px;display:flex;flex-direction:column;gap:4px}
+.cardName{font:600 17px var(--font-sans)}
+.cardRole{font-size:11px;text-transform:uppercase;color:var(--sky)}
+.err{border:1.5px solid var(--sky);padding:10px 12px;font-size:12px}
+.dev{border-top:1px dashed rgba(255,255,255,.3);padding-top:14px;display:flex;flex-direction:column;gap:6px}
+.devBtn{width:100%;height:36px;border:1px solid rgba(255,255,255,.3);background:transparent;color:#fff;cursor:pointer;font-size:10px;text-transform:uppercase;text-align:left;padding:0 10px;display:flex;justify-content:space-between}
+.devBtn:hover{background:rgba(255,255,255,.08)}

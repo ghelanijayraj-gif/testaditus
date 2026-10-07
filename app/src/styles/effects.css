@@ -1,0 +1,6 @@
+:root{
+--rule:1px solid var(--grey-200);/* @kind other */--rule-strong:2px solid var(--ink);/* @kind other */--rule-control:1.5px solid var(--ink);/* @kind other */
+--radius-none:0;--radius-pill:999px;--radius-check:50%;
+--shadow-offset:6px 6px 0;--lift:translate(-3px,-3px);/* @kind other */
+--ease-out:cubic-bezier(.2,.7,.1,1);/* @kind other */--dur-fast:.2s;/* @kind other */--dur-med:.35s;/* @kind other */--dur-slow:.7s;/* @kind other */
+}

@@ -1,0 +1,12 @@
+:root{
+--font-display:var(--font-bowlby),'Bowlby One',sans-serif;
+--font-mono:var(--font-space-mono),'Space Mono',ui-monospace,monospace;
+--font-sans:var(--font-archivo),'Archivo',sans-serif;
+/* Display scale (fluid, from source) */
+--type-hero:clamp(44px,9vw,168px);--type-h1:clamp(44px,8vw,128px);--type-h2:clamp(44px,6vw,100px);--type-h3:clamp(32px,3.6vw,52px);--type-h4:clamp(20px,2vw,28px);
+--lh-display:.86;/* @kind other */--lh-display-tight:.84;/* @kind other */--lh-heading:.92;/* @kind other */
+/* Text */
+--type-lead:clamp(18px,1.5vw,22px);--type-body:15px;--type-small:13px;--type-meta:12px;--type-micro:11px;--type-tag:10px;
+--lh-body:1.55;/* @kind other */--lh-lead:1.35;/* @kind other */
+--tracking-kicker:.06em;/* @kind other */--tracking-lead:-.015em;/* @kind other */
+}

@@ -1,0 +1,11 @@
+// Multi file schema: core models live in core.prisma; each feature area may add
+// its own <area>.prisma file (new models only; reference core ids as plain strings).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}

@@ -1,0 +1,1295 @@
+// ADITUS portal data model.
+// Two interfaces share one database: the Client Portal and the Staff Admin Console.
+// Staff and client accounts are different account types (User.kind); a person who
+// is both uses two logins with two emails.
+
+// ─────────────────────────────── Accounts and auth ───────────────────────────────
+
+enum AccountKind {
+  CLIENT
+  STAFF
+}
+
+enum StaffRole {
+  FOUNDER
+  HOD
+  PRACTITIONER
+  OPS
+  FINANCE
+}
+
+enum SignInMethod {
+  EMAIL_LINK
+  PASSWORD
+}
+
+model User {
+  id                  String       @id @default(cuid())
+  email               String       @unique
+  emailVerified       DateTime?
+  name                String?
+  image               String?
+  kind                AccountKind
+  passwordHash        String?
+  signInMethod        SignInMethod @default(EMAIL_LINK)
+  /// Temporary password from the login details email: works once, expires in 48 hours.
+  tempPasswordHash    String?
+  tempPasswordExpires DateTime?
+  /// Staff only: TOTP secret for the second step.
+  totpSecret          String?
+  disabled            Boolean      @default(false)
+  createdAt           DateTime     @default(now())
+  updatedAt           DateTime     @updatedAt
+
+  accounts Account[]
+  client   ClientProfile?
+  staff    StaffProfile?
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ─────────────────────────────── Places and staff ───────────────────────────────
+
+model Centre {
+  id            String  @id @default(cuid())
+  slug          String  @unique
+  name          String // "TIC Kandivali"
+  area          String // "Thakur Village"
+  city          String  @default("Mumbai")
+  address       String
+  directionsUrl String
+  entryNote     String?
+  hoursLabel    String?
+  rooms         Int     @default(1)
+
+  sessions Session[]
+  staff    StaffCentre[]
+  clients  ClientProfile[]
+}
+
+model StaffProfile {
+  id             String    @id @default(cuid())
+  userId         String    @unique
+  role           StaffRole
+  /// Head of department segment, e.g. "Personal Training".
+  segment        String?
+  /// Title shown in the console, e.g. "Head of Personal Training".
+  title          String
+  availability   String?
+  yearsCoaching  String?
+  credentials    String?
+  specialities   String?
+  shownToClients Boolean   @default(false)
+  photoUrl       String?
+  createdAt      DateTime  @default(now())
+
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  centres         StaffCentre[]
+  primaryClients  ClientProfile[] @relation("PrimaryPractitioner")
+  coachOf         ClientCoach[]
+  sessions        Session[]
+  notes           InternalNote[]
+  reportsWritten  Report[]        @relation("ReportAuthor")
+  reportsApproved Report[]        @relation("ReportApprover")
+  reviewComments  ReviewComment[]
+  savedViews      SavedView[]
+}
+
+model StaffCentre {
+  staffId  String
+  centreId String
+  staff    StaffProfile @relation(fields: [staffId], references: [id], onDelete: Cascade)
+  centre   Centre       @relation(fields: [centreId], references: [id], onDelete: Cascade)
+
+  @@id([staffId, centreId])
+}
+
+// ─────────────────────────────── Clients ───────────────────────────────
+
+/// Lifecycle stage (brief: six stages) — drives what a client can see.
+enum LifecycleStage {
+  ASSESSMENT_PURCHASED
+  ONBOARDING
+  ASSESSMENT_DAY
+  REPORT
+  TRAINING
+  PLAN_ENDED
+  GRACE
+  ACCESS_ENDED
+}
+
+/// Assessment status model — drives "Your next step" everywhere.
+enum AssessmentStatus {
+  PURCHASED
+  PROFILE_REQUIRED
+  INTAKE_REQUIRED
+  INTAKE_COMPLETE
+  BOOKING_REQUIRED
+  SESSION_BOOKED
+  IN_PROGRESS
+  PRACTITIONER_REVIEW
+  REPORT_PROCESSING
+  REPORT_READY
+}
+
+/// Mumbai in person recommendation state.
+enum RecommendationState {
+  NOT_ELIGIBLE
+  NOT_SHOWN
+  SHOWN
+  DISMISSED
+  WAITING_FOR_PAYMENT
+  ADDED
+  BOOKED
+}
+
+model ClientProfile {
+  id                    String              @id @default(cuid())
+  userId                String              @unique
+  /// Human client id, e.g. "AD 0142".
+  code                  String              @unique
+  firstName             String
+  lastName              String
+  mobile                String?
+  dateOfBirth           DateTime?
+  emergencyName         String?
+  emergencyPhone        String?
+  city                  String?
+  pin                   String?
+  /// Computed from Settings → Mumbai area rules; editable by the client via city/PIN.
+  inMumbaiArea          Boolean             @default(false)
+  preferredCentreId     String?
+  whatsappUpdates       Boolean             @default(true)
+  notifyEmailReport     Boolean             @default(true)
+  notifyReassessWindow  Boolean             @default(true)
+  accountSetupDone      Boolean             @default(false)
+  /// Account setup resumes here (1 to 4).
+  setupStep             Int                 @default(1)
+  /// Intake resumes here (0 to 12).
+  intakeStep            Int                 @default(0)
+  intakeCompletedAt     DateTime?
+  recommendationNote    String?
+  recommendationAt      DateTime?
+  stage                 LifecycleStage      @default(ASSESSMENT_PURCHASED)
+  assessmentStatus      AssessmentStatus    @default(PURCHASED)
+  recommendation        RecommendationState @default(NOT_SHOWN)
+  strongRecommendation  Boolean             @default(false)
+  primaryPractitionerId String?
+  goalHeadline          String?
+  photoUrl              String?
+  graceEndsAt           DateTime?
+  accessEndsAt          DateTime?
+  exportedAt            DateTime?
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+
+  user                User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  preferredCentre     Centre?             @relation(fields: [preferredCentreId], references: [id])
+  primaryPractitioner StaffProfile?       @relation("PrimaryPractitioner", fields: [primaryPractitionerId], references: [id])
+  coaches             ClientCoach[]
+  consents            Consent[]
+  intake              IntakeSection[]
+  safetyFlags         SafetyFlag[]
+  bodyConcerns        BodyConcern[]
+  plans               AssessmentPlan[]
+  assessments         Assessment[]
+  measures            MeasureValue[]
+  sessions            Session[]
+  trainingPlans       ClientPlan[]
+  orders              Order[]
+  invoices            Invoice[]
+  documents           Document[]
+  media               MediaAsset[]
+  reports             Report[]
+  healthSources       HealthSource[]
+  healthSamples       HealthSample[]
+  notes               InternalNote[]
+  messages            OutboxMessage[]
+  activity            ActivityLog[]
+  accessLog           AccessLog[]
+  ratings             SessionRating[]
+  issues              IssueReport[]
+  injuries            Injury[]
+  retakes             RetakeRequest[]
+  programPhases       ProgramPhase[]
+  suggestions         ProductSuggestion[]
+}
+
+enum CoachRole {
+  ASSESSMENT
+  PERSONAL_TRAINING
+  GROUP_TRAINING
+  BREATH
+}
+
+model ClientCoach {
+  clientId String
+  staffId  String
+  role     CoachRole
+  client   ClientProfile @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  staff    StaffProfile  @relation(fields: [staffId], references: [id], onDelete: Cascade)
+
+  @@id([clientId, staffId, role])
+}
+
+enum ConsentKind {
+  HEALTH_DOCUMENTS
+  PHOTOS_VIDEOS
+  HEALTH_APP_SYNC
+  TESTIMONIAL
+  COMMUNITY
+  ASSESSMENT_AGREEMENT
+  ASSESSMENT_MEDIA
+}
+
+model Consent {
+  id        String        @id @default(cuid())
+  clientId  String
+  kind      ConsentKind
+  granted   Boolean       @default(false)
+  /// setup | intake | account
+  source    String        @default("setup")
+  version   String?
+  changedAt DateTime      @default(now())
+  client    ClientProfile @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@unique([clientId, kind])
+}
+
+// ─────────────────────────────── Intake ───────────────────────────────
+
+model IntakeSection {
+  id          String        @id @default(cuid())
+  clientId    String
+  /// goals | activity | history | concerns | injuries | sleep | recovery | stress | sport | better | safety | agreement
+  key         String
+  answers     Json          @default("{}")
+  skipped     Boolean       @default(false)
+  completedAt DateTime?
+  updatedAt   DateTime      @updatedAt
+  client      ClientProfile @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@unique([clientId, key])
+}
+
+/// Safety check "yes" answers. Staff only — never shown to the client.
+model SafetyFlag {
+  id        String        @id @default(cuid())
+  clientId  String
+  item      String
+  note      String?
+  label     String        @default("Discuss before testing")
+  createdAt DateTime      @default(now())
+  client    ClientProfile @relation(fields: [clientId], references: [id], onDelete: Cascade)
+}
+
+model Injury {
+  id            String        @id @default(cuid())
+  clientId      String
+  description   String
+  occurredOn    String?
+  side          Side          @default(NONE)
+  treatments    String[]
+  treatmentNote String?
+  documentId    String?
+  createdAt     DateTime      @default(now())
+  client        ClientProfile @relation(fields: [clientId], references: [id], onDelete: Cascade)
+}
+
+/// Movement concerns marked on the tappable body outline in intake.
+model BodyConcern {
+  id        String        @id @default(cuid())
+  clientId  String
+  region    String
+  side      Side          @default(NONE)
+  intensity Int
+  when      String[]
+  client    ClientProfile @relation(fields: [clientId], references: [id], onDelete: Cascade)
+}
+
+// ─────────────────────────────── Modular assessment ───────────────────────────────
+
+enum ModuleType {
+  FORM
+  CAPTURE
+  SELF_TESTS
+  UPLOAD
+  LIVE_VIDEO
+  IN_PERSON
+  REVIEW_CALL
+  CONNECT_HEALTH
+  SYSTEM
+}
+
+enum ModuleStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  SUBMITTED
+  MORE_NEEDED
+  WAITING_FOR_PAYMENT
+  BOOKED
+  DONE
+  SKIPPED_BY_PRACTITIONER
+}
+
+enum TemplateStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum AddedBy {
+  SYSTEM
+  PRACTITIONER
+  ADMIN
+  RECOMMENDED
+}
+
+enum Availability {
+  ONLINE
+  IN_PERSON
+  BOTH
+}
+
+/// One row per template version. `family` groups versions; publishing creates a new version.
+model ModuleTemplate {
+  id              String         @id @default(cuid())
+  family          String
+  version         Int
+  status          TemplateStatus @default(DRAFT)
+  name            String
+  purpose         String
+  shortLine       String?
+  type            ModuleType
+  /// Part of every plan (Intake, Online Capture).
+  isDefault       Boolean        @default(false)
+  timeEstimate    String         @default("XX min")
+  instructions    String?
+  safetyNote      String?
+  availability    Availability   @default(ONLINE)
+  /// In person template: replaces Online Capture (true) or adds to it (false, default).
+  replacesCapture Boolean        @default(false)
+  defaultPaid     Boolean        @default(false)
+  pricePaise      Int?
+  priceLabel      String?
+  /// Field definitions: [{ label, type, map?: {system, measure, unit, tag, direction, availability}, ... }]
+  fields          Json           @default("[]")
+  /// Auto add rules: [{ when: "...", text: "..." }]
+  rules           Json           @default("[]")
+  /// Client facing coverage: [{ system, level: 1|2, tag, why }]
+  coverage        Json           @default("[]")
+  inUse           Int            @default(0)
+  createdAt       DateTime       @default(now())
+  publishedAt     DateTime?
+
+  planModules PlanModule[]
+
+  @@unique([family, version])
+}
+
+enum PlanKind {
+  BASELINE
+  REASSESSMENT
+}
+
+model AssessmentPlan {
+  id          String        @id @default(cuid())
+  clientId    String
+  kind        PlanKind      @default(BASELINE)
+  /// Version the client currently sees. Drafts are not visible until sent.
+  sentVersion Int           @default(1)
+  createdAt   DateTime      @default(now())
+  client      ClientProfile @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  modules     PlanModule[]
+  versions    PlanVersion[]
+}
+
+model PlanModule {
+  id              String          @id @default(cuid())
+  planId          String
+  templateId      String?
+  /// Stable key within a plan, e.g. intake, capture, inperson, gait, review, report.
+  key             String
+  order           Int
+  name            String
+  purpose         String?
+  shortLine       String?
+  type            ModuleType
+  status          ModuleStatus    @default(NOT_STARTED)
+  /// Client visible status line, e.g. the practitioner's "more needed" request.
+  extraLine       String?
+  progressDone    Int?
+  progressTotal   Int?
+  submittedAt     DateTime?
+  templateVersion Int?
+  /// Client visible coverage copied from the template when added.
+  coverage        Json            @default("[]")
+  addedBy         AddedBy         @default(SYSTEM)
+  addedByName     String?
+  required        Boolean         @default(true)
+  paid            Boolean         @default(false)
+  pricePaise      Int?
+  /// Placeholder price label, e.g. "₹X,XXX".
+  priceLabel      String?
+  dueAt           DateTime?
+  dueLabel        String?
+  note            String?
+  timeEstimate    String?
+  replacesCapture Boolean         @default(false)
+  strong          Boolean         @default(false)
+  /// System steps (Practitioner review, Report) are shown but not actionable.
+  system          Boolean         @default(false)
+  /// Removing a locked module is not allowed (Intake, Online Capture).
+  locked          Boolean         @default(false)
+  /// Unsent staff edit: invisible to the client until "Send to client".
+  draft           Boolean         @default(false)
+  changed         Boolean         @default(false)
+  removed         Boolean         @default(false)
+  progress        Int             @default(0)
+  data            Json            @default("{}")
+  updatedAt       DateTime        @updatedAt
+  plan            AssessmentPlan  @relation(fields: [planId], references: [id], onDelete: Cascade)
+  template        ModuleTemplate? @relation(fields: [templateId], references: [id])
+  sessions        Session[]
+
+  @@unique([planId, key])
+}
+
+model PlanVersion {
+  id        String         @id @default(cuid())
+  planId    String
+  version   Int
+  summary   String
+  byName    String
+  createdAt DateTime       @default(now())
+  plan      AssessmentPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+
+  @@unique([planId, version])
+}
+
+// ─────────────────────────────── Measures and tests ───────────────────────────────
+
+enum SystemKey {
+  MOVEMENT
+  BREATH
+  RECOVERY
+  PERFORMANCE
+}
+
+enum MeasureTag {
+  MEASURED
+  OBSERVED
+  SELF_REPORTED
+}
+
+enum Direction {
+  HIGHER_BETTER
+  LOWER_BETTER
+  NONE
+}
+
+enum Side {
+  LEFT
+  RIGHT
+  NONE
+}
+
+enum InputType {
+  NUMBER
+  LR_PAIR
+  STOPWATCH
+  SCORE_0_3
+  SCALE_0_10
+  CHOICE
+  TIME
+  PHOTO
+}
+
+/// Default test bank (practitioner editable).
+model TestDefinition {
+  id           String         @id @default(cuid())
+  key          String         @unique
+  system       SystemKey
+  name         String
+  howTo        String
+  unit         String
+  inputType    InputType
+  direction    Direction
+  tag          MeasureTag
+  availability Availability
+  /// Tag used on the online route when in person tag is Measured (e.g. Observed).
+  onlineTag    MeasureTag?
+  choices      String[]
+  criteria     String[]
+  /// Body locator: view, muscle groups ("R:hipflex") and focus key for marker positions.
+  bodyView     String?
+  bodyGroups   String[]
+  focusKey     String?
+  /// Shared scale max for bars (e.g. 50 for hip rotation).
+  scaleMax     Float?
+  /// Left/right: which side is the focus.
+  focusSide    Side?
+  min          Float?
+  max          Float?
+  step         Float?
+  sided        Boolean        @default(false)
+  /// Left/right difference worth flagging, e.g. 8 (°).
+  flagDiff     Float?
+  active       Boolean        @default(true)
+  order        Int            @default(0)
+  values       MeasureValue[]
+}
+
+enum AssessmentFormat {
+  ONLINE
+  IN_PERSON
+  LIVE_ONLINE
+}
+
+model Assessment {
+  id             String           @id @default(cuid())
+  clientId       String
+  kind           PlanKind         @default(BASELINE)
+  format         AssessmentFormat @default(ONLINE)
+  date           DateTime
+  practitionerId String?
+  centreId       String?
+  /// Phase tracker progress for the day: check in … close
+  phase          String?
+  measuresTotal  Int              @default(24)
+  cycle          Int              @default(1)
+  releasedAt     DateTime?
+  overallNote    String?
+  paused         Boolean          @default(false)
+  /// [{ key, label, state: PENDING|CURRENT|DONE|NOT_NEEDED, line }]
+  phases         Json             @default("[]")
+  includesCold   Boolean          @default(false)
+  /// Tests chosen for this client (locked at baseline so reassessment repeats them).
+  testKeys       String[]
+  online         Boolean          @default(false)
+  connectionLost Boolean          @default(false)
+  clientMessage  String?
+  submittedAt    DateTime?
+  client         ClientProfile    @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  values         MeasureValue[]
+  reports        Report[]
+  sessions       Session[]
+}
+
+model MeasureValue {
+  id           String         @id @default(cuid())
+  clientId     String
+  assessmentId String?
+  testKey      String
+  side         Side           @default(NONE)
+  /// Numeric value (or seconds for times); text for choices.
+  value        Float?
+  text         String?
+  unit         String
+  tag          MeasureTag
+  notTested    Boolean        @default(false)
+  /// How it was captured, e.g. "Self timed at home" or "Inclinometer".
+  method       String?
+  comparable   Boolean        @default(true)
+  skipReason   String?
+  priority     Boolean        @default(false)
+  observation  String[]
+  note         String?
+  /// console | photo_review | self_test | intake | health_app
+  source       String         @default("console")
+  /// Idempotency key for offline console saves ("Saved on tablet, syncing").
+  clientOpId   String?        @unique
+  capturedAt   DateTime       @default(now())
+  capturedBy   String?
+  client       ClientProfile  @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  assessment   Assessment?    @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  test         TestDefinition @relation(fields: [testKey], references: [key])
+
+  @@unique([assessmentId, testKey, side])
+}
+
+// ─────────────────────────────── Reports ───────────────────────────────
+
+enum ReportStatus {
+  DRAFT
+  PENDING_APPROVAL
+  RETURNED
+  RELEASED
+}
+
+enum RecommendedPath {
+  PERSONAL_TRAINING
+  GROUP_TRAINING
+  EITHER
+}
+
+model Report {
+  id               String           @id @default(cuid())
+  clientId         String
+  assessmentId     String?
+  kind             PlanKind         @default(BASELINE)
+  status           ReportStatus     @default(DRAFT)
+  authorId         String?
+  approverId       String?
+  /// Fixed sections: Big Picture, Front View, Side View, Back View, Muscle Strategy, Key Observations, Start Here.
+  sections         Json             @default("{}")
+  startingPoint    String?
+  practitionerNote String?
+  recommendedPath  RecommendedPath?
+  pathReason       String?
+  /// Recommended next assessment steps attached by a practitioner: [{ name, reason }]
+  nextSteps        Json             @default("[]")
+  dueAt            DateTime?
+  submittedAt      DateTime?
+  releasedAt       DateTime?
+  createdAt        DateTime         @default(now())
+  client           ClientProfile    @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  assessment       Assessment?      @relation(fields: [assessmentId], references: [id])
+  author           StaffProfile?    @relation("ReportAuthor", fields: [authorId], references: [id])
+  approver         StaffProfile?    @relation("ReportApprover", fields: [approverId], references: [id])
+  findings         Finding[]
+  comments         ReviewComment[]
+}
+
+/// A priority in the ADITUS finding structure.
+model Finding {
+  id           String    @id @default(cuid())
+  reportId     String
+  order        Int
+  system       SystemKey
+  title        String
+  observed     String
+  whyItMatters String
+  workOn       String
+  related      String[]
+  bodyGroups   String[]
+  /// Body highlight marker for Movement priorities: { view: "front"|"back", x, y }
+  marker       Json?
+  measureKeys  String[]
+  report       Report    @relation(fields: [reportId], references: [id], onDelete: Cascade)
+}
+
+model ReviewComment {
+  id        String       @id @default(cuid())
+  reportId  String
+  authorId  String
+  /// RETURNED | APPROVED | EDITED | COMMENT
+  action    String       @default("COMMENT")
+  body      String
+  createdAt DateTime     @default(now())
+  report    Report       @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  author    StaffProfile @relation(fields: [authorId], references: [id])
+}
+
+// ─────────────────────────────── Media and documents ───────────────────────────────
+
+model RetakeRequest {
+  id          String        @id @default(cuid())
+  clientId    String
+  mediaId     String?
+  step        String
+  reason      String
+  message     String
+  requestedBy String
+  resolvedAt  DateTime?
+  createdAt   DateTime      @default(now())
+  client      ClientProfile @relation(fields: [clientId], references: [id], onDelete: Cascade)
+}
+
+enum MediaKind {
+  PHOTO
+  VIDEO
+}
+
+enum MediaStatus {
+  UPLOADED
+  NEEDS_REVIEW
+  ACCEPTED
+  RETAKE_REQUESTED
+  FAILED
+}
+
+model MediaAsset {
+  id             String        @id @default(cuid())
+  clientId       String
+  moduleKey      String?
+  kind           MediaKind
+  /// front | side | back | left | right | squat | custom…
+  view           String
+  label          String
+  storageKey     String?
+  durationS      Int?
+  tag            MeasureTag    @default(OBSERVED)
+  status         MediaStatus   @default(UPLOADED)
+  retakeReason   String?
+  supersededById String?
+  capturedBy     String        @default("CLIENT")
+  /// Review annotations: plumb, level, angle, pin
+  annotations    Json          @default("[]")
+  capturedAt     DateTime      @default(now())
+  client         ClientProfile @relation(fields: [clientId], references: [id], onDelete: Cascade)
+}
+
+enum DocumentSource {
+  CLIENT
+  ADITUS
+}
+
+enum DocumentType {
+  BLOOD_TEST
+  XRAY
+  MRI
+  PHYSIO_NOTE
+  DOCTOR_NOTE
+  ASSESSMENT_REPORT
+  REASSESSMENT_REPORT
+  PROGRESS_PHOTO
+  PROGRESS_VIDEO
+  INVOICE
+  CONSENT
+  OTHER
+}
+
+model Document {
+  id               String         @id @default(cuid())
+  clientId         String
+  source           DocumentSource
+  type             DocumentType
+  title            String
+  filename         String
+  storageKey       String?
+  sizeBytes        Int?
+  testDate         DateTime?
+  linkedMeasureKey String?
+  linkedSystem     SystemKey?
+  /// Blood test "Recorded values" table: [{ name, value, unit }] — never interpreted.
+  recordedValues   Json?
+  /// UPLOADING | READY | FAILED
+  status           String         @default("READY")
+  failedAtPercent  Int?
+  uploadedByName   String
+  createdAt        DateTime       @default(now())
+  client           ClientProfile  @relation(fields: [clientId], references: [id], onDelete: Cascade)
+}
+
+enum AccessAction {
+  VIEWED
+  DENIED
+  PREVIEW_AS_CLIENT
+}
+
+/// Every staff view of health documents or media, shown in the client's access log
+/// and in the staff audit log.
+model AccessLog {
+  id           String        @id @default(cuid())
+  clientId     String
+  actorUserId  String
+  actorName    String
+  resourceType String
+  resourceId   String?
+  resourceName String
+  action       AccessAction
+  createdAt    DateTime      @default(now())
+  client       ClientProfile @relation(fields: [clientId], references: [id], onDelete: Cascade)
+}
+
+// ─────────────────────────────── Sessions and calendar ───────────────────────────────
+
+enum SessionType {
+  PERSONAL_TRAINING
+  GROUP_TRAINING
+  ASSESSMENT
+  MOVEMENT_ASSESSMENT
+  IN_PERSON_ASSESSMENT
+  BREATH_SESSION
+  TRIAL_TRAINING
+  LIVE_VIDEO
+  REVIEW_CALL
+  REASSESSMENT
+  COMMUNITY_EVENT
+}
+
+enum SessionStatus {
+  SCHEDULED
+  CONFIRMED
+  DONE
+  CANCELLED
+  MISSED
+  RESCHEDULED
+}
+
+model Session {
+  id                String              @id @default(cuid())
+  clientId          String?
+  type              SessionType
+  title             String
+  startsAt          DateTime
+  durationMin       Int                 @default(60)
+  status            SessionStatus       @default(SCHEDULED)
+  coachId           String?
+  centreId          String?
+  room              String?
+  online            Boolean             @default(false)
+  joinUrl           String?
+  clientPlanId      String?
+  planModuleId      String?
+  assessmentId      String?
+  sessionNumber     Int?
+  rescheduledFromId String?
+  notNeeded         Boolean             @default(false)
+  /// Group batches: "8 of 12" booked of capacity
+  booked            Int?
+  capacity          Int?
+  beforeYouCome     Json                @default("{}")
+  extraInfo         String?
+  attachments       String[]
+  checkedInAt       DateTime?
+  confirmedAt       DateTime?
+  /// Counts against the plan ("Session 8 of 12"); late cancellations may count.
+  countsAgainstPlan Boolean             @default(true)
+  lateChange        Boolean             @default(false)
+  cancelReason      String?
+  /// client | coach | front_desk
+  bookedBy          String              @default("client")
+  createdAt         DateTime            @default(now())
+  client            ClientProfile?      @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  coach             StaffProfile?       @relation(fields: [coachId], references: [id])
+  centre            Centre?             @relation(fields: [centreId], references: [id])
+  clientPlan        ClientPlan?         @relation(fields: [clientPlanId], references: [id])
+  planModule        PlanModule?         @relation(fields: [planModuleId], references: [id])
+  assessment        Assessment?         @relation(fields: [assessmentId], references: [id])
+  history           SessionEvent[]
+  ratings           SessionRating[]
+  reschedules       RescheduleRequest[]
+}
+
+model SessionEvent {
+  id        String        @id @default(cuid())
+  sessionId String
+  status    SessionStatus
+  note      String?
+  byName    String
+  createdAt DateTime      @default(now())
+  session   Session       @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+}
+
+/// Coach availability slots used by the slot pickers.
+model AvailabilitySlot {
+  id       String   @id @default(cuid())
+  staffId  String
+  centreId String?
+  startsAt DateTime
+  minutes  Int      @default(60)
+  online   Boolean  @default(false)
+  taken    Boolean  @default(false)
+}
+
+model SessionRating {
+  id        String        @id @default(cuid())
+  clientId  String
+  sessionId String?
+  score     Int
+  note      String?
+  createdAt DateTime      @default(now())
+  client    ClientProfile @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  session   Session?      @relation(fields: [sessionId], references: [id])
+}
+
+model IssueReport {
+  id        String        @id @default(cuid())
+  clientId  String
+  kind      String
+  body      String
+  createdAt DateTime      @default(now())
+  client    ClientProfile @relation(fields: [clientId], references: [id], onDelete: Cascade)
+}
+
+// ─────────────────────────────── Plans, products and billing ───────────────────────────────
+
+enum ProductKind {
+  ASSESSMENT
+  IN_PERSON_SESSION
+  PERSONAL_TRAINING
+  GROUP_TRAINING
+  ADD_ON
+  SHOP
+}
+
+/// Mirrored from Shopify (view only in Settings).
+model Product {
+  id               String       @id @default(cuid())
+  slug             String       @unique
+  name             String
+  kind             ProductKind
+  sessions         Int?
+  validityDays     Int?
+  pricePaise       Int?
+  /// Placeholder price label, e.g. "₹XX,XXX"
+  priceLabel       String
+  shopifyProductId String?
+  active           Boolean      @default(true)
+  plans            ClientPlan[]
+}
+
+enum ClientPlanStatus {
+  ACTIVE
+  EXPIRING_SOON
+  EXPIRED
+  COMPLETED
+}
+
+model ClientPlan {
+  id              String           @id @default(cuid())
+  clientId        String
+  productId       String
+  name            String
+  startsAt        DateTime
+  endsAt          DateTime
+  sessionsTotal   Int
+  sessionsUsed    Int              @default(0)
+  coachId         String?
+  /// renew | declined
+  renewalDecision String?
+  status          ClientPlanStatus @default(ACTIVE)
+  goal            String?
+  currentPhase    String?
+  perWeek         String?
+  focusAreas      String[]
+  client          ClientProfile    @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  product         Product          @relation(fields: [productId], references: [id])
+  sessions        Session[]
+}
+
+/// Full program details: coaches and head coach only.
+model ProgramPhase {
+  id        String        @id @default(cuid())
+  clientId  String
+  order     Int
+  name      String
+  weeks     String
+  focus     String
+  exercises Json          @default("[]")
+  client    ClientProfile @relation(fields: [clientId], references: [id], onDelete: Cascade)
+}
+
+model ProductSuggestion {
+  id        String        @id @default(cuid())
+  clientId  String
+  name      String
+  reason    String
+  dismissed Boolean       @default(false)
+  client    ClientProfile @relation(fields: [clientId], references: [id], onDelete: Cascade)
+}
+
+enum SyncStatus {
+  SYNCED
+  PENDING
+  FAILED
+}
+
+model Order {
+  id            String        @id @default(cuid())
+  number        String        @unique
+  clientId      String
+  item          String
+  productLine   String?
+  paymentMethod String?
+  amountLabel   String
+  amountPaise   Int?
+  placedAt      DateTime
+  shopifyId     String?
+  syncStatus    SyncStatus    @default(SYNCED)
+  client        ClientProfile @relation(fields: [clientId], references: [id], onDelete: Cascade)
+}
+
+enum InvoiceStatus {
+  PAID
+  DUE
+  OVERDUE
+}
+
+model Invoice {
+  id          String        @id @default(cuid())
+  number      String        @unique
+  clientId    String
+  item        String
+  amountLabel String
+  amountPaise Int?
+  gstRate     Int           @default(18)
+  status      InvoiceStatus @default(PAID)
+  issuedAt    DateTime
+  client      ClientProfile @relation(fields: [clientId], references: [id], onDelete: Cascade)
+}
+
+/// Simulated Shopify checkout (dev implementation of the Shopify interface).
+model Checkout {
+  id          String    @id @default(cuid())
+  clientId    String?
+  productSlug String
+  purpose     String
+  returnTo    String
+  paidAt      DateTime?
+  orderNumber String?
+  createdAt   DateTime  @default(now())
+}
+
+// ─────────────────────────────── Health data ───────────────────────────────
+
+enum HealthProvider {
+  APPLE_HEALTH
+  GOOGLE_HEALTH_CONNECT
+  GARMIN
+  WHOOP
+  OURA
+  SMART_SCALE
+}
+
+enum HealthSourceStatus {
+  CONNECTED
+  NOT_CONNECTED
+  ERROR
+}
+
+model HealthSource {
+  id              String             @id @default(cuid())
+  clientId        String
+  provider        HealthProvider
+  status          HealthSourceStatus @default(NOT_CONNECTED)
+  lastSyncAt      DateTime?
+  dataTypes       String[]
+  sharedWithCoach String[]
+  client          ClientProfile      @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@unique([clientId, provider])
+}
+
+model HealthSample {
+  id       String         @id @default(cuid())
+  clientId String
+  metric   String
+  date     DateTime
+  value    Float
+  provider HealthProvider
+  client   ClientProfile  @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@index([clientId, metric, date])
+}
+
+// ─────────────────────────────── Notes, messages, logs, settings ───────────────────────────────
+
+/// Staff only; never shown to the client.
+model InternalNote {
+  id        String        @id @default(cuid())
+  clientId  String
+  authorId  String
+  body      String
+  createdAt DateTime      @default(now())
+  client    ClientProfile @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  author    StaffProfile  @relation(fields: [authorId], references: [id])
+}
+
+enum Channel {
+  WHATSAPP
+  EMAIL
+  PORTAL
+}
+
+enum OutboxStatus {
+  QUEUED
+  SENT
+  FAILED
+}
+
+/// Every WhatsApp, email and portal message. The dev notifier writes here only;
+/// a real provider sends and marks SENT. Also feeds the client's "Sent to you" log.
+model OutboxMessage {
+  id        String         @id @default(cuid())
+  clientId  String?
+  toAddress String
+  channel   Channel
+  template  String
+  subject   String?
+  body      String
+  status    OutboxStatus   @default(QUEUED)
+  /// Scheduled reminders (24 h / 2 h before, intake unfinished after 24 h / 72 h).
+  sendAt    DateTime?
+  readAt    DateTime?
+  createdAt DateTime       @default(now())
+  client    ClientProfile? @relation(fields: [clientId], references: [id], onDelete: Cascade)
+}
+
+/// Client file activity log (also used for staff audit entries that touch a client).
+model ActivityLog {
+  id        String         @id @default(cuid())
+  clientId  String?
+  actorName String
+  action    String
+  createdAt DateTime       @default(now())
+  client    ClientProfile? @relation(fields: [clientId], references: [id], onDelete: Cascade)
+}
+
+/// Staff wide audit log (Settings → Audit log).
+model AuditLog {
+  id          String   @id @default(cuid())
+  actorUserId String?
+  actorName   String
+  action      String
+  detail      String
+  createdAt   DateTime @default(now())
+}
+
+model SavedView {
+  id      String       @id @default(cuid())
+  staffId String
+  name    String
+  filters Json
+  staff   StaffProfile @relation(fields: [staffId], references: [id], onDelete: Cascade)
+}
+
+model NotificationTemplate {
+  id      String  @id @default(cuid())
+  key     String
+  name    String
+  channel Channel
+  subject String?
+  body    String
+
+  @@unique([key, channel])
+}
+
+/// Key/value settings: mumbai_area, retention, etc.
+model Setting {
+  key   String @id
+  value Json
+}
+
+/// Staff second step: a TOTP check recorded server side against the session id in the JWT.
+/// The jwt callback only flips `mfa` to true when a matching row exists, so a client
+/// cannot self-assert it through the session update endpoint.
+model MfaVerification {
+  sid        String   @id
+  userId     String
+  verifiedAt DateTime @default(now())
+}
+
+model RescheduleRequest {
+  id           String   @id @default(cuid())
+  sessionId    String
+  slotStartsAt DateTime
+  centreId     String?
+  /// PENDING | ACCEPTED | DECLINED
+  status       String   @default("PENDING")
+  late         Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  session      Session  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+}
+
+// ─────────────────────────────── Results narrative and lifecycle extras ───────────────────────────────
+
+/// Per client, per measure narrative: several observations, each with why it matters,
+/// then one "what we would work on" line and a single related link.
+model MeasureInsight {
+  id             String   @id @default(cuid())
+  clientId       String
+  testKey        String
+  /// [{ observed, why }]
+  observations   Json     @default("[]")
+  workOn         String?
+  relatedLabel   String?
+  relatedHref    String?
+  evidenceDocIds String[]
+  updatedAt      DateTime @updatedAt
+
+  @@unique([clientId, testKey])
+}
+
+/// Coach notes shown to the client: per system, overall, about health data, or Compare.
+model CoachNote {
+  id           String     @id @default(cuid())
+  clientId     String
+  assessmentId String?
+  system       SystemKey?
+  /// overall | system | health | compare
+  scope        String
+  text         String
+  coachName    String
+  updatedAt    DateTime   @updatedAt
+}
+
+/// Self reported 7 night strip (Recovery visual).
+model SleepNight {
+  id           String   @id @default(cuid())
+  assessmentId String
+  date         DateTime
+  bedtimeHour  Float
+  durationH    Float
+  source       String   @default("Self reported")
+}
+
+/// "In use" list on My plan → Products.
+model ProductHolding {
+  id       String @id @default(cuid())
+  clientId String
+  title    String
+  detail   String
+  /// Active | Booked | Owned
+  status   String
+  order    Int    @default(0)
+}
+
+model ExportPackage {
+  id         String    @id @default(cuid())
+  clientId   String
+  /// preparing | ready | expired
+  status     String    @default("preparing")
+  fileCount  Int?
+  sizeBytes  Int?
+  storageKey String?
+  items      Json      @default("[]")
+  preparedAt DateTime?
+  createdAt  DateTime  @default(now())
+}
+
+model DataRequest {
+  id        String   @id @default(cuid())
+  clientId  String
+  /// export | deletion | sign_out_all
+  kind      String
+  status    String   @default("requested")
+  createdAt DateTime @default(now())
+}
+
+/// Account setup links (48 h) from the Shopify paid webhook / login details email.
+model SetupToken {
+  tokenHash String    @id
+  userId    String
+  purpose   String    @default("SETUP")
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+}
