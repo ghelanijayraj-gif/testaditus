@@ -22,7 +22,8 @@ declare module "next-auth" {
   }
 }
 
-export const devAuthEnabled = () => process.env.DEV_AUTH === "1" && process.env.NODE_ENV !== "production";
+/** Dev quick sign in: local development, or a hosted demo with DEMO_MODE=1 (never a real production deploy). */
+export const devAuthEnabled = () => process.env.DEV_AUTH === "1" && (process.env.NODE_ENV !== "production" || process.env.DEMO_MODE === "1");
 
 type Kind = "client" | "staff";
 

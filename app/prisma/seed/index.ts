@@ -22,7 +22,7 @@ async function wipe() {
 type AreaSeed = { default?: (db: PrismaClient, base: Base) => Promise<void> };
 
 async function main() {
-  if (process.env.NODE_ENV === "production") throw new Error("Refusing to seed in production.");
+  if (process.env.NODE_ENV === "production" && process.env.DEMO_MODE !== "1") throw new Error("Refusing to seed in production.");
   await wipe();
   const base = await seedBase(db);
   await seedAssessment(db, base);
